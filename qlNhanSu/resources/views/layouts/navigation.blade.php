@@ -1,5 +1,4 @@
 @include('header')
-<link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
 <nav x-data="{ open: false }" style="background: #2B3643;" class=" dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -8,17 +7,21 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
+                        {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" /> --}}
                         <img src="/images/logo.png" alt="" srcset="" width="40px">
                     </a>
                 </div>
 
+                <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
+                    <div>
+                        <header class="main-header mt-2" style="margin-left: 120px">
+                            {{-- <nav class="navbar navbar-static-top"> --}}
+                                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                                </a>
+                            {{-- </nav> --}}
+                        </header>
+                    </div>
                 </div>
             </div>
 
@@ -115,7 +118,7 @@
     </div>
 </nav>
 
-<div class="bbody" id="sideBarID">
+<div class="wrapper">
     {{-- <nav class="sideBar" id="sideBarID">
         <div class="toggle_menu"><i class="fa-solid fa-bars"></i></div>
         <ul>
@@ -126,17 +129,22 @@
         </ul>
     </nav> --}}
 
+    {{-- <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        </a>
+    </nav> --}}
+
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- search form -->
           <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
+              <input type="text" name="q" class="form-control" placeholder="Tìm kiếm...">
+                <span class="input-group-btn">
                     <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                     </button>
-                  </span>
+                </span>
             </div>
           </form>
           <!-- /.search form -->
@@ -178,27 +186,12 @@
           </ul>
         </section>
         <!-- /.sidebar -->
-      </aside>
+    </aside>
 
-    @yield('main-content')
+    <div class="content-wrapper">
+        @yield('main-content')
+    </div>
 
 </div>
-
-{{-- <script>
-    document.addEventListener("DOMContentLoaded", function(){
-        // nav.classList.add('hide')
-        const nav = document.querySelector('.sideBar');
-        const toggle_menu = document.querySelector('.toggle_menu');
-        const content = document.querySelector('.content');
-
-        // content.classList.toggle('expand');
-        // nav.classList.add('hide')
-
-        toggle_menu.onclick = function(){
-            nav.classList.toggle('hide');
-            content.classList.toggle('expand');
-        }
-    });
-</script> --}}
 
 @include('footer')

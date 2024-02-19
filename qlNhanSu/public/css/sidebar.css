@@ -1,4 +1,4 @@
-*{
+/* *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -7,8 +7,7 @@
 .bbody{
     position: relative;
     width: 100%;
-    min-height: 130vh;
-    margin-bottom: 0;
+    min-height: 100vh;
 }
 
 .sideBar{
@@ -17,15 +16,12 @@
     height: 100%;
     background-color: #364150;
     display: flex;
-    /* align-items: center; */
     border-right: 1px solid rgba(0, 0, 0, 1);
     z-index: 1000;
-
 }
 
 .sideBar.hide{
     width: 0;
-    /* display: none; */
 }
 
 .sideBar ul{
@@ -54,25 +50,17 @@
 
 .sideBar ul li a i{
     margin: 0 15px;
-    /* color: #1e90ff; */
     font-size: 1.0em;
     color: white;
     transition: linear 0.2s;
 }
 
 .sideBar ul li a:hover{
-    /* background-color: #2B3643; */
-
     background-color: #36C6D3
-    /* color: white; */
 }
 
-/* .sideBar ul li a:hover{
-    color: #1e90ff;
-} */
-
 .sideBar li a i {
-    margin-right: 50px; /* Điều chỉnh giá trị margin-right tùy theo mong muốn của bạn */
+    margin-right: 50px;
 }
 
 .content{
@@ -80,7 +68,7 @@
     top: 0;
     left: 250px;
     width: calc(100% - 250px);
-    max-height: 100vh;
+    height: 100vh;
     transition: ease-in-out 0.5s;
 }
 
@@ -93,7 +81,6 @@
     position: relative;
     top: -40px;
     right: -230px;
-    /* width: 45px; */
     height: 10px;
     display: flex;
     justify-content: center;
@@ -105,14 +92,9 @@
 }
 
 .sideBar .toggle_menu li{
-    /* color: #1e90ff; */
     font-size: 1.5em;
     transition: linear 0.2s;
 }
-
-/* .sideBar .toggle_menu:hover{
-    background-color: #2B3643;
-} */
 
 .sideBar .toggle_menu:hover li{
     color: white;
@@ -122,7 +104,7 @@
     background-color: #36C6D3;
 }
 
-/* @media only screen and (max-width: 700px) {
+@media only screen and (max-width: 768px) {
     .sideBar {
         display: none;
     }
@@ -130,8 +112,8 @@
     .toggle_menu {
         display: block;
     }
-} */
+}
 
 
 
-
+ */
