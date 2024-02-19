@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ccontainer{
+    height: 90%;
+    width: 200px;
+    position: absolute;
+    background-color: #2B3643;
+    z-index: 1;
+    transition: 0.5s ease;
+    transform: translateX(-200px);
+}
+
+ol{
+    width: 100%;
+    list-style: none;
+    padding-left: 0;
+}
+
+ol li{
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+ol li a{
+    color: #fbfdce;
+    padding: 16px;
+    padding-right: 20px;
+    display: block;
+    font-size: 15px;
+    letter-spacing: 1px;
+    position: relative;
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+ol li a i{
+    width: 80px;
+    font-size: 25px;
+    text-align: center;
+    padding-left: 10px;
+}
+
+.inputCheck{
+    appearance: none;
+    visibility: hidden;
+    display: none;
+}
+
+.spCheck{
+    position: absolute;
+    right: -40px;
+    top: 0;
+    font-size: 25px;
+    border-radius: 3px;
+    color: #fff;
+    padding: 3px 8px;
+    cursor: pointer;
+    background-color: #2B3643;
+}
+
+#times{
+    background-color: #420102;
+}
+
+#check:checked ~ .ccontainer{
+    transform: translateX(0);
+}
+
+#check:checked ~ .ccontainer #bars{
+    display: none;
+}
+
