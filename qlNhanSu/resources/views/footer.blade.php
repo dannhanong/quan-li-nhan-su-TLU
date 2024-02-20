@@ -8,7 +8,6 @@
     <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
     <script src="{{ asset('assets') }}/js/bootstrap.min.js"></script>
     <script src="{{ asset('assets') }}/js/adminlte.min.js"></script>
-    <script src="{{ asset('assets') }}/tinymce/tinymce.min.js"></script>
     <script src="{{ asset('assets') }}/js/all.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
