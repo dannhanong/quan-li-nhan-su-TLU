@@ -1,9 +1,3 @@
-    <div class="main-footer">
-        <div class="pull-right hidden-xs">
-        <b>Version 0.0.1</b>
-        </div>
-        <strong><a href="#">ĐHTL</a> &copy; 2018.</strong>
-    </div>
 
     <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
     <script src="{{ asset('assets') }}/js/bootstrap.min.js"></script>

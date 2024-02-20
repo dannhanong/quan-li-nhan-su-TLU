@@ -122,56 +122,63 @@
     <!-- Site wrapper -->
         <div class="wrapper">
         <!-- Left side column. contains the sidebar -->
-        <aside class="main-sidebar">
-            <!-- sidebar: style can be found in sidebar.less -->
-            <section class="sidebar">
-            <form action="#" method="get" class="sidebar-form">
-                <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </form>
-            <!-- /.search form -->
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-
-            <ul class="sidebar-menu" data-widget="tree">
-                <li class="{{ request() -> is('dashboard') ? 'active' : '' }}"><a href="{{ route('dashboard') }}"><i class="fa-solid fa-house col-md-2"></i>Trang chủ</a></li>
-
-                <li class="{{ request() -> is('khoas*') ? 'active' : '' }}"><a href="{{ route('khoas.index') }}"><i class="fa-solid fa-building col-md-2"></i>Khoa</a></li>
-
-                <li class="{{ request() -> is('users*') ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fa-solid fa-user-group col-md-2"></i>Tài khoản</a></li>
-
-                <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">
-                    <a href="#">
-                        <i class="fa-solid fa-exclamation col-md-2"></i> <span>Thông tin tài khoản</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                            </button>
                         </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="{{ request() -> is('profile*') ? 'active' : '' }}"><a href="{{ route('profile.edit') }}"><i class="fa-solid fa-wrench col-md-3"></i>Chỉnh sửa thông tin</a></li>
-                        <li><a href="{{ route('profile.change-pass') }}"><i class="fa-solid fa-shield-halved col-md-3"></i>Đổi mật khẩu</a></li>
-                    </ul>
-                </li>
+                    </div>
+                </form>
+                <!-- /.search form -->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
 
-            </ul>
-            </section>
-            <!-- /.sidebar -->
-        </aside>
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="{{ request() -> is('dashboard') ? 'active' : '' }}"><a href="{{ route('dashboard') }}"><i class="fa-solid fa-house col-md-2"></i>Trang chủ</a></li>
 
-        <!-- =============================================== -->
+                    <li class="{{ request() -> is('khoas*') ? 'active' : '' }}"><a href="{{ route('khoas.index') }}"><i class="fa-solid fa-building col-md-2"></i>Khoa</a></li>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Main content -->
-            <section class="content">
-                @yield('main-content')
-            </section>
-            <!-- /.content -->
-        </div>
+                    <li class="{{ request() -> is('users*') ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fa-solid fa-user-group col-md-2"></i>Tài khoản</a></li>
+
+                    <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa-solid fa-exclamation col-md-2"></i> <span>Thông tin tài khoản</span>
+                            <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ request() -> is('profile*') ? 'active' : '' }}"><a href="{{ route('profile.edit') }}"><i class="fa-solid fa-wrench col-md-3"></i>Chỉnh sửa thông tin</a></li>
+                            <li class="{{ request() -> is('password*') ? 'active' : '' }}"><a href="{{ route('profile.change-pass') }}"><i class="fa-solid fa-shield-halved col-md-3"></i>Đổi mật khẩu</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- =============================================== -->
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Main content -->
+                <section class="content">
+                    @yield('main-content')
+                </section>
+                <!-- /.content -->
+            </div>
+
+            <div class="main-footer">
+                <div class="pull-right hidden-xs">
+                <b>Version 0.0.1</b>
+                </div>
+                <strong><a href="#">ĐHTL</a> &copy; 2018.</strong>
+            </div>
         </div>
     </div>
 @include('footer')

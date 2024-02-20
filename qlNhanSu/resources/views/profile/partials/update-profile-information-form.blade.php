@@ -1,8 +1,8 @@
 {{-- <x-app-layout> --}}
     @extends('header')
         @section('main-content')
-        <section class="content">
-            <div class="container mt-4">
+        <section class="content" style="margin-left: 30%">
+            <div class="container mt-1">
                 <header>
                     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                         {{ __('Thông tin tài khoản') }}
