@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ asset('assets') }}/css/AdminLTE.css">
+    <link rel="stylesheet" href="{{ asset('assets') }}/css/Admin.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/_all-skins.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/dashboard.css">
 </head>
