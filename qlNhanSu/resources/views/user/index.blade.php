@@ -9,7 +9,7 @@
                     </div>
                 @endif
 
-                <div class="card">
+                <div class="card container">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6">
@@ -27,7 +27,7 @@
                                 <tr>
                                     <th class="text-center align-middle">STT</th>
                                     <th class="text-center align-middle">Tài khoản</th>
-                                    <th>Ảnh đại diện</th>
+                                    <th class="text-center align-middle">Ảnh đại diện</th>
                                     <th class="text-center align-middle">Email</th>
                                     <th class="text-center align-middle">Loại tài khoản</th>
                                     <th class="text-center align-middle">Thao tác</th>

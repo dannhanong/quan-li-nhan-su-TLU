@@ -10,17 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/AdminLTE.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/_all-skins.min.css">
-    <link rel="stylesheet" href="{{ asset('assets') }}/css/jquery-ui.css">
-    <link rel="stylesheet" href="{{ asset('assets') }}/css/style.css" />
-    <script src="{{ asset('assets') }}/js/angular.min.js"></script>
-    <script src="{{ asset('assets') }}/js/app.js"></script>
-    {{-- <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}"> --}}
-
-    <style>
-        a {
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets') }}/css/dashboard.css">
 </head>
 <body>
 
