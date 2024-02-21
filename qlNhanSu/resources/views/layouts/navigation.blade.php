@@ -146,9 +146,9 @@
 
                     <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa-solid fa-exclamation col-md-2"></i> <span>Thông tin tài khoản</span>
-                            <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa-solid fa-exclamation col-md-1"></i> <span>Thông tin tài khoản</span>
+                            <span class="pull-right-container col-md-1">
+                                <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
@@ -175,7 +175,7 @@
 
             <div class="main-footer">
                 <div class="pull-right hidden-xs">
-                <b>Version 0.0.1</b>
+                <b>Version 1.0.0</b>
                 </div>
                 <strong><a href="#">ĐHTL</a> &copy; 2018.</strong>
             </div>

@@ -22,12 +22,9 @@ a {
 } */
 
 .ic{
-    margin-left: 50%;
-    margin-top: 60px;
-    margin-right: auto;
+    margin-top: 90px;
     color: #DBE6ED;
     /* font-size: 90px; */
-    transform: translate(-50%, -50%);
 }
 
 .can{

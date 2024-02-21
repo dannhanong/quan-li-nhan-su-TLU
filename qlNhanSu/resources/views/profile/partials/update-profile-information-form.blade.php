@@ -3,7 +3,7 @@
         @section('main-content')
         <section class="content" style="margin-left: 30%">
             <div class="container mt-1">
-                <header>
+                <div>
                     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                         {{ __('Thông tin tài khoản') }}
                     </h2>
@@ -11,7 +11,7 @@
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                         {{ __("Bạn có thể cập nhật thông tin tài khoản tại đây.") }}
                     </p>
-                </header>
+                </div>
 
                 <form id="send-verification" method="post" action="{{ route('verification.send') }}">
                     @csrf
@@ -21,12 +21,11 @@
                     @csrf
                     @method('patch')
 
-                    <div class="container">
-                        <div class="row">
+                    <div class="container" >
+                        <div class="row" style="width: 80%">
                             <div class="col-md-10 col-md-offset-1">
                                 <img src="/uploads/avatars/{{ $user->avatar }}" style="width: 150px; height: 150px; float:left; border-radius: 50%; margin-right: 25px;" alt="">
-
-                                <label for="">Cập nhật ảnh đại diện</label> <br>
+                                <label for="">Cập nhật ảnh đại diện</label>
                                 <input type="file" name="avatar" id="">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             </div>
@@ -34,14 +33,14 @@
                     </div>
 
                     {{-- Name --}}
-                    <div style="width: 50%">
+                    <div style="width: 60%">
                         <x-input-label for="name" :value="__('Họ tên')" />
                         <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
                         <x-input-error class="mt-2" :messages="$errors->get('name')" />
                     </div>
 
                     {{-- Email --}}
-                    <div style="width: 50%">
+                    <div style="width: 60%">
                         <x-input-label for="email" :value="__('Email')" />
                         <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
                         <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -65,7 +64,7 @@
                         @endif
                     </div>
 
-                    <div class="flex items-center gap-4" style="width: 50%">
+                    <div class="flex items-center gap-4" style="width: 60%">
                         <x-primary-button>{{ __('Lưu') }}</x-primary-button>
 
                         @if (session('status') === 'profile-updated')

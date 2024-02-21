@@ -3,14 +3,15 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <div style="display: flex; background-color: #457B9D">
-        <div style="position: relative; background-color: #457B9D; width: 35%; height: 100vh;">
-            <p style="margin-top: 15%; margin-right: -15%; color: white; font-size: 20px" class="text-center">Đại học Thủy Lợi</p>
+    <div class="row" style="display: flex; background-color: #457B9D">
+        <div class="col-md-5 container" style="position: relative; background-color: #457B9D; width: 35%; height: 100vh;">
+            {{-- <p style="margin-top: 15%; margin-right: -15%; color: white; font-size: 20px" class="text-center">Đại học Thủy Lợi</p> --}}
+            <img style="display: block; margin: 0 auto" class="mt-5" src="/images/logo.png" alt="" srcset="" width="80px">
             <img style="margin-top: 30%; position: absolute; top: 0; left: 0; width: 628px; height: 379px; transform: scale(0.95); z-index: 10;" src="/images/login-side-back.png">
             <img style="margin-top: 10%; position: absolute; top: 20px; left: 76px; width: 550px; height: 480px; object-fit: cover; z-index: 25;" src="/images/login-side-front.png">
         </div>
 
-        <div style="margin-left: auto; margin-right: 0%; background-color: white; border-left: 5px solid white; padding-right: 11%; padding-left: 11%; border-top-left-radius: 70px;
+        <div class="col-md-7" style="margin-left: auto; margin-right: 0%; background-color: white; border-left: 5px solid white; padding-right: 11%; padding-left: 11%; border-top-left-radius: 70px;
         border-bottom-left-radius: 70px;">
             <p class="font-serif fs-3 text-center fw-normal mt-10" for="">Đăng nhập</p>
             <form method="POST" action="{{ route('login') }}" style="width: 470px; margin-top: 13%">
