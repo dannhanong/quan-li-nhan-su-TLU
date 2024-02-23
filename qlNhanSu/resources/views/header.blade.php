@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/css/Admin.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/_all-skins.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/dashboard.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 

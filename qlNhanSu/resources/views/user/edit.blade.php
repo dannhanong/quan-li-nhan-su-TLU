@@ -54,13 +54,10 @@
                         </select>
                     </div> --}}
 
-                    <div class="input-group mt-3 mb-3">
-                        <label class="input-group-text" for="">Mật khẩu:</label>
+                    {{-- <div class="input-group mt-3 mb-3"> --}}
+                        {{-- <label class="input-group-text" for="">Mật khẩu:</label> --}}
                         <input class="form-control" type="hidden" name="password" id="" value="{{ $user->password }}">
-                    </div>
-                    @error('password')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
+                    {{-- </div> --}}
 
                     <div class="input-group mt-3 mb-3">
                         <label class="input-group-text" for="">Email:</label>
@@ -82,7 +79,7 @@
                         <label class="input-group-text" for="">Quyền:</label>
                         <select name="role" id="">
                             <option value="0" {{ $user->role == 0 ? 'selected' : '' }}>Admin</option>
-                            <option value="1" {{ $user->role == 1 ? 'selected' : '' }}>Người dùng</option>
+                            <option value="1" {{ $user->role == 1 ? 'selected' : '' }}>Người dùng thường</option>
                         </select>
                     </div>
 

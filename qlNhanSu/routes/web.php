@@ -29,6 +29,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
+    Route::get('/search', [UserController::class, 'search'])->name('search');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/password', [PasswordController::class, 'edit'])->name('profile.change-pass');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
