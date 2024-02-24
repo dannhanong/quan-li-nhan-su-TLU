@@ -23,20 +23,23 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::resource('users', UserController::class);
-    Route::get('/search', [UserController::class, 'search'])->name('search');
+Route::group(['middleware'=>'disable_back_btn'], function(){
+    Route::middleware('auth')->group(function () {
+        Route::resource('users', UserController::class);
+        Route::get('/search', [UserController::class, 'search'])->name('search');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::get('/password', [PasswordController::class, 'edit'])->name('profile.change-pass');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('@deleteProfile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/password', [PasswordController::class, 'edit'])->name('profile.change-pass');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('@deleteProfile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('khoas', KhoaController::class);
+        Route::resource('khoas', KhoaController::class);
+
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->middleware(['auth', 'verified'])->name('dashboard');
+    });
 });
 
 require __DIR__.'/auth.php';
