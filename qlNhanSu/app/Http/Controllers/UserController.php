@@ -15,10 +15,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = User::orderBy('id', 'desc')->paginate(5);
-        return view('user.index', compact('users'));
+
+        $startNumber = ($users->currentPage() - 1) * $users->perPage() + 1;
+
+        return view('user.index', compact('users', 'startNumber'));
+
     }
 
     /**
@@ -168,6 +172,13 @@ class UserController extends Controller
                 </tr>';
         }
         return response($output);
+    }
+
+    public function pagination(Request $request)
+    {
+        $users = User::orderBy('id', 'desc')->paginate(5);
+        $startNumber = ($users->currentPage() - 1) * $users->perPage() + 1;
+        return view('user.pagination_users', compact('users', 'startNumber'))->render();
     }
 
 }

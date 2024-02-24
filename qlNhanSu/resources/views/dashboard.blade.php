@@ -48,9 +48,7 @@
                         </a>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
                 <div class="col-md-3">
                     <div class="small-box icon">
                         <a href="{{ route('khoas.index') }}">
@@ -72,7 +70,6 @@
                         </a>
                     </div>
                 </div>
-
             </div>
         </div>
 

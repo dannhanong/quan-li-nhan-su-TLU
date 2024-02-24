@@ -18,14 +18,14 @@
                                 </div>
 
                                 <div class="input-group">
-                                    <input type="text" name="search" id="search" class="form-control" placeholder="Nhập từ khóa bạn muốn tra cứu">
+                                    <input type="text" name="search" id="search" class="form-control" placeholder="Tra cứu nhanh">
                                     {{-- <h6 class="mt-2 mx-1">Số bản ghi: <span id="total_records" class="input-group-btn"></span></h6> --}}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card-body">
-                            <table class="table table-bordered">
+                        <div class="card-body table-data">
+                            <table class="table table-bordered" id="userTable">
                                 <thead>
                                     <tr>
                                         <th class="text-center align-middle">STT</th>
@@ -39,9 +39,12 @@
                                 </thead>
 
                                 <tbody class="allData">
+                                    {{-- @php
+                                        $i = 1;
+                                    @endphp --}}
                                     @foreach ($users as $user)
                                         <tr>
-                                            <td class="text-center align-middle">{{ $user->id }}</td>
+                                            <td class="text-center align-middle">{{ $startNumber++ }}</td>
                                             <td class="text-center align-middle">{{ $user->name }}</td>
                                             <td class="text-center align-middle">{{ $user->account }}</td>
                                             <td class="text-center align-middle">
@@ -97,11 +100,13 @@
 
                                 <tbody id="Content" class="searchData"></tbody>
                             </table>
+
+                            <div class="d-flex justify-content-center">
+                                {!! $users->links() !!}
+                            </div>
                         </div>
 
-                        <div class="d-flex justify-content-center">
-                            {!! $users->links() !!}
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -145,19 +150,20 @@
                 }
             })
 
-            // Lấy thẻ thông báo
-            var toast = document.getElementById("successToast");
+            $(document).on('click', '.pagination a', function(e){
+                e.preventDefault();
+                let page = $(this).attr('href').split('page=')[1]
+                user(page);
+            })
 
-            // Thiết lập thời gian đếm ngược (milliseconds)
-            var hideTimer = 5000; // 5 giây
-
-            // Thiết lập hàm để ẩn thẻ thông báo
-            function hideToast() {
-                toast.style.display = "none";
+            function user(page){
+                $.ajax({
+                    url:"/pagination/paginate-data?page="+page,
+                    success:function(res){
+                        $('.table-data').html(res);
+                    }
+                })
             }
-
-            // Thiết lập hẹn giờ để tự động ẩn thẻ thông báo
-            setTimeout(hideToast, hideTimer);
 
         </script>
 

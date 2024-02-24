@@ -28,6 +28,7 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
     Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
         Route::get('/search', [UserController::class, 'search'])->name('search');
+        Route::get('/pagination/paginate-data', [UserController::class, 'pagination'])->name('pagination');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::get('/password', [PasswordController::class, 'edit'])->name('profile.change-pass');
