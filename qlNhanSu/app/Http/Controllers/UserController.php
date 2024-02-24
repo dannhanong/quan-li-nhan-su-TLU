@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 use function Laravel\Prompts\alert;
 
+use Brian2694\Toastr\Facades\Toastr;
+
 class UserController extends Controller
 {
     /**
@@ -49,7 +51,8 @@ class UserController extends Controller
         //     $file->move($path, $filename);
         // }
         User::create($request->all());
-        return redirect()->route('users.index')->with('success', 'Thêm tài khoản thành công');
+        Toastr::success('Thêm tài khoản thành công','Thông báo');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -86,7 +89,8 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->update($request->all());
-        return redirect()->route('users.index')->with('success', 'Cập nhật tài khoản thành công');
+        Toastr::success('Cập nhật tài khoản người dùng thành công', 'Thông báo');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -96,7 +100,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'Xóa tài khoản thành công');
+        Toastr::success('Xóa tài khoản thành công','Thông báo');
+        return redirect()->route('users.index');
     }
 
     public function search(Request $request)

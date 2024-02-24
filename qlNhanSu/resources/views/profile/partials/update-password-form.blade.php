@@ -38,7 +38,7 @@
                     <div class="flex items-center gap-4">
                         <x-primary-button>{{ __('Cập nhật') }}</x-primary-button>
 
-                        @if (session('status') === 'password-updated')
+                        {{-- @if (session('status') === 'password-updated')
                             <p
                                 x-data="{ show: true }"
                                 x-show="show"
@@ -46,7 +46,7 @@
                                 x-init="setTimeout(() => show = false, 2000)"
                                 class="text-sm text-gray-600 dark:text-gray-400"
                             >{{ __('Đã lưu.') }}</p>
-                        @endif
+                        @endif --}}
                     </div>
                 </form>
             </div>

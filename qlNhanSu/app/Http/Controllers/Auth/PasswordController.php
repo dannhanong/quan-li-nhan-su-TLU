@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Brian2694\Toastr\Facades\Toastr;
 
 class PasswordController extends Controller
 {
@@ -34,6 +35,8 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back()->with('status', 'password-updated');
+        Toastr::success('Cập nhật mật khẩu mới thành công', 'Thông báo');
+
+        return back();//->with('status', 'password-updated');
     }
 }

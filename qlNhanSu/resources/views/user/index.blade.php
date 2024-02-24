@@ -3,11 +3,6 @@
         @section('main-content')
         <section class="content">
             <div class="container mt-4">
-                @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        {{ $message }}
-                    </div>
-                @endif
 
                 <div class="container">
                     <div class="card">
@@ -150,9 +145,20 @@
                 }
             })
 
-            setTimeout(function(){
-                $('.alert').fadeOut('slow');
-            }, 5000); // 5 seconds
+            // Lấy thẻ thông báo
+            var toast = document.getElementById("successToast");
+
+            // Thiết lập thời gian đếm ngược (milliseconds)
+            var hideTimer = 5000; // 5 giây
+
+            // Thiết lập hàm để ẩn thẻ thông báo
+            function hideToast() {
+                toast.style.display = "none";
+            }
+
+            // Thiết lập hẹn giờ để tự động ẩn thẻ thông báo
+            setTimeout(hideToast, hideTimer);
+
         </script>
 
 </x-app-layout>

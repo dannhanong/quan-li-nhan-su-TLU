@@ -1,7 +1,7 @@
 @include('header')
     <nav x-data="{ open: false }" style="background: #2B3643;" class=" dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
         <!-- Primary Navigation Menu -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <!-- Logo -->
@@ -27,10 +27,9 @@
 
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    {{-- <img src="{{ asset('avatar-' .auth()->id() . '.png') }}" width="40" class="mr-2" alt=""> --}}
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button style="background: #2B3643; color: white" class="inline-flex items-center px-3 py-2 text-sm leading-4 font-medium rounded-md text-white-500 dark:text-white-400 dark:bg-wtext-white-800 hover:text-white-700 dark:hover:text-white-300 focus:outline-none transition ease-in-out duration-150">
+                            <button style="background: #2B3643; color: white" class="inline-flex items-center py-2 text-sm leading-4 font-medium rounded-md text-white-500 dark:text-white-400 dark:bg-wtext-white-800 hover:text-white-700 dark:hover:text-white-300 focus:outline-none transition ease-in-out duration-150">
                                 <div>
                                     <img src="/uploads/avatars/{{ Auth::user()->avatar }}" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 20px" alt="">
                                 </div>
@@ -146,7 +145,7 @@
 
                     <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa-solid fa-exclamation col-md-1"></i> <span>Thông tin tài khoản</span>
+                            <i class="fa-solid fa-circle-exclamation col-md-2"></i><span>Thông tin tài khoản</span>
                             <span class="pull-right-container col-md-1">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>

@@ -1,6 +1,7 @@
 a {
     text-decoration: none;
 }
+
 .small-box{
     width: 100%;
     height: 190px;
@@ -15,11 +16,6 @@ a {
     position: relative; /* Đặt vị trí tương đối */
     transition: all 0.3s ease; /* Hiệu ứng chuyển đổi */
 }
-
-/* .container{
-    white-space: nowrap;
-    margin-right: 20px;
-} */
 
 .ic{
     margin-top: 90px;
