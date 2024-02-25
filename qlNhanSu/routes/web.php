@@ -27,8 +27,8 @@ Route::get('/', function () {
 Route::group(['middleware'=>'disable_back_btn'], function(){
     Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
-        Route::get('/search', [UserController::class, 'search'])->name('search');
-        Route::get('/filter', [UserController::class, 'filter'])->name('filter');
+        Route::get('/search', [UserController::class, 'search'])->name('user.search');
+        Route::get('/filter', [UserController::class, 'filter'])->name('user.filter');
         Route::get('/pagination/paginate-data', [UserController::class, 'pagination'])->name('pagination');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,6 +37,7 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::delete('@deleteProfile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::resource('khoas', KhoaController::class);
+        Route::get('/search', [KhoaController::class, 'search'])->name('khoa.search');
 
         Route::get('/dashboard', function () {
             return view('dashboard');

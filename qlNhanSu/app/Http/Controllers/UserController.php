@@ -157,7 +157,7 @@ class UserController extends Controller
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Bạn chắc chắn muốn xóa user có ID: '.$user->id.' ?
+                                            Bạn chắc chắn muốn xóa người dùng: '.$user->name.' ?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -222,7 +222,7 @@ class UserController extends Controller
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Bạn chắc chắn muốn xóa user có ID: '.$user->id.' ?
+                                            Bạn chắc chắn muốn xóa người dùng: '.$user->name.' ?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
