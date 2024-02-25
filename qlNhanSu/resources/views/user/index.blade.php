@@ -18,7 +18,13 @@
                                 </div>
 
                                 <div class="input-group">
-                                    <input type="text" name="search" id="search" class="form-control" placeholder="Tra cứu nhanh">
+                                    <h5 class="text-center mt-2">Lọc theo: </h5><select class="mx-1" name="filter" id="filter">
+                                        <option value="">Tất cả vai trò</option>
+                                        <option value="0">Quản trị</option>
+                                        <option value="1">Người dùng thường</option>
+                                    </select>
+
+                                    <input type="text" name="search" id="search" class="form-control" style="margin-left: 60%" placeholder="Tra cứu nhanh">
                                     {{-- <h6 class="mt-2 mx-1">Số bản ghi: <span id="total_records" class="input-group-btn"></span></h6> --}}
                                 </div>
                             </div>
@@ -164,6 +170,40 @@
                     }
                 })
             }
+
+            $('#filter').on('change', function(e){
+                var $role = e.target.value;
+
+                if ($role != '') {
+                    $('.allData').hide();
+                    $('.searchData').show();
+
+                    if (!isSendingData) {
+                        // Đặt biến trạng thái gửi dữ liệu thành true
+                        isSendingData = true;
+
+                        $.ajax({
+                            type: 'get',
+                            url: '{{ URL::to('filter') }}',
+                            data: { 'filter': $role },
+                            success: function(data){
+                                $('#Content').html(data);
+                                // Đặt biến trạng thái gửi dữ liệu thành false sau khi nhận dữ liệu thành công
+                                isSendingData = false;
+                            },
+                            error: function(xhr, status, error) {
+                                // Đặt biến trạng thái gửi dữ liệu thành false nếu có lỗi trong quá trình gửi dữ liệu
+                                isSendingData = false;
+                            }
+                        });
+                    }
+                } else {
+                    // Nếu không có dữ liệu được nhập vào, không gửi yêu cầu AJAX
+                    $('.allData').show();
+                    $('.searchData').hide();
+                }
+            });
+
 
         </script>
 
