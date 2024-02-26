@@ -18,11 +18,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::orderBy('id', 'desc')->paginate(5);
+
+        $roles = User::distinct()->pluck('role');
         // $users = User::orderBy('id', 'desc')->get();
 
         $startNumber = ($users->currentPage() - 1) * $users->perPage() + 1;
 
-        return view('user.index', compact('users', 'startNumber'));
+        return view('user.index', compact('users', 'startNumber', 'roles'));
         // return view('user.index', compact('users'));
 
     }
@@ -44,18 +46,6 @@ class UserController extends Controller
             'avatar' => ['mimes:png, jpg, jpeg, webp']
         ]);
 
-        // User::create([
-        //     'name' => $request->name,
-        //     '...' => $request->...,
-        // ]);
-
-        // if($request->has('avatar')){
-        //     $file = $request->file('avatar');
-        //     $extension = $file->getClientOriginalExtension();
-        //     $filename = time(). '.' .$extension;
-        //     $path = 'uploads/avatars/';
-        //     $file->move($path, $filename);
-        // }
         User::create($request->all());
         Toastr::success('Thêm tài khoản thành công','Thông báo');
         return redirect()->route('users.index');
@@ -245,8 +235,9 @@ class UserController extends Controller
     public function pagination(Request $request)
     {
         $users = User::orderBy('id', 'desc')->paginate(5);
+        $roles = User::distinct()->pluck('role');
         $startNumber = ($users->currentPage() - 1) * $users->perPage() + 1;
-        return view('user.pagination_users', compact('users', 'startNumber'))->render();
+        return view('user.pagination_users', compact('users', 'startNumber', 'roles'))->render();
     }
 
 }

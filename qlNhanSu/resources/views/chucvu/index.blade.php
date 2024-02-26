@@ -10,11 +10,11 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h3>Danh sách khoa</h3>
+                                    <h3>Danh sách chức vụ</h3>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ route('khoas.create') }}" class="btn btn-primary float-end">Thêm mới</a>
+                                    <a href="{{ route('chucvus.create') }}" class="btn btn-primary float-end">Thêm mới</a>
                                 </div>
 
                                 <div class="input-group">
@@ -25,11 +25,11 @@
                         </div>
 
                         <div class="card-body table-data">
-                            <table class="table table-bordered" id="khoaTable">
+                            <table class="table table-bordered" id="chucvuTable">
                                 <thead>
                                     <tr>
                                         <th class="text-center align-middle">STT</th>
-                                        <th class="text-center align-middle">Tên khoa</th>
+                                        <th class="text-center align-middle">Tên chức vụ</th>
                                         <th class="text-center align-middle">Thao tác</th>
                                     </tr>
                                 </thead>
@@ -38,18 +38,18 @@
                                     {{-- @php
                                         $i = 1;
                                     @endphp --}}
-                                    @foreach ($khoas as $khoa)
+                                    @foreach ($chucvus as $chucvu)
                                         <tr>
                                             <td class="text-center align-middle">{{ $startNumber++ }}</td>
-                                            <td class="text-center align-middle">{{ $khoa->tenKhoa }}</td>
+                                            <td class="text-center align-middle">{{ $chucvu->tenChucVu }}</td>
                                             <td class="text-center align-middle">
-                                                <a href="{{ route('khoas.show', $khoa->id) }}"><i class="fa-solid fa-eye"></i></a>
+                                                <a href="{{ route('chucvus.show', $chucvu->id) }}"><i class="fa-solid fa-eye"></i></a>
                                                 @if (auth()->check() && auth()->user()->role == 0)
-                                                    <a href="{{ route('khoas.edit', $khoa->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                    <a href="#" data-toggle="modal" data-target="#A{{ $khoa->id }}"><i class="fa-solid fa-solid fa-trash"></i></a>
+                                                    <a href="{{ route('chucvus.edit', $chucvu->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                    <a href="#" data-toggle="modal" data-target="#A{{ $chucvu->id }}"><i class="fa-solid fa-solid fa-trash"></i></a>
 
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="A{{ $khoa->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="A{{ $chucvu->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -59,12 +59,12 @@
                                                             </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                Bạn chắc chắn muốn xóa khoa: {{ $khoa->tenKhoa }} ?
+                                                                Bạn chắc chắn muốn xóa chức vụ: {{ $chucvu->tenChucVu }} ?
                                                             </div>
                                                             <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                                            <form action="{{ route('khoas.destroy', $khoa->id) }}" method="POST">
+                                                            <form action="{{ route('chucvus.destroy', $chucvu->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
 
@@ -85,7 +85,7 @@
                             </table>
 
                             <div class="d-flex justify-content-center">
-                                {!! $khoas->links() !!}
+                                {!! $chucvus->links() !!}
                             </div>
                         </div>
 
@@ -113,7 +113,7 @@
 
                         $.ajax({
                             type: 'get',
-                            url: '{{ URL::to('searchk') }}',
+                            url: '{{ URL::to('searchc') }}',
                             data: { 'search': $value },
                             success: function(data){
                                 $('#Content').html(data);
@@ -136,12 +136,12 @@
             $(document).on('click', '.pagination a', function(e){
                 e.preventDefault();
                 let page = $(this).attr('href').split('page=')[1]
-                khoa(page);
+                chucvu(page);
             })
 
-            function khoa(page){
+            function chucvu(page){
                 $.ajax({
-                    url:"/pagination/paginate-data?page="+page,
+                    url:"/pagination/paginate-chucvu?page="+page,
                     success:function(res){
                         $('.table-data').html(res);
                     }

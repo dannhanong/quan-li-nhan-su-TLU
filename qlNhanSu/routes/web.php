@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\ChucvuController;
 use App\Http\Controllers\KhoaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -29,7 +30,7 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::resource('users', UserController::class);
         Route::get('/search', [UserController::class, 'search'])->name('user.search');
         Route::get('/filter', [UserController::class, 'filter'])->name('user.filter');
-        Route::get('/pagination/paginate-data', [UserController::class, 'pagination'])->name('pagination');
+        Route::get('/pagination/paginate-user', [UserController::class, 'pagination'])->name('pagination');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::get('/password', [PasswordController::class, 'edit'])->name('profile.change-pass');
@@ -37,7 +38,11 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::delete('@deleteProfile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::resource('khoas', KhoaController::class);
-        Route::get('/search', [KhoaController::class, 'search'])->name('khoa.search');
+        Route::get('/searchk', [KhoaController::class, 'searchk'])->name('khoa.search');
+
+        Route::resource('chucvus', ChucvuController::class);
+        Route::get('/searchc', [ChucvuController::class, 'searchc'])->name('chucvu.search');
+        Route::get('/pagination/paginate-chucvu', [ChucvuController::class, 'pagination'])->name('pagination');
 
         Route::get('/dashboard', function () {
             return view('dashboard');

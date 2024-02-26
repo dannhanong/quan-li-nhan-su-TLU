@@ -18,13 +18,24 @@
                                 </div>
 
                                 <div class="input-group">
-                                    <h5 class="text-center mt-2">Lọc theo: </h5><select class="mx-1" name="filter" id="filter">
+                                    <h5 class="text-center mt-2">Lọc theo: </h5>
+
+                                    <select class="mx-1" name="filter" id="filter">
                                         <option value="">Tất cả vai trò</option>
-                                        <option value="0">Quản trị</option>
-                                        <option value="1">Người dùng thường</option>
+                                        @foreach ($roles as $role)
+                                            @if($role == 0){
+                                                {{ $quyen = "Admin" }}
+                                            }@elseif ($role == 1){
+                                                {{ $quyen = "Người dùng thường" }}
+                                            }
+                                            @endif
+                                            <option value="{{ $role }}">
+                                                {{ $quyen }}
+                                            </option>
+                                        @endforeach
                                     </select>
 
-                                    <input type="text" name="search" id="search" class="form-control" style="margin-left: 60%" placeholder="Tra cứu nhanh">
+                                    <input type="text" name="search" id="search" class="form-control" style="margin-left: 45%" placeholder="Tra cứu nhanh">
                                     {{-- <h6 class="mt-2 mx-1">Số bản ghi: <span id="total_records" class="input-group-btn"></span></h6> --}}
                                 </div>
                             </div>
@@ -164,7 +175,7 @@
 
             function user(page){
                 $.ajax({
-                    url:"/pagination/paginate-data?page="+page,
+                    url:"/pagination/paginate-user?page="+page,
                     success:function(res){
                         $('.table-data').html(res);
                     }
@@ -175,6 +186,7 @@
                 var $role = e.target.value;
 
                 if ($role != '') {
+                    $('#pt').hide();
                     $('.allData').hide();
                     $('.searchData').show();
 

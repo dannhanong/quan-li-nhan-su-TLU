@@ -15,7 +15,7 @@
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <div>
-                            <div class="main-header mt-2" style="margin-left: 120px">
+                            <div class="main-header mt-2" style="margin-left: 85px">
                                 {{-- <nav class="navbar navbar-static-top"> --}}
                                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                                     </a>
@@ -141,7 +141,11 @@
 
                     <li class="{{ request() -> is('khoas*') ? 'active' : '' }}"><a href="{{ route('khoas.index') }}"><i class="fa-solid fa-building col-md-2"></i>Khoa</a></li>
 
-                    <li class="{{ request() -> is('users*') ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fa-solid fa-user-group col-md-2"></i>Tài khoản</a></li>
+                    @if (auth()->check() && auth()->user()->role == 0)
+                    <li class="{{ request() -> is('users*') ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fa-solid fa-user-group col-md-2"></i>Trung tâm tài khoản</a></li>
+                    @endif
+
+                    <li class="{{ request() -> is('chucvus*') ? 'active' : '' }}"><a href="{{ route('chucvus.index') }}"><i class="fa-solid fa-rectangle-list col-md-2"></i>Chức vụ</a></li>
 
                     <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">
                         <a href="#">
