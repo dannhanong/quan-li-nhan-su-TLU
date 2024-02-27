@@ -102,7 +102,7 @@
                                                                 @csrf
                                                                 @method('DELETE')
 
-                                                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                                                <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
                                                             </form>
                                                             </div>
 
@@ -186,12 +186,10 @@
                 var $role = e.target.value;
 
                 if ($role != '') {
-                    $('#pt').hide();
                     $('.allData').hide();
                     $('.searchData').show();
 
                     if (!isSendingData) {
-                        // Đặt biến trạng thái gửi dữ liệu thành true
                         isSendingData = true;
 
                         $.ajax({
@@ -200,23 +198,25 @@
                             data: { 'filter': $role },
                             success: function(data){
                                 $('#Content').html(data);
-                                // Đặt biến trạng thái gửi dữ liệu thành false sau khi nhận dữ liệu thành công
                                 isSendingData = false;
                             },
                             error: function(xhr, status, error) {
-                                // Đặt biến trạng thái gửi dữ liệu thành false nếu có lỗi trong quá trình gửi dữ liệu
                                 isSendingData = false;
                             }
                         });
                     }
                 } else {
-                    // Nếu không có dữ liệu được nhập vào, không gửi yêu cầu AJAX
                     $('.allData').show();
                     $('.searchData').hide();
                 }
             });
 
-
+            $('#btnSubmit').on('click', function(e){
+                e.preventDefault();
+                $.ajax({
+                    url:
+                });
+            })
         </script>
 
 </x-app-layout>

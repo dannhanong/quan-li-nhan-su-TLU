@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\alert;
 
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -42,13 +43,27 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'avatar' => ['mimes:png, jpg, jpeg, webp']
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        // ]);
+
+
+        $message = 'Thêm tài khoản thành công';
+        User::create($request->all());
+
+        return response()->json([
+            'status' => true,
+            'msg' => $message
         ]);
 
-        User::create($request->all());
-        Toastr::success('Thêm tài khoản thành công','Thông báo');
-        return redirect()->route('users.index');
+        // elseif($validator->fails()){
+        //     return response()->json([
+        //         'status' => false,
+        //         'error'=>$validator->errors()->all()
+        //     ]);
+        // }
+
     }
 
     /**
@@ -73,16 +88,6 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // $request->validate([
-        //     'name' => ['required'],
-        //     'description' => ['required'],
-        //     'image_url' => ['required'],
-        //     'category_id' => ['required'],
-        //     'brand' => ['required'],
-        //     'price' => ['required'],
-        //     'quantity' => ['required']
-        // ]);
-
         $user = User::find($id);
         $user->update($request->all());
         Toastr::success('Cập nhật tài khoản người dùng thành công', 'Thông báo');

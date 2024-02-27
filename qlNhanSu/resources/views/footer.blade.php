@@ -3,6 +3,7 @@
     <script src="{{ asset('assets') }}/js/bootstrap.min.js"></script>
     <script src="{{ asset('assets') }}/js/adminlte.min.js"></script>
     <script src="{{ asset('assets') }}/js/all.min.js"></script>
+
     {{-- <script src="//cdn.datatables.net/2.0.0/js/dataTables.min.js"></script> --}}
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
     {!! Toastr::message() !!}
