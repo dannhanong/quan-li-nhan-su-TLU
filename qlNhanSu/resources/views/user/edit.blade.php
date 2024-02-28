@@ -68,72 +68,9 @@
         </div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+    <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script>window.baseUrl = "{{ URL::to('/') }}";</script>
-    <script src="{{ asset('assets') }}/js/app.js"></script>
-    {{-- <script>
-        $(document).ready(function(){
-            var account = $('#account').val();
-            var email = $('#email').val();
-
-            $('.formUser').submit(function(e){
-                e.preventDefault();
-                if($('#account').val() == account){
-                    if($('#account').val() == account && $('#email').val() == email){
-                        alert("ok1");
-                    }else{
-                        alert("ok2");
-                    }
-                }else if ($('#email').val() == email){
-                    alert("ok3");
-                }else{
-                    $('.formUser').validate({
-                        rules:{
-                            account:{
-                                required: true,
-                                remote: {
-                                    // url: baseUrl+'/check_account_unique',
-                                    url: '{{ route("check_account_unique") }}',
-                                    type: 'post',
-                                    data: {
-                                        account: function(){
-                                            return $('#account').val();
-                                        },
-                                        '_token': $('meta[name="csrf-token"]').attr('content')
-                                    }
-                                }
-                            },
-                            email:{
-                                required: true,
-                                email: true,
-                                remote: {
-                                    url: '{{ route("check_email_unique") }}',
-                                    // url: baseUrl+'/check_email_unique',
-                                    type: 'post',
-                                    data: {
-                                        email: function(){
-                                            return $('#email').val();
-                                        },
-                                        '_token': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                },
-                            }
-                        },
-                        messages:{
-                            account: {
-                                required: "Trường tài khoản không được để trống",
-                                remote: "Tài khoản đã tồn tại",
-                            },
-                            email: {
-                                required: "Trường email không được để trống",
-                                email: "Vui lòng nhập đúng định dạng email",
-                                remote: "Email đã tồn tại",
-                            },
-                        },
-                    });
-                }
-            });
-        })
-    </script> --}}
+    <script src="{{ asset('assets') }}/js/editUser.js"></script>
     @endsection
 </x-app-layout>

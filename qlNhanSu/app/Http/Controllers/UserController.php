@@ -242,20 +242,46 @@ class UserController extends Controller
     }
 
     public function check_email_unique(Request $request){
-        $user = User::where('email', $request->email)->first();
-        if($user){
-            echo 'false';
-        }else{
-            echo 'true';
+        if($request->has('emailF')){
+            if($request->emailF == $request->email){
+                echo 'true';
+            }else{
+                $user = User::where('email', $request->email)->first();
+                if($user){
+                    echo 'false';
+                }else{
+                    echo 'true';
+                }
+            }
+        }else {
+            $user = User::where('email', $request->email)->first();
+                if($user){
+                    echo 'false';
+                }else{
+                    echo 'true';
+            }
         }
     }
 
     public function check_account_unique(Request $request){
-        $user = User::where('account', $request->account)->first();
-        if($user){
-            echo 'false';
+        if($request->has('accountF')){
+            if($request->accountF == $request->account){
+                echo 'true';
+            }else{
+                $user = User::where('account', $request->account)->first();
+                if($user){
+                    echo 'false';
+                }else{
+                    echo 'true';
+                }
+            }
         }else{
-            echo 'true';
+            $user = User::where('account', $request->account)->first();
+                if($user){
+                    echo 'false';
+                }else{
+                    echo 'true';
+            }
         }
     }
 
