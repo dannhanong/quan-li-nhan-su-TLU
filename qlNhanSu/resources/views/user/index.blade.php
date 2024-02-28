@@ -80,7 +80,7 @@
                                                 <a href="{{ route('users.show', $user->id) }}"><i class="fa-solid fa-eye"></i></a>
                                                 @if (auth()->check() && auth()->user()->role == 0)
                                                     <a href="{{ route('users.edit', $user->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                    <a href="#" data-toggle="modal" data-target="#A{{ $user->id }}"><i class="fa-solid fa-solid fa-trash"></i></a>
+                                                    <a class="aUser" value="{{ $user->id }}" href="#" data-toggle="modal" data-target="#A{{ $user->id }}"><i class="fa-solid fa-solid fa-trash"></i></a>
 
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="A{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -98,10 +98,9 @@
                                                             <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                                            <form id="modalUser" class="modalUser" action="{{ route('users.destroy', $user->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
-
                                                                 <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
                                                             </form>
                                                             </div>
@@ -184,14 +183,12 @@
 
             $('#filter').on('change', function(e){
                 var $role = e.target.value;
-
                 if ($role != '') {
                     $('.allData').hide();
                     $('.searchData').show();
 
                     if (!isSendingData) {
                         isSendingData = true;
-
                         $.ajax({
                             type: 'get',
                             url: '{{ URL::to('filter') }}',
@@ -210,13 +207,6 @@
                     $('.searchData').hide();
                 }
             });
-
-            $('#btnSubmit').on('click', function(e){
-                e.preventDefault();
-                $.ajax({
-                    url:
-                });
-            })
         </script>
 
 </x-app-layout>

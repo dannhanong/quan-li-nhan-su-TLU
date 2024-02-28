@@ -42,19 +42,20 @@
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
 
-                            {{-- <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Ảnh đại diện:</label>
-                                <input class="form-control" type="file" name="avatar" id="" value="{{ old('avatar') }}">
-                            </div>
-                            @error('avatar')
-                                <p class="text-danger">{{ $message }}</p>
-                            @enderror --}}
-
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Quyền:</label>
                                 <select name="role" id="role">
-                                    <option value="0">Admin</option>
-                                    <option value="1">Người dùng thường</option>
+                                    @foreach ($roles as $role)
+                                        @if($role == 0){
+                                            {{ $quyen = "Admin" }}
+                                        }@elseif ($role == 1){
+                                            {{ $quyen = "Người dùng thường" }}
+                                        }
+                                        @endif
+                                        <option value="{{ $role }}">
+                                            {{ $quyen }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -69,9 +70,9 @@
         </section>
 
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+        <script>window.baseUrl = "{{ URL::to('/') }}";</script>
         <script src="{{ asset('assets') }}/js/app.js"></script>
         <script>
-
             $('.formUser').submit(function(e) {
                 e.preventDefault();
                 $.ajax({
@@ -81,6 +82,9 @@
                     success: function (response) {
                         if(response.status == true){
                             $('#name').val('');
+                            $('#account').val('');
+                            $('#password').val('');
+                            $('#email').val('');
                             console.log(response)
                             toastr.options = {
                                 "closeButton": true,
@@ -89,12 +93,9 @@
                             }
                             toastr.success('Thêm tài khoản mới thành công');
                         }else if(response.status == false){
-                            // alert(response.error)
+
                         }
                     },
-                    error: function() {
-                        toastr.error('Kiểm tra');
-                    }
                 })
             })
         </script>

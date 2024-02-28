@@ -35,7 +35,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        $roles = User::distinct()->pluck('role');
+        return view('user.create', compact('roles'));
     }
 
     /**
@@ -43,12 +44,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required',
-        //     'email' => 'required|email',
-        // ]);
-
-
         $message = 'Thêm tài khoản thành công';
         User::create($request->all());
 
@@ -80,7 +75,8 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::find($id);
-        return view('user.edit', compact('user'));
+        $roles = User::distinct()->pluck('role');
+        return view('user.edit', compact('user', 'roles'));
     }
 
     /**
@@ -243,6 +239,24 @@ class UserController extends Controller
         $roles = User::distinct()->pluck('role');
         $startNumber = ($users->currentPage() - 1) * $users->perPage() + 1;
         return view('user.pagination_users', compact('users', 'startNumber', 'roles'))->render();
+    }
+
+    public function check_email_unique(Request $request){
+        $user = User::where('email', $request->email)->first();
+        if($user){
+            echo 'false';
+        }else{
+            echo 'true';
+        }
+    }
+
+    public function check_account_unique(Request $request){
+        $user = User::where('account', $request->account)->first();
+        if($user){
+            echo 'false';
+        }else{
+            echo 'true';
+        }
     }
 
 }

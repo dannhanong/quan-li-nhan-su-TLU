@@ -1,32 +1,20 @@
 <x-app-layout>
-    @section('tit')
-        <title>Chỉnh sửa tài khoản</title>
-    @endsection
-    @include('header')
+    @extends('header')
     @section('main-content')
         <section class="content bg-white" style="height: 85vh">
     {{-- <body> --}}
         <h1 class="text-center text-dark">Chỉnh sửa thông tin tài khoản</h1>
 
-        <div class="container-fluid">
+        <div class="container-fluid col-8">
             <div class="row">
                 <div class="col-sm">
-                <form enctype="multipart/form-data" method="post" action="{{ route("users.update", $user->id) }}" class = "m-5 mt-2">
+                <form class="formUser" enctype="multipart/form-data" method="post" action="{{ route("users.update", $user->id) }}" class="m-5 mt-2 formUser">
                     @csrf
                     @method('PUT')
 
-                    {{-- <label class="input-group-text" for="">name:</label>
-                    <select class="form-control" name="name" id="" required>
-                        @foreach ($aircrafts as $aircraft)
-                            <option value="{{ $aircraft }}" {{ $aircraft == $user->Aircraft_ID ? 'selected' : '' }}>
-                                {{ $aircraft }}
-                            </option>
-                        @endforeach
-                    </select> --}}
-
                     <div class="input-group mt-3 mb-3">
                         <label class="input-group-text" for="">Tên hiển thị:</label>
-                        <input class="form-control" type="text" name="name" id="" value="{{ $user->name }}">
+                        <input class="form-control" type="text" name="name" id="name" value="{{ $user->name }}">
                     </div>
                     @error('name')
                         <p class="text-danger">{{ $message }}</p>
@@ -34,64 +22,118 @@
 
                     <div class="input-group mt-3 mb-3">
                         <label class="input-group-text" for="">Tài khoản:</label>
-                        <input class="form-control" name="account" id="" value="{{ $user->account }}">
+                        <input class="form-control" name="account" id="account" value="{{ $user->account }}">
                     </div>
                     @error('account')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
-                    {{-- <div class="input-group mt-3 mb-3">
-                        <label class="input-group-text" for="">Genre:</label>
-                        <select class="form-control" name="Genre" id="">
-                            @foreach ($genres as $genre)
-                                <option value="{{ $genre }}" {{ $genre == $user->Genre ? 'selected' : '' }}>
-                                    {{ $genre }}
-                                </option>
-                            @endforeach
-                            <option value="{{ $user->Genre }}">{{ $user->Genre }}</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Horror">Horror</option>
-                        </select>
-                    </div> --}}
-
                     {{-- <div class="input-group mt-3 mb-3"> --}}
                         {{-- <label class="input-group-text" for="">Mật khẩu:</label> --}}
-                        <input class="form-control" type="hidden" name="password" id="" value="{{ $user->password }}">
+                        <input class="form-control" type="hidden" name="password" id="password" value="{{ $user->password }}">
                     {{-- </div> --}}
 
                     <div class="input-group mt-3 mb-3">
                         <label class="input-group-text" for="">Email:</label>
-                        <input class="form-control" type="email" name="email" id="" value="{{ $user->email }}">
+                        <input class="form-control" type="email" name="email" id="email" value="{{ $user->email }}">
                     </div>
                     @error('email')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
-                    {{-- <div class="input-group mt-3 mb-3">
-                        <label class="input-group-text" for="">Ảnh đại diện:</label>
-                        <input class="form-control" type="file" name="avatar" id="" value="{{ $user->avatar }}">
-                    </div>
-                    @error('avatar')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror --}}
-
                     <div class="input-group mt-3 mb-3">
                         <label class="input-group-text" for="">Quyền:</label>
-                        <select name="role" id="">
-                            <option value="0" {{ $user->role == 0 ? 'selected' : '' }}>Admin</option>
-                            <option value="1" {{ $user->role == 1 ? 'selected' : '' }}>Người dùng thường</option>
+                        <select name="role" id="role">
+                            @foreach ($roles as $role)
+                                @if($role == 0){
+                                    {{ $quyen = "Admin" }}
+                                }@elseif ($role == 1){
+                                    {{ $quyen = "Người dùng thường" }}
+                                }
+                                @endif
+                                <option value="{{ $role }}">
+                                    {{ $quyen }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="form-group float-end">
                         <a href="{{ route("users.index") }}" class="btn btn-secondary">Back</a>
                         <input type="submit" name="btSave" value="Save" class="btn btn-primary">
-
                     </div>
                 </form>
                 </div>
             </div>
         </div>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+    <script>window.baseUrl = "{{ URL::to('/') }}";</script>
+    <script src="{{ asset('assets') }}/js/app.js"></script>
+    {{-- <script>
+        $(document).ready(function(){
+            var account = $('#account').val();
+            var email = $('#email').val();
+
+            $('.formUser').submit(function(e){
+                e.preventDefault();
+                if($('#account').val() == account){
+                    if($('#account').val() == account && $('#email').val() == email){
+                        alert("ok1");
+                    }else{
+                        alert("ok2");
+                    }
+                }else if ($('#email').val() == email){
+                    alert("ok3");
+                }else{
+                    $('.formUser').validate({
+                        rules:{
+                            account:{
+                                required: true,
+                                remote: {
+                                    // url: baseUrl+'/check_account_unique',
+                                    url: '{{ route("check_account_unique") }}',
+                                    type: 'post',
+                                    data: {
+                                        account: function(){
+                                            return $('#account').val();
+                                        },
+                                        '_token': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                }
+                            },
+                            email:{
+                                required: true,
+                                email: true,
+                                remote: {
+                                    url: '{{ route("check_email_unique") }}',
+                                    // url: baseUrl+'/check_email_unique',
+                                    type: 'post',
+                                    data: {
+                                        email: function(){
+                                            return $('#email').val();
+                                        },
+                                        '_token': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                },
+                            }
+                        },
+                        messages:{
+                            account: {
+                                required: "Trường tài khoản không được để trống",
+                                remote: "Tài khoản đã tồn tại",
+                            },
+                            email: {
+                                required: "Trường email không được để trống",
+                                email: "Vui lòng nhập đúng định dạng email",
+                                remote: "Email đã tồn tại",
+                            },
+                        },
+                    });
+                }
+            });
+        })
+    </script> --}}
     @endsection
 </x-app-layout>
