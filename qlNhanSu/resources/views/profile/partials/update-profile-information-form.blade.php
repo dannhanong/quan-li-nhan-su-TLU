@@ -21,12 +21,13 @@
                     @csrf
                     @method('patch')
 
+                    {{-- Avatar --}}
                     <div class="container" >
                         <div class="row" style="width: 80%">
                             <div class="col-md-10 col-md-offset-1">
-                                <img src="/uploads/avatars/{{ $user->avatar }}" style="width: 150px; height: 150px; float:left; border-radius: 50%; margin-right: 25px;" alt="">
+                                <img id="avatar-img-edit" src="/uploads/avatars/{{ $user->avatar }}" style="width: 150px; height: 150px; float:left; border-radius: 50%; margin-right: 25px;" alt="">
                                 <label for="">Cập nhật ảnh đại diện</label>
-                                <input type="file" name="avatar" id="">
+                                <input type="file" name="avatar" id="avatar">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             </div>
                         </div>
@@ -74,5 +75,35 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script>window.baseUrl = "{{ URL::to('/') }}";</script>
         <script src="{{ asset('assets') }}/js/editUser.js"></script>
+
+        <script>
+            $('.formUser').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: "{{ route('profile.update') }}",
+                    type: 'post',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if(response.status == true){
+                            // console.log(response)
+                            $('#user-name').text(response.newName);
+                            $('#avatar-img').attr('src', response.newAvatarUrl);
+                            $('#avatar-img-edit').attr('src', response.newAvatarUrl);
+                            toastr.options = {
+                                "closeButton": true,
+                                "progressBar": true,
+                                "positionClass": "toast-bottom-right",
+                            }
+                            toastr.success('Cập nhật tài khoản thành công');
+                        }else if(response.status == false){
+
+                        }
+                    },
+                })
+            })
+        </script>
     @endsection
 {{-- </x-app-layout> --}}

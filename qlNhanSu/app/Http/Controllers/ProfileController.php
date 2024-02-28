@@ -47,13 +47,13 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)//: RedirectResponse
     {
         $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        // if ($request->user()->isDirty('email')) {
+        //     $request->user()->email_verified_at = null;
+        // }
 
         if($request->hasFile('avatar')){
             $avatar = $request->file('avatar');
@@ -63,13 +63,22 @@ class ProfileController extends Controller
             $user = Auth::user();
             // dd($user);
             $user->avatar = $filename;
+            $request->user()->save();
+        }else{
+            $request->user()->save();
         }
 
-        $request->user()->save();
+        $newAvatarUrl = asset('uploads/avatars/' . $filename);
 
-        Toastr::success("Cập nhật thành công", "Thông báo");
+        return response()->json([
+            'status' => true,
+            'newName' => $request->name,
+            'newAvatarUrl' => $newAvatarUrl
+        ]);
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // Toastr::success("Cập nhật thành công", "Thông báo");
+
+        // return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**

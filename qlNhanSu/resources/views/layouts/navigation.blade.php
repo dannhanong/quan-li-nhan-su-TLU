@@ -31,12 +31,11 @@
                         <x-slot name="trigger">
                             <button style="background: #2B3643; color: white" class="inline-flex items-center py-2 text-sm leading-4 font-medium rounded-md text-white-500 dark:text-white-400 dark:bg-wtext-white-800 hover:text-white-700 dark:hover:text-white-300 focus:outline-none transition ease-in-out duration-150">
                                 <div>
-                                    <img src="/uploads/avatars/{{ Auth::user()->avatar }}" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 20px" alt="">
+                                    <img id="avatar-img" src="/uploads/avatars/{{ Auth::user()->avatar }}" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 20px" alt="">
                                 </div>
 
                                 <div style="position: relative;">
-
-                                    <div>{{ Auth::user()->name }}</div>
+                                    <div id="user-name">{{ Auth::user()->name }}</div>
                                 </div>
 
                                 <div class="ms-1">
