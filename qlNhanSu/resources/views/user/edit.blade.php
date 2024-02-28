@@ -68,7 +68,6 @@
         </div>
     </section>
 
-    <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script>window.baseUrl = "{{ URL::to('/') }}";</script>
     <script src="{{ asset('assets') }}/js/editUser.js"></script>

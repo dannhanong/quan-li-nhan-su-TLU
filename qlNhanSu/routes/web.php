@@ -28,6 +28,7 @@ Route::get('/', function () {
 Route::group(['middleware'=>'disable_back_btn'], function(){
     Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
+        Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::get('/search', [UserController::class, 'search'])->name('user.search');
         Route::get('/filter', [UserController::class, 'filter'])->name('user.filter');
         Route::get('/pagination/paginate-user', [UserController::class, 'pagination'])->name('pagination');

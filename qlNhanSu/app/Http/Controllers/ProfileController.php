@@ -67,9 +67,9 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        Toastr::success('Cập nhật thành công', 'Thông báo');
+        Toastr::success("Cập nhật thành công", "Thông báo");
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**

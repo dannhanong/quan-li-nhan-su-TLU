@@ -60,7 +60,7 @@
                                         $i = 1;
                                     @endphp --}}
                                     @foreach ($users as $user)
-                                        <tr>
+                                        <tr id="row_{{ $user->id }}">
                                             <td class="text-center align-middle">{{ $startNumber++ }}</td>
                                             <td class="text-center align-middle">{{ $user->name }}</td>
                                             <td class="text-center align-middle">{{ $user->account }}</td>
@@ -80,7 +80,7 @@
                                                 <a href="{{ route('users.show', $user->id) }}"><i class="fa-solid fa-eye"></i></a>
                                                 @if (auth()->check() && auth()->user()->role == 0)
                                                     <a href="{{ route('users.edit', $user->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                    <a class="aUser" value="{{ $user->id }}" href="#" data-toggle="modal" data-target="#A{{ $user->id }}"><i class="fa-solid fa-solid fa-trash"></i></a>
+                                                    <a id="aUser" data-id_xoa="{{ $user->id }}" href="#" data-toggle="modal" data-target="#A{{ $user->id }}"><i class="aUser fa-solid fa-solid fa-trash"></i></a>
 
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="A{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -207,6 +207,32 @@
                     $('.searchData').hide();
                 }
             });
+
+            $(document).on('click', '#aUser', function(e){
+                $id = $(this).data('id_xoa');
+                $('.modalUser').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/users/' + $id,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response){
+                            $('#row_'+$id).remove();
+                            $('.fade').hide();
+                            toastr.options = {
+                                "closeButton": true,
+                                "progressBar": true,
+                                "positionClass": "toast-bottom-right",
+                            }
+                            toastr.success('Xóa tài khoản thành công');
+                        },
+                    })
+                })
+            })
+
         </script>
 
 </x-app-layout>

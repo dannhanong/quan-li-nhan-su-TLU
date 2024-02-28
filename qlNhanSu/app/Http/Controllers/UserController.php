@@ -97,8 +97,11 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        Toastr::success('Xóa tài khoản thành công','Thông báo');
-        return redirect()->route('users.index');
+        return response()->json([
+            'status' => true
+        ]);
+        // Toastr::success('Xóa tài khoản thành công','Thông báo');
+        // return redirect()->route('users.index');
     }
 
     public function search(Request $request)

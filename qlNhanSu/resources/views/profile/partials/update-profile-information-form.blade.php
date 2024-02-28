@@ -17,7 +17,7 @@
                     @csrf
                 </form>
 
-                <form enctype="multipart/form-data" method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" style="padding: auto, 50%;">
+                <form enctype="multipart/form-data" method="post" action="{{ route('profile.update') }}" class="formUser mt-6 space-y-6" style="padding: auto, 50%;">
                     @csrf
                     @method('patch')
 
@@ -35,7 +35,7 @@
                     {{-- Name --}}
                     <div style="width: 60%">
                         <x-input-label for="name" :value="__('Tên hiển thị')" />
-                        <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+                        <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" autofocus autocomplete="name" />
                         <x-input-error class="mt-2" :messages="$errors->get('name')" />
                     </div>
 
@@ -66,19 +66,13 @@
 
                     <div class="flex items-center gap-4" style="width: 60%">
                         <x-primary-button>{{ __('Lưu') }}</x-primary-button>
-
-                        @if (session('status') === 'profile-updated')
-                            <p
-                                x-data="{ show: true }"
-                                x-show="show"
-                                x-transition
-                                x-init="setTimeout(() => show = false, 2000)"
-                                class="text-sm text-gray-600 dark:text-gray-400"
-                            >{{ __('Đã lưu.') }}</p>
-                        @endif
                     </div>
                 </form>
             </div>
         </section>
+
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+        <script>window.baseUrl = "{{ URL::to('/') }}";</script>
+        <script src="{{ asset('assets') }}/js/editUser.js"></script>
     @endsection
 {{-- </x-app-layout> --}}
