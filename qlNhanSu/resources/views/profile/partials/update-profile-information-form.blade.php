@@ -13,9 +13,9 @@
                     </p>
                 </div>
 
-                <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+                {{-- <form id="send-verification" method="post" action="{{ route('verification.send') }}">
                     @csrf
-                </form>
+                </form> --}}
 
                 <form enctype="multipart/form-data" method="post" action="{{ route('profile.update') }}" class="formUser mt-6 space-y-6" style="padding: auto, 50%;">
                     @csrf
@@ -87,20 +87,15 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        if(response.status == true){
-                            // console.log(response)
-                            $('#user-name').text(response.newName);
-                            $('#avatar-img').attr('src', response.newAvatarUrl);
-                            $('#avatar-img-edit').attr('src', response.newAvatarUrl);
-                            toastr.options = {
-                                "closeButton": true,
-                                "progressBar": true,
-                                "positionClass": "toast-bottom-right",
-                            }
-                            toastr.success('Cập nhật tài khoản thành công');
-                        }else if(response.status == false){
-
+                        $('#user-name').text(response.newName);
+                        $('#avatar-img').attr('src', response.newAvatarUrl);
+                        $('#avatar-img-edit').attr('src', response.newAvatarUrl);
+                        toastr.options = {
+                            "closeButton": true,
+                            "progressBar": true,
+                            "positionClass": "toast-bottom-right",
                         }
+                        toastr.success('Cập nhật tài khoản thành công');
                     },
                 })
             })

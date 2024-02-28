@@ -4,3 +4,32 @@
     margin-top: 2px;
     padding-left: 5px;
 }
+
+.buttons-copy{
+    background: lightskyblue;
+    color: white;
+}
+
+.buttons-excel{
+    background: #00AC47;
+    color: white;
+}
+
+.buttons-csv{
+    background: #E1E1E2;
+    color: rgb(1, 159, 1);
+}
+
+.buttons-pdf{
+    background: rgb(180, 59, 59);
+    color: white;
+}
+
+.buttons-copy .buttons-csv .buttons-pdf{
+    margin-right: 20px;
+}
+
+tr {
+    border-bottom: 1px solid #ddd; /* Border dưới của mỗi hàng */
+}
+

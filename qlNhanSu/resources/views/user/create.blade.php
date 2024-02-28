@@ -85,7 +85,6 @@
                             $('#account').val('');
                             $('#password').val('');
                             $('#email').val('');
-                            console.log(response)
                             toastr.options = {
                                 "closeButton": true,
                                 "progressBar": true,

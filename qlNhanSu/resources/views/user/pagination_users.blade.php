@@ -49,16 +49,15 @@
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    Bạn chắc chắn muốn xóa user có ID: {{ $user->id }} ?
+                                    Bạn chắc chắn muốn xóa người dùng: {{ $user->name }} ?
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                <form id="modalUser" class="modalUser" action="{{ route('users.destroy', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-
-                                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
                                 </form>
                                 </div>
 
@@ -74,6 +73,20 @@
     <tbody id="Content" class="searchData"></tbody>
 </table>
 
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center mt-3">
     {!! $users->links() !!}
 </div>
+
+<script>
+    $(document).ready(function(){
+                $('#userTable').DataTable({
+                    dom: 'Bt',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ]
+                })
+            })
+</script>

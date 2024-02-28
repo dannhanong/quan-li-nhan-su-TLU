@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\alert;
 
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -285,6 +287,17 @@ class UserController extends Controller
                 }else{
                     echo 'true';
             }
+        }
+    }
+
+    public function check_current_password(Request $request){
+        $currentPass = $request->current_password;
+
+        if(Hash::check($currentPass, Auth::user()->password)){
+            echo 'true';
+        }else{
+            // return response()->json("false");
+            echo 'false';
         }
     }
 

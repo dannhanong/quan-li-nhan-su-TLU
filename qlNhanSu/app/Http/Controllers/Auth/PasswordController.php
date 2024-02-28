@@ -24,7 +24,7 @@ class PasswordController extends Controller
         ]);
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request)//: RedirectResponse
     {
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'current_password'],
@@ -35,8 +35,12 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        Toastr::success('Cập nhật mật khẩu mới thành công', 'Thông báo');
+        return response()->json([
+            'status' => true
+        ]);
 
-        return back();//->with('status', 'password-updated');
+        //Toastr::success('Cập nhật mật khẩu mới thành công', 'Thông báo');
+
+        //return back();//->with('status', 'password-updated');
     }
 }

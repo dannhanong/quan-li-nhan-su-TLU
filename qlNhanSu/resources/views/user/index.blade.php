@@ -34,9 +34,10 @@
                                             </option>
                                         @endforeach
                                     </select>
-
-                                    <input type="text" name="search" id="search" class="form-control" style="margin-left: 45%" placeholder="Tra cứu nhanh">
+                                    {{-- <div class="input-group rounded"> --}}
+                                        <input type="search" name="search" id="search" class="form-control rounded" style="margin-left: 45%" placeholder="Tra cứu nhanh">
                                     {{-- <h6 class="mt-2 mx-1">Số bản ghi: <span id="total_records" class="input-group-btn"></span></h6> --}}
+                                    {{-- </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -117,7 +118,7 @@
                                 <tbody id="Content" class="searchData"></tbody>
                             </table>
 
-                            <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center mt-3">
                                 {!! $users->links() !!}
                             </div>
                         </div>
@@ -130,9 +131,21 @@
         @endsection
 
         <script>
+            $(document).ready(function(){
+                $('#userTable').DataTable({
+                    dom: '<"html5buttons"B>T',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ],
+                })
+            })
+
             var isSendingData = false; // Biến kiểm tra trạng thái gửi dữ liệu
 
-            $('#search').on('keyup', function(){
+            $('#search').on('keyup change', function(){
                 $value = $(this).val();
 
                 if($value != ''){ // Kiểm tra nếu có dữ liệu được nhập vào

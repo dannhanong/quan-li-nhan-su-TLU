@@ -63,18 +63,24 @@ class ProfileController extends Controller
             $user = Auth::user();
             // dd($user);
             $user->avatar = $filename;
+            $newAvatarUrl = asset('uploads/avatars/' . $filename);
             $request->user()->save();
         }else{
             $request->user()->save();
         }
+        if($request->hasFile('avatar')){
+            return response()->json([
+                'status' => true,
+                'newName' => $request->name,
+                'newAvatarUrl' => $newAvatarUrl
+            ]);
+        }else{
+            return response()->json([
+                'status' => true,
+                'newName' => $request->name
+            ]);
+        }
 
-        $newAvatarUrl = asset('uploads/avatars/' . $filename);
-
-        return response()->json([
-            'status' => true,
-            'newName' => $request->name,
-            'newAvatarUrl' => $newAvatarUrl
-        ]);
 
         // Toastr::success("Cập nhật thành công", "Thông báo");
 

@@ -13,7 +13,7 @@
                     </p> --}}
                 </header>
 
-                <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6" style="padding: auto, 50%;">
+                <form method="post" action="{{ route('password.update') }}" class="formUpdatePass mt-6 space-y-6" style="padding: auto, 50%;">
                     @csrf
                     @method('put')
 
@@ -41,5 +41,71 @@
                 </form>
             </div>
         </section>
+
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+        <script>
+            $('.formUpdatePass').validate({
+                rules: {
+                    current_password: {
+                        required: true,
+                        remote: {
+                            url: "{{ route('check_current_password') }}",
+                            type: 'post',
+                            async: false,
+                            data: {
+                                current_password: function(){
+                                    return $('#update_password_current_password').val();
+                                },
+                                '_token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                        },
+                    },
+
+                    password:{
+                        required: true,
+                        minlength: 8,
+                    },
+
+                    password_confirmation: {
+                        required: true,
+                        equalTo: "#update_password_password",
+                    }
+                },
+                messages: {
+                    current_password: {
+                        required: "Trường mật khẩu không được để trống",
+                        remote: "Mật khẩu không chính xác",
+                    },
+                    password: {
+                        required: "Mật khẩu mới không được để trống",
+                        minlength: "Mật khẩu mới tối thiểu 8 kí tự",
+                    },
+                    password_confirmation: {
+                        required: "Xác nhận mật khẩu không được để trống",
+                        equalTo: "Mật khẩu xác nhận phải trùng với mật khẩu mới",
+                    }
+                }
+            })
+
+            $('.formUpdatePass').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ route('password.update') }}",
+                    type: 'post',
+                    data: $('.formUpdatePass').serialize(),
+                    success: function(response){
+                        $('#update_password_current_password').val('');
+                        $('#update_password_password').val('');
+                        $('#update_password_password_confirmation').val('');
+                        toastr.options = {
+                                "closeButton": true,
+                                "progressBar": true,
+                                "positionClass": "toast-bottom-right",
+                            }
+                        toastr.success('Đổi mật khẩu mới thành công');
+                    }
+                })
+            })
+        </script>
     @endsection
 {{-- </x-app-layout> --}}

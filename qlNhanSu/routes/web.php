@@ -34,6 +34,7 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/pagination/paginate-user', [UserController::class, 'pagination'])->name('pagination');
         Route::post('/check_email_unique', [UserController::class, 'check_email_unique'])->name('check_email_unique');
         Route::post('/check_account_unique', [UserController::class, 'check_account_unique'])->name('check_account_unique');
+        Route::post('/check_current_password', [UserController::class, 'check_current_password'])->name('check_current_password');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::get('/password', [PasswordController::class, 'edit'])->name('profile.change-pass');
