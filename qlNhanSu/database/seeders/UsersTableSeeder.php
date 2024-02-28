@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         $users = [
             [
                 'name' => 'Bắc Báo',
-                'email' => 'thannong0512@gmail.com',
+                'email' => 'gianghohiemac@gmail.com',
                 'account' => '2151170000',
                 'password' => password_hash("12345678", PASSWORD_DEFAULT),
             ]
