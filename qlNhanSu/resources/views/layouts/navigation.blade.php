@@ -148,7 +148,7 @@
 
                     <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa-solid fa-circle-exclamation col-md-2"></i><span>Thông tin tài khoản</span>
+                            <i class="fa-solid fa-circle-exclamation col-md-2"></i><span>Thông tin</span>
                             <span class="pull-right-container col-md-1">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>

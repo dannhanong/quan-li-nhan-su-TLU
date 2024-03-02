@@ -67,7 +67,7 @@
                         <a href="{{ route('profile.edit') }}">
                             <div class="box-content text-center">
                                 <i class="fa-solid fa-circle-exclamation my-4 ic"></i>
-                                <h4 class="can">Thông tin tài khoản</h4>
+                                <h4 class="can">Thông tin</h4>
                             </div>
                         </a>
                     </div>

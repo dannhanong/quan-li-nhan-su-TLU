@@ -59,8 +59,8 @@
                     </div>
 
                     <div class="form-group float-end">
-                        <a href="{{ route("users.index") }}" class="btn btn-secondary">Back</a>
-                        <input type="submit" name="btSave" value="Save" class="btn btn-primary">
+                        <a href="{{ route("users.index") }}" class="btn btn-secondary">Quay lại</a>
+                        <input type="submit" name="btSave" value="Xác nhận" class="btn btn-primary">
                     </div>
                 </form>
                 </div>

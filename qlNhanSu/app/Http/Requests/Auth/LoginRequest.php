@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 class LoginRequest extends FormRequest
 {
@@ -32,6 +33,16 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'account.required' => 'Trường tài khoản không được để trống',
+            'account.string' => 'Tài khoản bao gồm các kí tự, chữ số',
+            'password.required' => 'Trường mật khẩu không được để trống.',
+            'password.string' => 'Mật khẩu bao gồm các kí tự, chữ số',
+        ];
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -45,7 +56,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'account' => trans('auth.failed'),
+                'account' => __('Thông tin tài khoản hoặc mật khẩu không chính xác'),
             ]);
         }
 
@@ -81,5 +92,13 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->input('account')).'|'.$this->ip());
+    }
+
+    public function store(Request $request){
+        if(!Auth::attempt(['account' => $request->account, 'password' => $request->password], $request->remember)){
+            return back()->with("failed", "Invalid Details");
+        }
+
+        return redirect()->route('dashboard');
     }
 }

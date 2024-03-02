@@ -10,18 +10,19 @@
             <th class="text-center align-middle">Thao tác</th>
         </tr>
     </thead>
-
+    @php
+        $i = 1;
+    @endphp
     <tbody class="allData">
-        {{-- @php
-            $i = 1;
-        @endphp --}}
         @foreach ($users as $user)
             <tr id="row_{{ $user->id }}">
                 <td class="text-center align-middle">{{ $startNumber++ }}</td>
                 <td class="text-center align-middle">{{ $user->name }}</td>
                 <td class="text-center align-middle">{{ $user->account }}</td>
                 <td class="text-center align-middle">
-                    <img src="/uploads/avatars/{{ $user->avatar }}" style="width: 70px; height: 70px; margin-left: 20%; border-radius: 50%" alt="Img">
+                    <div style="display: inline-block; text-align: center;">
+                        <img src="/uploads/avatars/{{ $user->avatar }}" style="width: 70px; height: 70px; border-radius: 50%;" alt="Img">
+                    </div>
                 </td>
                 <td class="text-center align-middle">{{ $user->email }}</td>
                 @php
@@ -35,10 +36,80 @@
                 <td class="text-center align-middle">
                     <a href="{{ route('users.show', $user->id) }}"><i class="fa-solid fa-eye"></i></a>
                     @if (auth()->check() && auth()->user()->role == 0)
-                        <a href="{{ route('users.edit', $user->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a id="aUser" data-id_xoa="{{ $user->id }}" href="#" data-toggle="modal" data-target="#A{{ $user->id }}"><i class="aUser fa-solid fa-solid fa-trash"></i></a>
+                        <a id="aEditUser" data-id_edit="{{ $user->id }}" href="#" data-toggle="modal" data-target="#E{{ $user->id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                        {{-- Modal edit --}}
+                        <div class="modal fade" id="E{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa tài khoản</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="formEditUser" class="formUser" enctype="multipart/form-data" method="post" action="{{ route("users.update", $user->id) }}" class="m-5 mt-2 formUser">
+                                        @csrf
+                                        @method('PUT')
 
-                        <!-- Modal -->
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Tên hiển thị:</label>
+                                            <input class="form-control" type="text" name="name" id="name" value="{{ $user->name }}">
+                                        </div>
+                                        @error('name')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Tài khoản:</label>
+                                            <input class="form-control" name="account" id="account" value="{{ $user->account }}">
+                                        </div>
+                                        @error('account')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+
+                                        {{-- <div class="input-group mt-3 mb-3"> --}}
+                                            {{-- <label class="input-group-text" for="">Mật khẩu:</label> --}}
+                                            <input class="form-control" type="hidden" name="password" id="password" value="{{ $user->password }}">
+                                        {{-- </div> --}}
+
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Email:</label>
+                                            <input class="form-control" type="email" name="email" id="email" value="{{ $user->email }}">
+                                        </div>
+                                        @error('email')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Quyền:</label>
+                                            <select name="role" id="role">
+                                                @foreach ($roles as $role)
+                                                    @if($role == 0){
+                                                        {{ $quyen = "Admin" }}
+                                                    }@elseif ($role == 1){
+                                                        {{ $quyen = "Người dùng thường" }}
+                                                    }
+                                                    @endif
+                                                    <option value="{{ $role }}">
+                                                        {{ $quyen }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group float-end">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                            <input type="submit" name="btSave" value="Xác nhận" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <a id="aUser" data-id_xoa="{{ $user->id }}" href="#" data-toggle="modal" data-target="#A{{ $user->id }}"><i class="aUser fa-solid fa-solid fa-trash"></i></a>
+                        <!-- Modal delete -->
                         <div class="modal fade" id="A{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -69,8 +140,6 @@
             </tr>
         @endforeach
     </tbody>
-
-    <tbody id="Content" class="searchData"></tbody>
 </table>
 
 <div class="d-flex justify-content-center mt-3">
@@ -79,14 +148,52 @@
 
 <script>
     $(document).ready(function(){
-                $('#userTable').DataTable({
-                    dom: 'Bt',
-                    buttons: [
-                        'copyHtml5',
-                        'excelHtml5',
-                        'csvHtml5',
-                        'pdfHtml5'
-                    ]
-                })
-            })
+        $('#userTable').DataTable({
+            dom: 'B',
+            select: true,
+            columnDefs: [
+                {
+                    data: 'Thao tác',
+                    className: 'not-exp',
+                    targets: [6]
+                }
+            ],
+
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    text: 'Copy',
+                    exportOptions: {
+                        columns: ':visible :not(.not-exp)'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    exportOptions: {
+                        columns: ':visible :not(.not-exp)'
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: 'CSV',
+                    exportOptions: {
+                        columns: ':visible :not(.not-exp)'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    exportOptions: {
+                        columns: ':visible :not(.not-exp)'
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Các trường hiển thị'
+                },
+            ],
+
+        });
+    })
 </script>

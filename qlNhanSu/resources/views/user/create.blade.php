@@ -60,8 +60,8 @@
                             </div>
 
                             <div class="form-group  float-end ">
-                                <a href="{{ route('users.index') }}" class="btn btn-secondary ">Back</a>
-                                <input type="submit" value="Create" class="btn btn-primary" name="btAdd" id="btAddUser">
+                                <a href="{{ route('users.index') }}" class="btn btn-secondary ">Quay lại</a>
+                                <input type="submit" value="Xác nhận" class="btn btn-primary" name="btAdd" id="btAddUser">
                             </div>
                         </form>
                     </div>
@@ -90,7 +90,7 @@
                                 "progressBar": true,
                                 "positionClass": "toast-bottom-right",
                             }
-                            toastr.success('Thêm tài khoản mới thành công');
+                            toastr.success('Thêm tài khoản mới thành công', 'Thông báo');
                         }else if(response.status == false){
 
                         }

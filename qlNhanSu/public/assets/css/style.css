@@ -5,31 +5,40 @@
     padding-left: 5px;
 }
 
+.tr{
+    border: none !important;
+}
+
+.dt-button{
+    border-style: none !important;
+}
+
 .buttons-copy{
-    background: lightskyblue;
-    color: white;
+    background: lightskyblue !important;
+    color: white !important;
 }
 
 .buttons-excel{
-    background: #00AC47;
-    color: white;
+    background: #00AC47 !important;
+    color: white !important;
 }
 
 .buttons-csv{
-    background: #E1E1E2;
-    color: rgb(1, 159, 1);
+    background: #E1E1E2 !important;
+    color: rgb(1, 159, 1) !important;
 }
 
 .buttons-pdf{
-    background: rgb(180, 59, 59);
-    color: white;
+    background: rgb(180, 59, 59) !important;
+    color: white !important;
 }
 
 .buttons-copy .buttons-csv .buttons-pdf{
     margin-right: 20px;
 }
 
-tr {
-    border-bottom: 1px solid #ddd; /* Border dưới của mỗi hàng */
+#userTable_wrapper{
+    display: flex;
+    justify-content: space-between
 }
 

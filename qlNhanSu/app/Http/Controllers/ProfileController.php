@@ -65,19 +65,17 @@ class ProfileController extends Controller
             $user->avatar = $filename;
             $newAvatarUrl = asset('uploads/avatars/' . $filename);
             $request->user()->save();
-        }else{
-            $request->user()->save();
-        }
-        if($request->hasFile('avatar')){
+
             return response()->json([
                 'status' => true,
                 'newName' => $request->name,
-                'newAvatarUrl' => $newAvatarUrl
+                'newAvatarUrl' => $newAvatarUrl,
             ]);
         }else{
+            $request->user()->save();
             return response()->json([
                 'status' => true,
-                'newName' => $request->name
+                'newName' => $request->name,
             ]);
         }
 

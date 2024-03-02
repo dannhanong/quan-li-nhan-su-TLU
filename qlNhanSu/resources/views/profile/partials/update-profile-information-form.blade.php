@@ -17,7 +17,7 @@
                     @csrf
                 </form> --}}
 
-                <form enctype="multipart/form-data" method="post" action="{{ route('profile.update') }}" class="formUser mt-6 space-y-6" style="padding: auto, 50%;">
+                <form id="formUser" enctype="multipart/form-data" method="post" action="{{ route('profile.update') }}" class="formUser mt-6 space-y-6" style="padding: auto, 50%;">
                     @csrf
                     @method('patch')
 
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="flex items-center gap-4" style="width: 60%">
-                        <x-primary-button>{{ __('Lưu') }}</x-primary-button>
+                        <x-primary-button id="btnSave">{{ __('Lưu') }}</x-primary-button>
                     </div>
                 </form>
             </div>
@@ -77,9 +77,9 @@
         <script src="{{ asset('assets') }}/js/editUser.js"></script>
 
         <script>
-            $('.formUser').submit(function(e) {
+            $(document).on('submit', '#formUser', function(e) {
                 e.preventDefault();
-                var formData = new FormData(this);
+                var formData = new FormData($('.formUser')[0]);
                 $.ajax({
                     url: "{{ route('profile.update') }}",
                     type: 'post',
@@ -97,8 +97,8 @@
                         }
                         toastr.success('Cập nhật tài khoản thành công');
                     },
-                })
-            })
+                });
+            });
         </script>
     @endsection
 {{-- </x-app-layout> --}}
