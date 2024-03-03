@@ -39,7 +39,7 @@ class UserController extends Controller
         $i =  $users->count() + 1;
         $output = '';
         if($users->count() > 0){
-            $output .= '<table class="table table-bordered" id="userTable">
+            $output .= '<table class="table table-bordered" id="userTable" style="width: 100%">
             <thead>
                 <tr>
                     <th class="text-center align-middle">STT</th>

@@ -86,7 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body table-data">
+                        <div class="row card-body table-data">
 
                         </div>
 
@@ -346,6 +346,9 @@
                         $('#formEditUser')[0].reset();
                         $('.fade').hide();
                         fetchAllUsers();
+                    },
+                    error: function(){
+                        toastr.error('Có lỗi xảy ra', 'Thông báo');
                     }
                 })
             });
@@ -375,8 +378,17 @@
                         success: function(response){
                             $('.table-data').html(response);
                             $('#userTable').DataTable({
+                                language: {
+                                    emptyTable:     "Không có dữ liệu nào được tìm thấy",
+                                    zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
+                                    info:           "",
+                                    infoEmpty:      "",
+                                    infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
+                                    search:         "",
+                                },
                                 dom: 'lBrpf',
                                 select: true,
+                                // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
                                     {
@@ -426,6 +438,14 @@
                                     },
                                 ],
                             });
+                            $('label[for="dt-length-1"]').remove();
+                            $('label[for="dt-length-3"]').remove();
+                            $('label[for="dt-length-5"]').remove();
+                            $('label[for="dt-length-7"]').remove();
+                            $('label[for="dt-length-9"]').remove();
+
+                            $('#dt-search-1').attr('placeholder', 'Tìm kiếm');
+                            $('#dt-length-1').prepend('<option value="5">5</option>');
                         }
                     })
                 };
