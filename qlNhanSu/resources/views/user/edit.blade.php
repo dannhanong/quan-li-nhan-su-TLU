@@ -51,8 +51,8 @@
                                     {{ $quyen = "Người dùng thường" }}
                                 }
                                 @endif
-                                <option value="{{ $role }}">
-                                    {{ $quyen }}
+                                <option value="{{ $category_id }}" {{ $category_id == $product->category_id ? 'selected' : '' }}>
+                                    {{ $category_id }}
                                 </option>
                             @endforeach
                         </select>

@@ -1,7 +1,4 @@
-var accountF = $('#account').val();
-var emailF = $('#email').val();
-
-$('.formUser').validate({
+$('#formEditUser').validate({
     rules:{
         account:{
             required: true,
@@ -13,7 +10,9 @@ $('.formUser').validate({
                         return $('#account').val();
                     },
                     '_token': $('meta[name="csrf-token"]').attr('content'),
-                    accountF: accountF
+                    accountF: function(){
+                        return $('#accountF').val();
+                    }
                 }
             }
         },
@@ -33,7 +32,9 @@ $('.formUser').validate({
                         return $('#email').val();
                     },
                     '_token': $('meta[name="csrf-token"]').attr('content'),
-                    emailF: emailF
+                    emailF: function(){
+                        return $('#emailF').val();
+                    }
                 },
             },
         }

@@ -17,7 +17,7 @@
                     @csrf
                 </form> --}}
 
-                <form id="formUser" enctype="multipart/form-data" method="post" action="{{ route('profile.update') }}" class="formUser mt-6 space-y-6" style="padding: auto, 50%;">
+                <form id="formEditUser" enctype="multipart/form-data" method="post" action="{{ route('profile.update') }}" class="formEditUser mt-6 space-y-6" style="padding: auto, 50%;">
                     @csrf
                     @method('patch')
 
@@ -73,13 +73,61 @@
         </section>
 
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-        <script>window.baseUrl = "{{ URL::to('/') }}";</script>
-        <script src="{{ asset('assets') }}/js/editUser.js"></script>
 
         <script>
-            $(document).on('submit', '#formUser', function(e) {
+            var accountF = $('#account').val();
+            var emailF = $('#email').val();
+
+            $('#formEditUser').validate({
+                rules:{
+                    account:{
+                        required: true,
+                        remote: {
+                            url: '{{ route("check_account_unique") }}',
+                            // url: baseUrl+'/check_account_unique',
+                            type: 'post',
+                            data: {
+                                account: function(){
+                                    return $('#account').val();
+                                },
+                                '_token': $('meta[name="csrf-token"]').attr('content'),
+                                accountF: accountF
+                            }
+                        }
+                    },
+                    email:{
+                        required: true,
+                        email: true,
+                        remote: {
+                            url: '{{ route("check_email_unique") }}',
+                            // url: baseUrl+'/check_email_unique',
+                            type: 'post',
+                            data: {
+                                email: function(){
+                                    return $('#email').val();
+                                },
+                                '_token': $('meta[name="csrf-token"]').attr('content'),
+                                emailF: emailF
+                            },
+                        },
+                    }
+                },
+                messages:{
+                    account: {
+                        required: "Trường tài khoản không được để trống",
+                        remote: "Tài khoản đã tồn tại",
+                    },
+                    email: {
+                        required: "Trường email không được để trống",
+                        email: "Vui lòng nhập đúng định dạng email",
+                        remote: "Email đã tồn tại",
+                    },
+                },
+            });
+
+            $(document).on('submit', '#formEditUser', function(e) {
                 e.preventDefault();
-                var formData = new FormData($('.formUser')[0]);
+                var formData = new FormData($('.formEditUser')[0]);
                 $.ajax({
                     url: "{{ route('profile.update') }}",
                     type: 'post',
@@ -95,7 +143,7 @@
                             "progressBar": true,
                             "positionClass": "toast-bottom-right",
                         }
-                        toastr.success('Cập nhật tài khoản thành công');
+                        toastr.success('Cập nhật tài khoản thành công', 'Thông báo');
                     },
                 });
             });
