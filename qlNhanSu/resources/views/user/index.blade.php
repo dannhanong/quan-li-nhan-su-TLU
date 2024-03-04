@@ -13,10 +13,10 @@
         <link href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/buttons/3.0.0/css/buttons.dataTables.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css" rel="stylesheet">
-        <link href="https://cdn.datatables.net/select/2.0.0/css/select.dataTables.min.css" rel="stylesheet">
 
-        {{-- <link href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css" rel="stylesheet">
-        <link href="https://cdn.datatables.net/select/2.0.0/css/select.dataTables.min.css" rel="stylesheet"> --}}
+        <link href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/select/2.0.0/css/select.dataTables.min.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/autofill/2.7.0/css/autoFill.dataTables.css" rel="stylesheet">
         @endpush
 
         {{-- js tb --}}
@@ -35,6 +35,7 @@
         <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.print.min.js"></script>
         <script src="https://cdn.datatables.net/datetime/1.5.2/js/dataTables.dateTime.min.js"></script>
+        <script src="https://cdn.datatables.net/autofill/2.7.0/js/dataTables.autoFill.min.js"></script>
         <script src="https://cdn.datatables.net/select/2.0.0/js/dataTables.select.min.js"></script>
 
         {{-- <script src="https://cdn.datatables.net/autofill/2.7.0/js/dataTables.autoFill.min.js"></script> --}}
@@ -203,7 +204,7 @@
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Thông tin chi tiết người dùng</h5>
+                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết người dùng</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
@@ -440,7 +441,6 @@
                                     search:         "",
                                 },
                                 dom: 'lBrpf',
-                                select: true,
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
@@ -490,6 +490,7 @@
                                         text: 'Các trường hiển thị'
                                     },
                                 ],
+                                select: true,
                             });
                             $('label[for="dt-length-1"]').remove();
                             $('label[for="dt-length-3"]').remove();

@@ -7,7 +7,7 @@
             <div class="container-fluid col-8">
                 <div class="row">
                     <div class="col-sm">
-                        <form id="#formUser" enctype="multipart/form-data" method="post" action="{{ route('users.store') }}" class="m-5 mt-2 formUser">
+                        <form id="#formUser" enctype="multipart/form-data" method="post" action="" class="m-5 mt-2 formUser">
                             @csrf
 
                             <div class="input-group mt-3 mb-3">
@@ -33,6 +33,12 @@
                             @error('password')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
+
+                            <div class="input-group mt-3 mb-3">
+                                <label class="input-group-text" for="">Ảnh đại diện:</label>
+                                <input class="form-control" type="file" name="avatar" id="avatar" value="{{ old('avatar') }}">
+                                <span class="error" id="spanErrorAvatar">Chỉ chấp nhận các tệp ảnh PNG hoặc JPEG</span>
+                            </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Email:</label>
@@ -73,27 +79,41 @@
         <script>window.baseUrl = "{{ URL::to('/') }}";</script>
         <script src="{{ asset('assets') }}/js/app.js"></script>
         <script>
-            $('.formUser').submit(function(e) {
+            $('#spanErrorAvatar').hide();
+            $('#avatar').change(function() {
+                var fileName = $(this).val();
+                var extension = fileName.split('.').pop().toLowerCase();
+                if ($.inArray(extension, ['png', 'jpg', 'jpeg']) == -1) {
+                    $('#spanErrorAvatar').show()
+                    $(this).val('');
+                }else{
+                    $('#spanErrorAvatar').hide();
+                }
+            });
+
+            $(document).on('submit', '.formUser', function(e) {
                 e.preventDefault();
+                const formCreateUser = new FormData(this);
                 $.ajax({
                     url: "{{ route('users.store') }}",
                     type: 'post',
-                    data: $('.formUser').serialize(),
+                    data: formCreateUser,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
                     success: function (response) {
-                        if(response.status == true){
-                            $('#name').val('');
-                            $('#account').val('');
-                            $('#password').val('');
-                            $('#email').val('');
-                            toastr.options = {
-                                "closeButton": true,
-                                "progressBar": true,
-                                "positionClass": "toast-bottom-right",
-                            }
-                            toastr.success('Thêm tài khoản mới thành công', 'Thông báo');
-                        }else if(response.status == false){
-
+                        $('#name').val('');
+                        $('#account').val('');
+                        $('#password').val('');
+                        $('#email').val('');
+                        $('#avatar').val('');
+                        toastr.options = {
+                        "closeButton": true,
+                            "progressBar": true,
+                            "positionClass": "toast-bottom-right",
                         }
+                        toastr.success('Thêm tài khoản mới thành công', 'Thông báo');
                     },
                 })
             })

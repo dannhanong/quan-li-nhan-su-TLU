@@ -55,28 +55,30 @@ class UserController extends Controller
             <tbody>';
 
             foreach ($users as $user){
-                $i--;
-                $quyen = ($user->role == 1) ? "Người dùng thường" : "Admin";
-                $output .= '<tr id="row_{{ $user->id }}">
-                    <td class="text-center align-middle">'.$i.'</td>
-                    <td class="text-center align-middle">'.$user->name.'</td>
-                    <td class="text-center align-middle">'.$user->account.'</td>
-                    <td class="text-center align-middle">
-                        <div style="display: inline-block; text-align: center;">
-                            <img src="/uploads/avatars/'.$user->avatar.'" style="width: 70px; height: 70px; border-radius: 50%;" alt="Img">
-                        </div>
-                    </td>
-                    <td class="text-center align-middle">'.$user->email.'</td>
-                    <td class="text-center align-middle">'.$quyen.'</td>
-                    <td class="text-center align-middle">
-                        <a id="aShowUser" data-id_show="'.$user->id.'" href="#" data-toggle="modal" data-target="#showUserModal"><i class="fa-solid fa-eye"></i></a> ';
-                        if (auth()->check() && auth()->user()->role == 0) {
-                            $output .= '<a id="aEditUser" data-id_edit="'.$user->id.'" href="#" data-toggle="modal" data-target="#editUserModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                if($user->account != Auth::user()->account){
+                    $i--;
+                    $quyen = ($user->role == 1) ? "Người dùng thường" : "Admin";
+                    $output .= '<tr id="row_{{ $user->id }}">
+                        <td class="text-center align-middle">'.$i.'</td>
+                        <td class="text-center align-middle">'.$user->name.'</td>
+                        <td class="text-center align-middle">'.$user->account.'</td>
+                        <td class="text-center align-middle">
+                            <div style="display: inline-block; text-align: center;">
+                                <img src="/uploads/avatars/'.$user->avatar.'" style="width: 70px; height: 70px; border-radius: 50%;" alt="Img">
+                            </div>
+                        </td>
+                        <td class="text-center align-middle">'.$user->email.'</td>
+                        <td class="text-center align-middle">'.$quyen.'</td>
+                        <td class="text-center align-middle">
+                            <a id="aShowUser" data-id_show="'.$user->id.'" href="#" data-toggle="modal" data-target="#showUserModal"><i class="fa-solid fa-eye"></i></a> ';
+                            if (auth()->check() && auth()->user()->role == 0) {
+                                $output .= '<a id="aEditUser" data-id_edit="'.$user->id.'" href="#" data-toggle="modal" data-target="#editUserModal"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                                        <a id="aDeleteUser" data-id_xoa="'.$user->id.'" href="#" data-toggle="modal" data-target="#deleteUserModal"><i class="aUser fa-solid fa-solid fa-trash"></i></a>';
-                        }
-                    $output .= '</td>
-                </tr>';
+                                            <a id="aDeleteUser" data-id_xoa="'.$user->id.'" href="#" data-toggle="modal" data-target="#deleteUserModal"><i class="aUser fa-solid fa-solid fa-trash"></i></a>';
+                            }
+                        $output .= '</td>
+                    </tr>';
+                }
             }
 
             $output .= '</tbody> </table>';
@@ -101,13 +103,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $message = 'Thêm tài khoản thành công';
-        User::create($request->all());
+        if($request->hasFile('avatar')){
+            $avatar = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            Image::make($avatar)->resize(300, 300)->save( public_path('uploads/avatars/' . $filename) );
+            // $avatar->storeAs('public/uploads/avatars', $filename);
 
-        return response()->json([
-            'status' => true,
-            'msg' => $message
-        ]);
+            $userData = ['name' => $request->name, 'account' => $request->account, 'password' => $request->password, 'email' => $request->email, 'avatar' => $filename, 'role' => $request->role];
+            User::create($userData);
+            return response()->json([
+                'status' => true
+            ]);
+        }else{
+            User::create($request->all());
+            return response()->json([
+                'status' => true
+            ]);
+        }
     }
 
     /**
@@ -137,9 +149,6 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if($request->accountF == $request->account){
-
-        }
         $user = User::find($id);
 
         if($request->hasFile('avatar')){
@@ -187,7 +196,7 @@ class UserController extends Controller
                     echo 'true';
                 }
             }
-        }else {
+        }else{
             $user = User::where('email', $request->email)->first();
                 if($user){
                     echo 'false';

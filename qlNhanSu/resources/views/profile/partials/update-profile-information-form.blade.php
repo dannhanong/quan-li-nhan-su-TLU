@@ -28,6 +28,7 @@
                                 <img id="avatar-img-edit" src="/uploads/avatars/{{ $user->avatar }}" style="width: 150px; height: 150px; float:left; border-radius: 50%; margin-right: 25px;" alt="">
                                 <label for="">Cập nhật ảnh đại diện</label>
                                 <input type="file" name="avatar" id="avatar">
+                                <span class="error" id="spanErrorAvatar">Chỉ chấp nhận các tệp ảnh PNG hoặc JPEG</span>
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             </div>
                         </div>
@@ -75,6 +76,18 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
+            $('#spanErrorAvatar').hide();
+            $('#avatar').change(function() {
+                var fileName = $(this).val();
+                var extension = fileName.split('.').pop().toLowerCase();
+                if ($.inArray(extension, ['png', 'jpg', 'jpeg']) == -1) {
+                    $('#spanErrorAvatar').show()
+                    $(this).val('');
+                }else{
+                    $('#spanErrorAvatar').hide();
+                }
+            });
+
             var accountF = $('#account').val();
             var emailF = $('#email').val();
 
