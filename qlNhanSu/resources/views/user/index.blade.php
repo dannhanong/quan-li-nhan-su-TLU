@@ -118,7 +118,7 @@
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Tài khoản:</label>
-                                            <input class="form-control" name="account" id="account">
+                                            <input class="form-control" name="account" id="account" placeholder="(*)">
                                             <span class="sErrAccount error">Tài khoản đã tồn tại</span>
                                         </div>
 
@@ -135,7 +135,7 @@
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Email:</label>
-                                            <input class="form-control" type="email" name="email" id="email">
+                                            <input class="form-control" type="email" name="email" id="email" placeholder="(*)">
                                             <span class="sErrEmail error">Email đã tồn tại</span>
                                         </div>
 

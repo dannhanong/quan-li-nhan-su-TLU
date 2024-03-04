@@ -12,7 +12,7 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Tên hiển thị:</label>
-                                <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}">
+                                <input class="form-control pt90" type="text" name="name" id="name" value="{{ old('name') }}">
                             </div>
                             @error('name')
                                 <p class="text-danger">{{ $message }}</p>
@@ -20,7 +20,7 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Tài khoản:</label>
-                                <input class="form-control" name="account" id="account" value="{{ old('account') }}">
+                                <input class="form-control pt90" name="account" id="account" value="{{ old('account') }}" placeholder="(*)">
                             </div>
                             @error('account')
                                 <p class="text-danger">{{ $message }}</p>
@@ -28,7 +28,7 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mật khẩu:</label>
-                                <input class="form-control" type="password" name="password" id="password" value="{{ old('password') }}">
+                                <input class="form-control pt90" type="password" name="password" id="password" value="{{ old('password') }}" placeholder="(*)">
                             </div>
                             @error('password')
                                 <p class="text-danger">{{ $message }}</p>
@@ -36,13 +36,13 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Ảnh đại diện:</label>
-                                <input class="form-control" type="file" name="avatar" id="avatar" value="{{ old('avatar') }}">
+                                <input class="form-control pt90" type="file" name="avatar" id="avatar" value="{{ old('avatar') }}">
                                 <span class="error" id="spanErrorAvatar">Chỉ chấp nhận các tệp ảnh PNG hoặc JPEG</span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Email:</label>
-                                <input class="form-control" type="email" name="email" id="email" value="{{ old('email') }}">
+                                <input class="form-control pt90" type="email" name="email" id="email" value="{{ old('email') }}" placeholder="(*)">
                             </div>
                             @error('email')
                                 <p class="text-danger">{{ $message }}</p>
