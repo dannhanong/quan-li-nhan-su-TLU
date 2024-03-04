@@ -69,7 +69,7 @@ class UserController extends Controller
                     <td class="text-center align-middle">'.$user->email.'</td>
                     <td class="text-center align-middle">'.$quyen.'</td>
                     <td class="text-center align-middle">
-                        <a href="'.route('users.show', $user->id).'"><i class="fa-solid fa-eye"></i></a> ';
+                        <a id="aShowUser" data-id_show="'.$user->id.'" href="#" data-toggle="modal" data-target="#showUserModal"><i class="fa-solid fa-eye"></i></a> ';
                         if (auth()->check() && auth()->user()->role == 0) {
                             $output .= '<a id="aEditUser" data-id_edit="'.$user->id.'" href="#" data-toggle="modal" data-target="#editUserModal"><i class="fa-solid fa-pen-to-square"></i></a>
 
@@ -113,9 +113,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $id = $request->id;
+        $user = User::find($id);
+        return response()->json($user);
     }
 
     /**

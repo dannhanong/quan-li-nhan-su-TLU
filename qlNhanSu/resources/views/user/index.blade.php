@@ -182,7 +182,7 @@
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <span id="tb">hoho</span>
+                                    <span id="tb"></span>
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -194,6 +194,31 @@
                                 </form>
                                 </div>
 
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal show -->
+                        <div class="modal fade" id="showUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thông tin chi tiết người dùng</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3 display"><div class="mt-2" id="divAvatar"></div><h4 class="spanBold mt-5 mx-3" id="h4Name"></h4></div>
+                                    <div class="mb-3"><span class="spanBold">Tài khoản: </span><span id="spanAccount"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Email: </span><span id="spanEmail"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Loại tài khoản: </span><span id="spanRole"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                </div>
                             </div>
                             </div>
                         </div>
@@ -286,7 +311,6 @@
 
             $(document).on('click', '#aEditUser', function(e) {
                 let id = $(this).data('id_edit');
-
                 $.ajax({
                     url: '{{ route("users.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
@@ -300,12 +324,41 @@
                         $('#name').val(response.name);
                         $('#email').val(response.email);
                         $('#account').val(response.account);
-                        $('#avatar').html(`<img src="/uploads/avatars/${response.avatar}" width="100" class="">`);
+                        $('#avatar').html(`<img src="/uploads/avatars/${response.avatar}" style="width: 100px; border-radius: 50%;">`);
                         $('#u_avatar').val(response.avatar);
                         $('#role').val(response.role);
 
                         $('#accountF').val(response.account);
                         $('#emailF').val(response.email);
+                    }
+                })
+            });
+
+            $(document).on('click', '#aShowUser', function(){
+                let id = $(this).data('id_show');
+                $.ajax({
+                    url: '{{ route("users.show", ":id") }}'.replace(':id', id),
+                    type: 'get',
+                    data: {
+                        id: id,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response){
+                        var userRole = response.role;
+                        if(userRole == 0){
+                            var quyen = "Admin";
+                        }else if(userRole == 1){
+                            var quyen = "Người dùng thường";
+                        }
+                        $('#divAvatar').html(`<img src="/uploads/avatars/${response.avatar}" style="width: 100px; border-radius: 50%;">`);
+                        $('#h4Name').text(response.name);
+                        $('#spanAccount').text(response.account);
+                        $('#spanEmail').text(response.email);
+                        $('#spanRole').text(quyen);
+                        var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
+                        $('#spanCreateAt').text(formattedCreate);
+                        var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
+                        $('#spanUpdateAt').text(formattedUpdate);
                     }
                 })
             });
