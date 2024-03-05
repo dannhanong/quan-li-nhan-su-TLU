@@ -470,13 +470,9 @@
                                 ],
                                 select: true,
                             });
-                            $('label[for="dt-length-1"]').remove();
-                            $('label[for="dt-length-3"]').remove();
-                            $('label[for="dt-length-5"]').remove();
-                            $('label[for="dt-length-7"]').remove();
-                            $('label[for="dt-length-9"]').remove();
+                            $('.dt-length label').remove();
 
-                            $('#dt-search-1').attr('placeholder', 'Tìm kiếm');
+                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
                         }
                     })
