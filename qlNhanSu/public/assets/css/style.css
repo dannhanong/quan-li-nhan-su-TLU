@@ -39,7 +39,17 @@
 
 #userTable_wrapper{
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
+}
+
+#chucvuTable_wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+#khoaTable_wrapper{
+    display: flex;
+    justify-content: space-between;
 }
 
 .spanBold{

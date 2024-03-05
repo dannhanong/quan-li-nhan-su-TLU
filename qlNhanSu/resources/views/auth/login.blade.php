@@ -13,14 +13,13 @@
 
         <div class="col-md-7" style="margin-left: auto; margin-right: 0%; background-color: white; border-left: 5px solid white; padding-right: 11%; padding-left: 11%; border-top-left-radius: 70px;
         border-bottom-left-radius: 70px;">
-            <p class="font-serif fs-3 text-center fw-normal mt-10" for="">Đăng nhập</p>
-            <form method="POST" action="{{ route('login') }}" style="width: 470px; margin-top: 13%">
+            <p class="font-serif fs-3 text-center fw-normal mt-2" for="">Đăng nhập</p>
+            <form method="POST" action="{{ route('login') }}" style="width: 100%; margin-top: 10%;">
                 @csrf
-
                 <!-- Account -->
                 <div>
                     <x-input-label for="account" :value="__('TÀI KHOẢN')" />
-                    <x-text-input id="account" class="block mt-1 w-full" type="text" name="account" :value="old('account')" autofocus autocomplete="username" />
+                    <x-text-input id="account" class="block mt-1 w-full" type="text" name="account" :value="old('account')" autofocus autocomplete="username"/>
                     <x-input-error :messages="$errors->get('account')" class="mt-2" />
                 </div>
 
@@ -59,7 +58,7 @@
                 <label class="fst-italic" style="color: red; font-size: 14px">(*) Đăng nhập bằng tài khoản/mật khẩu của <span class="fst-italic fw-bold" style="color: red; font-size: 13px">trang khai báo thông tin thí sinh</span></label>
                 <label class="fst-italic" style="color: red; font-size: 14px">(*) Email + Điện thoại hỗ trợ:</label> <br>
                 <label class="fst-italic fw-bold" style="color: red; font-size: 14px">phanmemttth@tlu.edu.vn - 0865903174</label>  <br>
-                <label><a style="color: red; href="">HƯỚNG DẪN SỬ DỤNG</a></label>
+                <a href="#" style="color: red;">HƯỚNG DẪN SỬ DỤNG</a>
             </form>
         </div>
     </div>
