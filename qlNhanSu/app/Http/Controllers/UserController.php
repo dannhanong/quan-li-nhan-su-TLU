@@ -35,7 +35,7 @@ class UserController extends Controller
 
     public function fetchUser()
     {
-        $users = User::all();
+        $users = User::orderByDesc('id')->get();
         $i =  $users->count() - $users->count();
         $output = '';
         if($users->count() > 0){

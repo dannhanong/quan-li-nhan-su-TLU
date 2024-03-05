@@ -18,7 +18,8 @@ class KhoaController extends Controller
 
     public function fetchKhoa()
     {
-        $khoas = Khoa::all();
+        $khoas = Khoa::orderByDesc('id')->get();
+
         $i = $khoas->count() - $khoas->count();
         $output = '';
         if($khoas->count() > 0){

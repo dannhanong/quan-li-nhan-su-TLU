@@ -19,7 +19,7 @@ class ChucvuController extends Controller
 
     public function fetchChucvu()
     {
-        $chucvus = Chucvu::all();
+        $chucvus = Chucvu::orderByDesc('id')->get();
         $i = $chucvus->count() - $chucvus->count();
         $output = '';
         if($chucvus->count() > 0){
