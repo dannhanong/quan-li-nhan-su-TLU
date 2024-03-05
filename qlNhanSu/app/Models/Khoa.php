@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Khoa extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'maKhoa',
+        'tenKhoa'
+    ];
+    public $timestamps = false;
 }

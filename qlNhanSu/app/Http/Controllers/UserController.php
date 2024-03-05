@@ -36,7 +36,7 @@ class UserController extends Controller
     public function fetchUser()
     {
         $users = User::all();
-        $i =  $users->count() + 1;
+        $i =  $users->count() - $users->count();
         $output = '';
         if($users->count() > 0){
             $output .= '<table class="table table-bordered" id="userTable" style="width: 100%">
@@ -56,7 +56,7 @@ class UserController extends Controller
 
             foreach ($users as $user){
                 if($user->account != Auth::user()->account){
-                    $i--;
+                    $i++;
                     $quyen = ($user->role == 1) ? "Người dùng thường" : "Admin";
                     $output .= '<tr id="row_{{ $user->id }}">
                         <td class="text-center align-middle">'.$i.'</td>

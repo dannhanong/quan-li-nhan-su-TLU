@@ -10,6 +10,7 @@ class Chucvu extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
+        'maChucVu',
         'tenChucVu'
     ];
 }

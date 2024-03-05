@@ -1,72 +1,55 @@
 <x-app-layout>
-@include('header')
-        <h1 class="text-center text-success">Thêm tài khoản</h1>
+    @extends('header')
+        @section('main-content')
+        <section class="content bg-white" style="height: 85vh">
+            <h1 class="text-center text-dark">Thêm khoa</h1>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm">
-                    <form method="post" action="{{ route('books.store') }}" class="m-5 mt-2">
-                        @csrf
+            <div class="container-fluid col-8">
+                <div class="row">
+                    <div class="col-sm">
+                        <form id="#formKhoa" method="post" action="{{ route('khoas.store') }}" class="m-5 mt-2 formKhoa">
+                            @csrf
 
-                        <div class="input-group mt-3 mb-3">
-                            <label class="input-group-text" for="">Title:</label>
-                            <input class="form-control" type="text" name="Title" id="" value="{{ old('Title') }}">
-                        </div>
-                        @error('Title')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
+                            <div class="input-group mt-3 mb-3">
+                                <label class="input-group-text" for="">Mã khoa:</label>
+                                <input class="form-control pt90" type="text" name="maKhoa" id="maKhoa" value="{{ old('maKhoa') }}" placeholder="(*)">
+                            </div>
 
-                        <div class="input-group mt-3 mb-3">
-                            <label class="input-group-text" for="">Author:</label>
-                            <input class="form-control" name="Author" id="" value="{{ old('Author') }}">
-                        </div>
-                        @error('Author')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
+                            <div class="input-group mt-3 mb-3">
+                                <label class="input-group-text" for="">Tên khoa:</label>
+                                <input class="form-control pt90" name="tenKhoa" id="tenKhoa" value="{{ old('tenKhoa') }}" placeholder="(*)">
+                            </div>
 
-                        <div class="input-group mt-3 mb-3">
-                            <label class="input-group-text" for="">Genre:</label>
-                            <input class="form-control" type="text" name="Genre" id="" value="{{ old('Genre') }}">
-                        </div>
-                        @error('Genre')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
-
-                        <div class="input-group mt-3 mb-3">
-                            <label class="input-group-text" for="">PublicationYear:</label>
-                            <input class="form-control" type="text" name="PublicationYear" id="" value="{{ old('PublicationYear') }}">
-                        </div>
-                        @error('PublicationYear')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
-
-                        <div class="input-group mt-3 mb-3">
-                            <label class="input-group-text" for="">ISBN:</label>
-                            <input class="form-control" type="text" name="ISBN" id="" value = "{{ old('ISBN') }}">
-                        </div>
-                        @error('ISBN')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
-
-                        <div class="input-group mt-3 mb-3">
-                            <label class="input-group-text" for="">CoverImageURL:</label>
-                            <input class="form-control" type="text" name="CoverImageURL" id="" value="{{ old('CoverImageURL') }}">
-                        </div>
-                        @error('CoverImageURL')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
-
-                        <div class="form-group  float-end ">
-                            <input type="submit" value="Create" class="btn btn-success" name="btAdd">
-                            <a href="{{ route('books.index') }}" class="btn btn-warning ">Back</a>
-                        </div>
-
-                        {{-- <input class="btn btn-success" type="submit" value="Create"> --}}
-                    </form>
+                            <div class="form-group  float-end ">
+                                <a href="{{ route('khoas.index') }}" class="btn btn-secondary ">Quay lại</a>
+                                <input type="submit" value="Xác nhận" class="btn btn-primary" name="btAdd" id="btAddKhoa">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <script>
+            $(document).on('submit', '.formKhoa', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ route('khoas.store') }}",
+                    type: 'post',
+                    data: $('.formKhoa').serialize(),
+                    success: function (response) {
+                        $('#maKhoa').val('');
+                        $('#tenKhoa').val('');
+                        toastr.options = {
+                        "closeButton": true,
+                            "progressBar": true,
+                            "positionClass": "toast-bottom-right",
+                        }
+                        toastr.success('Thêm mới khoa thành công', 'Thông báo');
+                    },
+                })
+            });
+        </script>
+
+        @endsection
 </x-app-layout>
-@include('footer')
-
-

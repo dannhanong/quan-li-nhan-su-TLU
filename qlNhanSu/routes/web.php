@@ -29,17 +29,11 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
     Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
         // Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-        Route::get('/search', [UserController::class, 'searchUser'])->name('users.search');
         Route::get('/fetch-users', [UserController::class, 'fetchUser'])->name('users.fetch');
-        Route::get('/filter', [UserController::class, 'filter'])->name('user.filter');
-        Route::get('/pagination/paginate-user', [UserController::class, 'pagination'])->name('pagination');
         Route::post('/check_email_unique', [UserController::class, 'check_email_unique'])->name('check_email_unique');
-
         Route::post('/check_account_unique', [UserController::class, 'check_account_unique'])->name('check_account_unique');
-
         Route::get('/check_email_edit', [UserController::class, 'check_email_edit'])->name('check_email_edit');
         Route::get('/check_account_edit', [UserController::class, 'check_account_edit'])->name('check_account_edit');
-
         Route::post('/check_current_password', [UserController::class, 'check_current_password'])->name('check_current_password');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -48,11 +42,11 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::delete('@deleteProfile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::resource('khoas', KhoaController::class);
-        Route::get('/searchk', [KhoaController::class, 'searchk'])->name('khoa.search');
+        Route::get('/fetch-khoas', [KhoaController::class, 'fetchKhoa'])->name('khoas.fetch');
 
         Route::resource('chucvus', ChucvuController::class);
-        Route::get('/searchc', [ChucvuController::class, 'searchc'])->name('chucvu.search');
-        Route::get('/pagination/paginate-chucvu', [ChucvuController::class, 'pagination'])->name('pagination');
+        Route::get('/fetch-chucvus', [ChucvuController::class, 'fetchChucvu'])->name('chucvus.fetch');
+        Route::get('/check_maChucVu_unique', [ChucvuController::class, 'check_maChucVu_unique'])->name('check_maChucVu_unique');
 
         Route::get('/dashboard', function () {
             return view('dashboard');

@@ -62,28 +62,6 @@
                                     <a href="{{ route('users.create') }}" class="btn btn-primary float-end">Thêm mới</a>
                                 </div>
 
-                                <div class="input-group">
-                                    {{-- <h5 class="text-center mt-2">Lọc theo: </h5>
-
-                                    <select class="mx-1" name="filter" id="filter">
-                                        <option value="">Tất cả vai trò</option>
-                                        @foreach ($roles as $role)
-                                            @if($role == 0){
-                                                {{ $quyen = "Admin" }}
-                                            }@elseif ($role == 1){
-                                                {{ $quyen = "Người dùng thường" }}
-                                            }
-                                            @endif
-                                            <option value="{{ $role }}">
-                                                {{ $quyen }}
-                                            </option>
-                                        @endforeach
-                                    </select> --}}
-                                    {{-- <div class="input-group rounded"> --}}
-                                    {{-- <input type="search" name="search" id="search" class="form-control rounded" style="margin-left: 45%" placeholder="Tra cứu nhanh"> --}}
-                                    {{-- <h6 class="mt-2 mx-1">Số bản ghi: <span id="total_records" class="input-group-btn"></span></h6> --}}
-                                    {{-- </div> --}}
-                                </div>
                             </div>
                         </div>
 

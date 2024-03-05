@@ -13,10 +13,48 @@ class KhoaController extends Controller
      */
     public function index()
     {
-        $khoas = Khoa::orderBy('id', 'desc')->paginate(5);
-        $startNumber = ($khoas->currentPage() - 1) * $khoas->perPage() + 1;
+        return view('khoa.index');
+    }
 
-        return view('khoa.index', compact('khoas', 'startNumber'));
+    public function fetchKhoa()
+    {
+        $khoas = Khoa::all();
+        $i = $khoas->count() - $khoas->count();
+        $output = '';
+        if($khoas->count() > 0){
+            $output .= '<table class="table table-bordered" id="khoaTable" style="width: 100%">
+            <thead>
+                <tr>
+                    <th class="text-center align-middle">STT</th>
+                    <th class="text-center align-middle">Mã khoa</th>
+                    <th class="text-center align-middle">Tên khoa</th>
+                </tr>
+            </thead>
+
+            <tbody>';
+
+            foreach ($khoas as $khoa){
+                $i++;
+                $output .= '<tr id="row_{{ $khoa->id }}">
+                    <td class="text-center align-middle">'.$i.'</td>
+                    <td class="text-center align-middle">'.$khoa->maKhoa.'</td>
+                    <td class="text-center align-middle">'.$khoa->tenKhoa.'</td>
+                    <td class="text-center align-middle">
+                        <a id="aShowKhoa" data-id_show="'.$khoa->id.'" href="#" data-toggle="modal" data-target="#showKhoaModal"><i class="fa-solid fa-eye"></i></a> ';
+                        if (auth()->check() && auth()->user()->role == 0) {
+                            $output .= '<a id="aEditKhoa" data-id_edit="'.$khoa->id.'" href="#" data-toggle="modal" data-target="#editKhoaModal"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                                        <a id="aDeleteKhoa" data-id_xoa="'.$khoa->id.'" href="#" data-toggle="modal" data-target="#deleteKhoaModal"><i class="fa-solid fa-solid fa-trash"></i></a>';
+                        }
+                    $output .= '</td>
+                </tr>';
+            }
+            $output .= '</tbody> </table>';
+
+            echo $output;
+        }else{
+            echo '<h1 class = "text-center text-secondary my-5">Chưa có dữ liệu</h1>';
+        }
     }
 
     /**
@@ -32,15 +70,20 @@ class KhoaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Khoa::create($request->all());
+        return response()->json([
+            'status' => true
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $id = $request->id;
+        $user = Khoa::find($id);
+        return response()->json($user);
     }
 
     /**
@@ -65,59 +108,5 @@ class KhoaController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function searchk(Request $request)
-    {
-        $i = 1;
-        $output = "";
-
-        $khoas = DB::table('khoas')
-            ->where('tenKhoa', 'like', '%'.$request->search.'%')
-            ->orderBy('id', 'desc')
-            ->get();
-
-        foreach($khoas as $khoa){
-
-            $output .= '<tr>
-                <td class="text-center align-middle">'.$i++.'</td>
-                <td class="text-center align-middle">'.$khoa->tenKhoa.'</td>
-                <td class="text-center align-middle">
-                    <a href="' . route('khoas.show', $khoa->id) . '"><i class="fa-solid fa-eye"></i></a>';
-
-                    if (auth()->check() && auth()->user()->role == 0) {
-                        $output .= '
-                            <a href="' . route('khoas.edit', $khoa->id) . '"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="#" data-toggle="modal" data-target="#B'.$khoa->id.'"><i class="fa-solid fa-solid fa-trash"></i></a>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="B'.$khoa->id.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Bạn chắc chắn muốn xóa khoa: '.$khoa->tenKhoa.' ?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                            <form action="' . route('khoas.destroy', $khoa->id) . '" method="POST">
-                                                ' . csrf_field() . '
-                                                ' . method_field("DELETE") . '
-                                                <button type="submit" class="btn btn-primary">Xác nhận</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>';
-                    }
-            $output .= '</td>
-                </tr>';
-        }
-        return response($output);
     }
 }
