@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('khoas', function (Blueprint $table) {
             $table->id();
-            $table->string('maKhoa');
+            $table->string('maKhoa')->unique();
             $table->string('tenKhoa');
         });
     }

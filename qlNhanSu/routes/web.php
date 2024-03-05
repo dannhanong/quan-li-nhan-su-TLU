@@ -43,6 +43,7 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('khoas', KhoaController::class);
         Route::get('/fetch-khoas', [KhoaController::class, 'fetchKhoa'])->name('khoas.fetch');
+        Route::get('/check_maKhoa_unique', [KhoaController::class, 'check_maKhoa_unique'])->name('check_maKhoa_unique');
 
         Route::resource('chucvus', ChucvuController::class);
         Route::get('/fetch-chucvus', [ChucvuController::class, 'fetchChucvu'])->name('chucvus.fetch');

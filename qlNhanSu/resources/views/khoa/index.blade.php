@@ -69,10 +69,12 @@
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="id" id="id">
+                                        <input type="hidden" name="maKhoaF" id="maKhoaF">
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Mã khoa:</label>
                                             <input class="form-control" type="text" name="maKhoa" id="maKhoa" placeholder="(*)">
+                                            <span id="errorMaKhoa" class="error">Mã khoa đã tồn tại</span>
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
@@ -169,6 +171,29 @@
                 },
             });
 
+            $(document).on('keyup', '#maKhoa', function(){
+                $.ajax({
+                    url: '{{ route("check_maKhoa_unique") }}',
+                    type: 'get',
+                    data: {
+                        maKhoaF: function(){
+                            return $('#maKhoaF').val();
+                        },
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        maKhoa: function(){
+                            return $('#maKhoa').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response == 'false'){
+                            $('#errorMaKhoa').show();
+                        }else{
+                            $('#errorMaKhoa').hide();
+                        }
+                    }
+                })
+            });
+
             $(function() {
                 fetchAllKhoas();
                 toastr.options = {
@@ -178,6 +203,7 @@
             };
 
             $(document).on('click', '#aEditKhoa', function(e) {
+                $('#errorMaKhoa').hide()
                 let id = $(this).data('id_edit');
                 $.ajax({
                     url: '{{ route("khoas.edit", ":id") }}'.replace(':id', id),
@@ -190,6 +216,7 @@
                         $('#id').val(response.id);
                         $('#maKhoa').val(response.maKhoa);
                         $('#tenKhoa').val(response.tenKhoa);
+                        $('#maKhoaF').val(response.maKhoa);
                     }
                 })
             });
@@ -239,16 +266,11 @@
                     url: '{{ route("khoas.update", ":id") }}'.replace(':id', id),
                     type: 'post',
                     data: $('#formEditKhoa').serialize(),
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    dataType: 'json',
                     success: function(response){
                         toastr.success('Cập nhật thông tin khoa thành công', 'Thông báo');
                         fetchAllKhoas();
                         $('#formEditKhoa')[0].reset();
                         $('.fade').hide();
-                        fetchAllKhoas();
                     },
                     error: function(){
                         toastr.error('Có lỗi xảy ra', 'Thông báo');
