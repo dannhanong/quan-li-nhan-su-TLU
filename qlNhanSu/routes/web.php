@@ -5,6 +5,7 @@ use App\Http\Controllers\ChucvuController;
 use App\Http\Controllers\KhoaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PhongbanController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -47,6 +48,11 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::resource('chucvus', ChucvuController::class);
         Route::get('/fetch-chucvus', [ChucvuController::class, 'fetchChucvu'])->name('chucvus.fetch');
         Route::get('/check_maChucVu_unique', [ChucvuController::class, 'check_maChucVu_unique'])->name('check_maChucVu_unique');
+
+        route::resource('phongbans',PhongbanController::class);
+        Route::get('/fetch-phongbans', [PhongbanController::class, 'fetchPhongBan'])->name('phongbans.fetch');
+        Route::get('/check_maPhongBan_unique', [PhongbanController::class, 'check_maPhongBan_unique'])->name('check_maPhongBan_unique');
+        Route::get('/check_tenPhongBan_unique', [PhongbanController::class, 'check_tenPhongBan_unique'])->name('check_tenPhongBan_unique');
 
         Route::get('/dashboard', function () {
             return view('dashboard');

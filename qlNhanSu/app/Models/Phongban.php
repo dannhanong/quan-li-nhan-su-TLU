@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Phongban extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'maPhongBan',
+        'tenPhongBan'
+    ];
 }
