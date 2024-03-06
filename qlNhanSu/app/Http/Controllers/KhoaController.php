@@ -29,6 +29,7 @@ class KhoaController extends Controller
                     <th class="text-center align-middle">STT</th>
                     <th class="text-center align-middle">Mã khoa</th>
                     <th class="text-center align-middle">Tên khoa</th>
+                    <th class="text-center align-middle">Thao tác</th>
                 </tr>
             </thead>
 
@@ -83,16 +84,18 @@ class KhoaController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
-        $user = Khoa::find($id);
-        return response()->json($user);
+        $khoa = Khoa::find($id);
+        return response()->json($khoa);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        $id = $request->id;
+        $khoa = Khoa::find($id);
+        return response()->json($khoa);
     }
 
     /**
@@ -100,7 +103,11 @@ class KhoaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $khoa = Khoa::find($id);
+        $khoa->update($request->all());
+        return response()->json([
+            'status' => true
+        ]);
     }
 
     /**
@@ -108,6 +115,22 @@ class KhoaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $khoa = Khoa::find($id);
+        $khoa->delete();
+        return response()->json([
+        ]);
+    }
+
+    public function check_makhoa_unique(Request $request){
+        if($request->maKhoaF == $request->maKhoa){
+            echo 'true';
+        }else{
+            $khoa = Khoa::where('maKhoa', $request->maKhoa)->first();
+            if($khoa){
+                echo 'false';
+            }else{
+                echo 'true';
+            }
+        }
     }
 }
