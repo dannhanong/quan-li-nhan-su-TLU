@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('phongbans', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string("maPhongBan")->unique("maPhongBanUnique");
+            $table->string("tenPhongBan")->unique("tenPhongBanUnique");
+            $table->timestamps();          
         });
     }
 
@@ -22,6 +24,16 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('phong_bans', function (Blueprint $table) {
+            
+            // Xóa unique constraint khi rollback
+            $table->dropUnique('maPhongBanUnique');
+            $table->dropUnique('tenPhongBanUnique');
+            
+            // Xóa cột khi rollback
+            $table->dropColumn('maPhongBan');
+            $table->dropColumn('tenPhongBan');
+        });
         Schema::dropIfExists('phongbans');
     }
 };
