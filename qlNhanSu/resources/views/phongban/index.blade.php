@@ -79,7 +79,8 @@
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Tên phòng ban:</label>
-                                            <input class="form-control" name="tenChucVu" id="tenPhongBan" placeholder="(*)">
+                                            <input class="form-control" name="tenPhongBan" id="tenPhongBan" placeholder="(*)">
+                                            <span id="errortenPhongBan" class="error">Tên phòng ban đã tồn tại</span>
                                         </div>
 
                                         <div class="form-group float-end">
@@ -93,7 +94,7 @@
                         </div>
 
                         <!-- Modal delete -->
-                        <div class="modal fade" id="deleteChucvuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="deletePhongbanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -108,7 +109,7 @@
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                <form id="formDeleteChucvu" class="formDeleteChucvu" action="" method="POST">
+                                <form id="formDeletePhongban" class="formDeletePhongban" action="" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
@@ -152,23 +153,24 @@
 
         <script>
             $('#errorMaPhongBan').hide();
+            $('#errortenPhongBan').hide();
             $('#formEditPhongban').validate({
                 rules:{
-                    maChucVu:{
+                    maPhongBan:{
                         required: true
                     },
-                    tenChucVu:{
+                    tenPhongBan:{
                         required: true
                     }
-                },
-                messages:{
-                    maChucVu: {
-                        required: "Vui lòng nhập mã chức vụ"
+                }
+                ,messages:{
+                    maPhongBan: {
+                        required: "Vui lòng nhập mã phòng ban"
                     },
-                    tenChucVu: {
-                        required: "Vui lòng nhập tên chức vụ"
+                    tenPhongBan: {
+                        required: "Vui lòng nhập tên phòng ban"
                     },
-                },
+                }
             });
 
             $(document).on('keyup', '#maPhongBan', function(){
@@ -189,6 +191,26 @@
                              $('#errorMaPhongBan').show();
                         }else{
                              $('#errorMaPhongBan').hide();
+                        }
+                    }
+                })
+            });
+
+            $(document).on('keyup', '#tenPhongBan', function(){
+                $.ajax({
+                    url: '{{ route("check_tenPhongBan_unique") }}',
+                    type: 'get',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        tenPhongBan: function(){
+                            return $('#tenPhongBan').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response == 'true'){
+                             $('#errortenPhongBan').show();
+                        }else{
+                             $('#errortenPhongBan').hide();
                         }
                     }
                 })
@@ -238,34 +260,34 @@
                 })
             });
 
-            $(document).on('click', '#aDeleteChucvu', function(e){
+            $(document).on('click', '#aDeletePhongban', function(e){
                 let id = $(this).data('id_xoa');
                 $.ajax({
-                    url: '{{ route("chucvus.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("phongbans.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data:{
                         id: id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        var tenChucVu = response.tenChucVu;
+                        var tenPhongBan = response.tenPhongBan;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa chức vụ: "+tenChucVu+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa phòng ban: "+tenPhongBan+"?");
                     }
                 })
             });
 
-            $(document).on('submit', '#formEditChucvu', function(e){
+            $(document).on('submit', '#formEditPhongban', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("chucvus.update", ":id") }}'.replace(':id', id),
+                    url: '{{ route("phongbans.update", ":id") }}'.replace(':id', id),
                     type: 'post',
-                    data: $('#formEditChucvu').serialize(),
+                    data: $('#formEditPhongban').serialize(),
                     success: function(response){
-                        toastr.success('Cập nhật thông tin chức vụ thành công', 'Thông báo');
-                        fetchAllChucvus();
-                        $('#formEditChucvu')[0].reset();
+                        toastr.success('Cập nhật thông tin phòng ban thành công', 'Thông báo');
+                        fetchAllPhongBan();
+                        $('#formEditPhongban')[0].reset();
                         $('.fade').hide();
                     },
                     error: function(){
@@ -274,19 +296,19 @@
                 })
             });
 
-            $(document).on('submit', '#formDeleteChucvu', function(e){
+            $(document).on('submit', '#formDeletePhongban', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("chucvus.destroy", ":id") }}'.replace(':id', id),
+                    url: '{{ route("phongbans.destroy", ":id") }}'.replace(':id', id),
                     type: 'delete',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        toastr.success('Xóa chức vụ thành công', 'Thông báo');
-                        $('#formDeleteChucvu')[0].reset();
-                        fetchAllChucvus();
+                        toastr.success('Xóa phòng ban thành công', 'Thông báo');
+                        $('#formDeletePhongban')[0].reset();
+                        fetchAllPhongBan();
                         $('.fade').hide();
                     }
                 })

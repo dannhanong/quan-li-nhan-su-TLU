@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Phongban;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use function Laravel\Prompts\error;
 
 class PhongbanController extends Controller
 {
@@ -28,7 +30,11 @@ class PhongbanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Phongban::create($request->all());
+
+        return response()->json([
+
+        ]);
     }
 
     /**
@@ -54,17 +60,25 @@ class PhongbanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Phongban $phongban)
+    public function update(Request $request, string $id)
     {
-        //
+        $phongban = Phongban::find($id);
+        $phongban->update($request->all());
+        return response()->json([
+            'status' => true
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Phongban $phongban)
+    public function destroy(String $id)
     {
-        //
+        $phongban = Phongban::find($id);
+        $phongban->delete();
+        return response()->json([
+
+        ]);
     }
     public function fetchPhongBan()
     {
@@ -109,6 +123,14 @@ class PhongbanController extends Controller
     }
     public function check_maPhongBan_unique(Request $request){
         if (Phongban::where('maPhongBan', $request->maPhongBan)->exists()) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    }
+
+    public function check_tenPhongBan_unique(Request $request){
+        if (Phongban::where('tenPhongBan', $request->tenPhongBan)->exists()) {
             echo "true";
         } else {
             echo "false";
