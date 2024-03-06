@@ -24,7 +24,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-
 Route::group(['middleware'=>'disable_back_btn'], function(){
     Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);

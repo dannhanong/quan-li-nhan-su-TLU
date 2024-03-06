@@ -1,13 +1,14 @@
 <x-guest-layout>
-    <div style="width: 40%; margin-left: 28%">
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Nhập email đã được cung cấp của bạn.') }}
+    @extends('header')
+    <div style="width: 40%; margin-left: 28%" class="mt-4">
+        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400 mt-2">
+            {{ __('Nhập email đã được đăng ký của bạn.') }}
         </div>
 
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <form method="POST" action="{{ route('password.email') }}">
+        <form method="POST" action="{{ route('password.email') }}" style="width: 70%" class="mt-2">
             @csrf
 
             <!-- Email Address -->

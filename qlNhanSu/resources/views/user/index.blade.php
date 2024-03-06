@@ -26,10 +26,10 @@
         crossorigin="anonymous"
         referrerpolicy="no-referrer"></script> --}}
 
+        <script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.0/js/dataTables.buttons.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.colVis.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.html5.min.js"></script>
@@ -418,7 +418,8 @@
                                     infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
                                     search:         "",
                                 },
-                                dom: 'lBrpf',
+                                dom: '<"H"lBrf><"clear">t<"F"p>',
+                                responsive: true,
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
@@ -474,6 +475,14 @@
 
                             $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
+
+                            $(document).ready(function() {
+                                $('#yourDataTable').DataTable();
+
+                                // Di chuyển thanh phân trang xuống góc dưới bên phải
+                                $('.dataTables_paginate').appendTo($('.dataTables_wrapper .dataTables_info'));
+                            });
+
                         }
                     })
                 };

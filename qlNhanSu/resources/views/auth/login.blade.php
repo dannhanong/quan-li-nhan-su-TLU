@@ -1,7 +1,7 @@
 <x-guest-layout>
     @include('header')
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    {{-- <x-auth-session-status class="mb-4" :status="session('status')" /> --}}
 
     <div class="row" style="display: flex; background-color: #457B9D">
         <div class="col-md-5 container" style="position: relative; background-color: #457B9D; width: 35%; height: 100vh;">
