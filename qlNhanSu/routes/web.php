@@ -10,6 +10,7 @@ use App\Http\Controllers\PhongbanController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\HopdongController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,10 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/nhansuNghihuu@{id}', [NhansuController::class, 'nghiHuu'])->name('nhansus@nghihuu');
         Route::get('/nhansu_Nghihuu', [NhansuController::class, 'nhansuNghihuu'])->name('nhansu_Nghihuu');
         Route::get('/fetch-nhansuNghihuus', [NhansuController::class, 'fetchNhansuNghihuu'])->name('nhansuNghihuus.fetch');
+
+        Route::resource('hopdongs', HopdongController::class);
+        Route::get('/fetch-hopdongs', [HopdongController::class, 'fetchHopdong'])->name('hopdongs.fetch');
+        Route::post('/get-ten-hopdong', [ChucvuController::class, 'getTenHopdong'])->name('get-ten-hopdong');
 
         Route::get('/dashboard', function () {
             return view('dashboard');
