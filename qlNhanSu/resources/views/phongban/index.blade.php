@@ -254,8 +254,10 @@
                     success: function(response){
                         $('#h4TenPhongBan').text(response.tenPhongBan);
                         $('#spanMaPhongBan').text(response.maPhongBan);
-                        $('#spanCreateAt').text(new Date(response.created_at.split('.')[0]).toLocaleString());
-                        $('#spanUpdateAt').text(new Date(response.updated_at.split('.')[0]).toLocaleString());
+                        var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
+                        $('#spanCreateAt').text(formattedCreate);
+                        var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
+                        $('#spanUpdateAt').text(formattedUpdate);
                     }
                 })
             });
@@ -321,6 +323,7 @@
                         success: function(response){
                             $('.table-data').html(response);
                             $('#phongbanTable').DataTable({
+                                select: true,
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",
                                     zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
@@ -374,15 +377,11 @@
                                         text: 'Các trường hiển thị'
                                     },
                                 ],
-                                select: true,
-                            });
-                            $('label[for="dt-length-1"]').remove();
-                            $('label[for="dt-length-3"]').remove();
-                            $('label[for="dt-length-5"]').remove();
-                            $('label[for="dt-length-7"]').remove();
-                            $('label[for="dt-length-9"]').remove();
 
-                            $('#dt-search-1').attr('placeholder', 'Tìm kiếm');
+                            });
+                            $('.dt-length label').remove();
+
+                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
                         }
                     })

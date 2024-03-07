@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\ChucvuController;
 use App\Http\Controllers\KhoaController;
+use App\Http\Controllers\NhansuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhongbanController;
@@ -44,15 +45,22 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::resource('khoas', KhoaController::class);
         Route::get('/fetch-khoas', [KhoaController::class, 'fetchKhoa'])->name('khoas.fetch');
         Route::get('/check_maKhoa_unique', [KhoaController::class, 'check_maKhoa_unique'])->name('check_maKhoa_unique');
+        Route::post('/get-ten-khoa', [KhoaController::class, 'getTenKhoa'])->name('get-ten-khoa');
 
         Route::resource('chucvus', ChucvuController::class);
         Route::get('/fetch-chucvus', [ChucvuController::class, 'fetchChucvu'])->name('chucvus.fetch');
         Route::get('/check_maChucVu_unique', [ChucvuController::class, 'check_maChucVu_unique'])->name('check_maChucVu_unique');
+        Route::post('/get-ten-chucvu', [ChucvuController::class, 'getTenChucvu'])->name('get-ten-chucvu');
 
         route::resource('phongbans',PhongbanController::class);
         Route::get('/fetch-phongbans', [PhongbanController::class, 'fetchPhongBan'])->name('phongbans.fetch');
         Route::get('/check_maPhongBan_unique', [PhongbanController::class, 'check_maPhongBan_unique'])->name('check_maPhongBan_unique');
         Route::get('/check_tenPhongBan_unique', [PhongbanController::class, 'check_tenPhongBan_unique'])->name('check_tenPhongBan_unique');
+        Route::post('/get-ten-phongban', [PhongbanController::class, 'getTenPhongban'])->name('get-ten-phongban');
+
+        Route::resource('nhansus', NhansuController::class);
+        Route::get('/fetch-nhansus', [NhansuController::class, 'fetchNhansu'])->name('nhansus.fetch');
+
 
         Route::get('/dashboard', function () {
             return view('dashboard');

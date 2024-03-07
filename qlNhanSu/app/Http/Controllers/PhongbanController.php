@@ -136,4 +136,9 @@ class PhongbanController extends Controller
             echo "false";
         }
     }
+
+    public function getTenPhongban(Request $request){
+        $phongban = Phongban::find($request->id);
+        return response()->json($phongban);
+    }
 }

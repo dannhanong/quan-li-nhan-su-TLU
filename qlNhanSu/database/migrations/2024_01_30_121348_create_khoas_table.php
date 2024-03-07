@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('maKhoa')->unique();
             $table->string('tenKhoa');
+            $table->timestamps();
         });
     }
 

@@ -43,13 +43,13 @@ class UserController extends Controller
             $output .= '<table class="table table-bordered" id="userTable" style="width: 100%">
             <thead>
                 <tr>
-                    <th class="text-center align-middle">STT</th>
-                    <th class="text-center align-middle">Tên hiển thị</th>
-                    <th class="text-center align-middle">Tài khoản</th>
-                    <th class="text-center align-middle">Ảnh đại diện</th>
-                    <th class="text-center align-middle">Email</th>
-                    <th class="text-center align-middle">Loại tài khoản</th>
-                    <th class="text-center align-middle">Thao tác</th>
+                    <th class="text-center align-middle scope="col"">STT</th>
+                    <th class="text-center align-middle scope="col"">Tên hiển thị</th>
+                    <th class="text-center align-middle scope="col"">Tài khoản</th>
+                    <th class="text-center align-middle scope="col"">Ảnh đại diện</th>
+                    <th class="text-center align-middle scope="col"">Email</th>
+                    <th class="text-center align-middle scope="col"">Loại tài khoản</th>
+                    <th class="text-center align-middle scope="col"">Thao tác</th>
                 </tr>
             </thead>
 
@@ -110,7 +110,8 @@ class UserController extends Controller
             Image::make($avatar)->resize(300, 300)->save( public_path('uploads/avatars/' . $filename) );
             // $avatar->storeAs('public/uploads/avatars', $filename);
 
-            $userData = ['name' => $request->name, 'account' => $request->account, 'password' => $request->password, 'email' => $request->email, 'avatar' => $filename, 'role' => $request->role];
+            $userData = ['name' => $request->name, 'account' => $request->account, 'password' => $request->password,
+            'email' => $request->email, 'avatar' => $filename, 'role' => $request->role];
             User::create($userData);
             return response()->json([
                 'status' => true

@@ -145,4 +145,9 @@ class ChucvuController extends Controller
         $startNumber = ($chucvus->currentPage() - 1) * $chucvus->perPage() + 1;
         return view('chucvu.pagination_chucvus', compact('chucvus', 'startNumber'))->render();
     }
+
+    public function getTenChucvu(Request $request){
+        $chucvu = Chucvu::find($request->id);
+        return response()->json($chucvu);
+    }
 }

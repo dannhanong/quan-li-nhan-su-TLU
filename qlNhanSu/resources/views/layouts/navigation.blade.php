@@ -144,6 +144,8 @@
                     <li class="{{ request() -> is('users*') ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fa-solid fa-user-group col-md-2"></i>Trung tâm tài khoản</a></li>
                     @endif
 
+                    <li class="{{ request() -> is('nhansus*') ? 'active' : '' }}"><a href="{{ route('nhansus.index') }}"><i class="fa-solid fa-people-group col-md-2"></i>Nhân sự</a></li>
+
                     <li class="{{ request() -> is('chucvus*') ? 'active' : '' }}"><a href="{{ route('chucvus.index') }}"><i class="fa-solid fa-rectangle-list col-md-2"></i>Chức vụ</a></li>
                     <li class="{{ request() -> is('phongbans*') ? 'active' : '' }}"><a href="{{ route('phongbans.index') }}"><i class="fa-solid fa-building-user col-md-2"></i>Phòng ban</a></li>
                     <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">

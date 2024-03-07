@@ -302,6 +302,7 @@
                         success: function(response){
                             $('.table-data').html(response);
                             $('#chucvuTable').DataTable({
+                                select: true,
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",
                                     zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
@@ -310,7 +311,7 @@
                                     infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
                                     search:         "",
                                 },
-                                dom: 'lBrpf',
+                                dom: '<"H"lBrf><"clear">t<"F"p>',
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
@@ -357,13 +358,9 @@
                                 ],
                                 select: true,
                             });
-                            $('label[for="dt-length-1"]').remove();
-                            $('label[for="dt-length-3"]').remove();
-                            $('label[for="dt-length-5"]').remove();
-                            $('label[for="dt-length-7"]').remove();
-                            $('label[for="dt-length-9"]').remove();
+                            $('.dt-length label').remove();
 
-                            $('#dt-search-1').attr('placeholder', 'Tìm kiếm');
+                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
                         }
                     })

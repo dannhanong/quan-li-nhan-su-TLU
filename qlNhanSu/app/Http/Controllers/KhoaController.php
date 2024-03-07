@@ -133,4 +133,9 @@ class KhoaController extends Controller
             }
         }
     }
+
+    public function getTenKhoa(Request $request){
+        $khoa = Khoa::find($request->id);
+        return response()->json($khoa);
+    }
 }

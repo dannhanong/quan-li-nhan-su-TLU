@@ -45,6 +45,7 @@
 .paging_full_numbers{
     float: right;
     text-align: right;
+    margin-top: 5px;
 }
 
 .spanBold{
