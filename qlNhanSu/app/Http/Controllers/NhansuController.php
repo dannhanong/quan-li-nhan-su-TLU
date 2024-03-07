@@ -261,6 +261,7 @@ class NhansuController extends Controller
                     }else{
                         $gioitinh = "Nữ";
                     }
+                    $ngayKetthuc = date('Y-m-d', strtotime($nhansu->deleted_at));
                     $i++;
                     $output .= '<tr id="row_{{ $nhansu->id }}">
                         <td class="text-center align-middle">'.$i.'</td>
@@ -274,18 +275,14 @@ class NhansuController extends Controller
                         <td class="text-center align-middle">'.$gioitinh.'</td>
                         <td class="text-center align-middle">'.$nhansu->CCCD.'</td>
                         <td class="text-center align-middle">'.$nhansu->Ngaybatdau.'</td>
-                        <td class="text-center align-middle">{{ $nhansu->deleted_at ? $nhansu->deleted_at->format('d/m/Y') : '' }}</td>
+                        <td class="text-center align-middle">'.$ngayKetthuc.'</td>
                         <td class="text-center align-middle">'.$nhansu->tenPhongBan.'</td>
                         <td class="text-center align-middle">'.$nhansu->tenChucVu.'</td>
                         <td class="text-center align-middle">'.$nhansu->tenKhoa.'</td>
                         <td class="text-center align-middle">
                             <a id="aShowNhansu" data-id_show="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#showNhansuModal"><i class="fa-solid fa-eye"></i></a> ';
                             if (auth()->check() && auth()->user()->role == 0) {
-                                $output .= '<a id="aEditNhansu" data-id_edit="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#editNhansuModal"><i class="fa-solid fa-pen-to-square"></i></a>
-
-                                            <a id="aDeleteNhansu" data-id_xoa="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#deleteNhansuModal"><i class="anhansu fa-solid fa-solid fa-trash"></i></a>
-
-                                            <a id="aRetiNhansu" data-id_huu="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#retiNhansuModal"><i class="fa-solid fa-user-minus"></i></a>';
+                                $output .= ' <a id="aDeleteNhansu" data-id_xoa="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#deleteNhansuModal"><i class="anhansu fa-solid fa-solid fa-trash"></i></a>';
                             }
                         $output .= '</td>
                     </tr>';
