@@ -517,7 +517,7 @@
                     processData: false,
                     dataType: 'json',
                     success: function(response){
-                        toastr.success('Cập nhật tài nhân sự công', 'Thông báo');
+                        toastr.success('Cập nhật nhân sự thành công', 'Thông báo');
                         fetchAllNhansus();
                         $('#formEditNhansu')[0].reset();
                         $('.fade').hide();

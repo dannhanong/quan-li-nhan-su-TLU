@@ -30,7 +30,6 @@ Route::get('/', function () {
 Route::group(['middleware'=>'disable_back_btn'], function(){
     Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
-        // Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::get('/fetch-users', [UserController::class, 'fetchUser'])->name('users.fetch');
         Route::post('/check_email_unique', [UserController::class, 'check_email_unique'])->name('check_email_unique');
         Route::post('/check_account_unique', [UserController::class, 'check_account_unique'])->name('check_account_unique');
