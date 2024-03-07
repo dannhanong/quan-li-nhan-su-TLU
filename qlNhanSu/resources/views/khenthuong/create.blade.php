@@ -14,9 +14,9 @@
                                 <div class="input-group">
                                     <label class="input-group-text" for="">Tên nhân sự:</label>
                                     <select name="Manhansu" id="Manhansu">
-                                        @foreach ($nhansus as $nhansus)
-                                            <option value="{{ $nhansus->Manhansu }}">
-                                                {{ $nhansus->Hoten }}
+                                        @foreach ($nhansus as $nhansu)
+                                            <option value="{{ $nhansu->id }}">
+                                                {{ $nhansu->Hoten }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -58,7 +58,6 @@
                 data: $('.formKhenthuong').serialize(),
                 success: function (response) {
                     // Handle success
-                    $('#Manhansu').val('');
                     $('#ngayKhenThuong').val('');
                     $('#lyDo').val('');
                     $('#chiTietKhenThuong').val('');
