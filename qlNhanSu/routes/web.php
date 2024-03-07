@@ -7,6 +7,8 @@ use App\Http\Controllers\NhansuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhongbanController;
+use App\Http\Controllers\KhenthuongController;
+use App\Models\Khenthuong;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -61,6 +63,8 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::resource('nhansus', NhansuController::class);
         Route::get('/fetch-nhansus', [NhansuController::class, 'fetchNhansu'])->name('nhansus.fetch');
 
+        Route::resource('khenthuongs', KhenthuongController::class);
+        Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');
 
         Route::get('/dashboard', function () {
             return view('dashboard');
