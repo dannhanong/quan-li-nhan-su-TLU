@@ -8,6 +8,8 @@ use App\Http\Controllers\NhansuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhongbanController;
+use App\Http\Controllers\KhenthuongController;
+use App\Models\Khenthuong;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -64,10 +66,15 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/nhansu_Nghihuu', [NhansuController::class, 'nhansuNghihuu'])->name('nhansu_Nghihuu');
         Route::get('/fetch-nhansuNghihuus', [NhansuController::class, 'fetchNhansuNghihuu'])->name('nhansuNghihuus.fetch');
 
+
+        Route::resource('khenthuongs', KhenthuongController::class);
+        Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');
+
         Route::resource('kiluats', KiluatController::class);
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');
         Route::get('/check_maKiLuat_unique', [KiluatController::class, 'check_maKiLuat_unique'])->name('check_maKiLuat_unique');
         Route::get('/check_tenKiLuat_unique', [KiluatController::class, 'check_tenKiLuat_unique'])->name('check_tenKiLuat_unique');
+
 
         Route::get('/dashboard', function () {
             return view('dashboard');
