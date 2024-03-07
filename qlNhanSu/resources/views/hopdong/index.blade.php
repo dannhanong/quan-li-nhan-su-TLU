@@ -41,11 +41,11 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h3>Danh sách chức vụ</h3>
+                                    <h3>Danh sách Hợp đồng</h3>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ route('chucvus.create') }}" class="btn btn-primary float-end">Thêm mới</a>
+                                    <a href="{{ route('hopdongs.create') }}" class="btn btn-primary float-end">Thêm mới</a>
                                 </div>
                             </div>
                         </div>
@@ -55,33 +55,47 @@
                         </div>
 
                         {{-- Modal edit --}}
-                        <div class="modal fade" id="editChucvuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="editHopDongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa chức vụ</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa Hợp đồng</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="post" action="" class="m-5 mt-2 formEditChucvu" id="formEditChucvu">
+                                    <form method="post" action="" class="m-5 mt-2 formEditHopdong" id="formEditHopdong">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="id" id="id">
-                                        <input type="hidden" name="maChucVuF" id="maChucVuF">
-
+                                        <input type="hidden" name="maHopdongF" id="maHopdongF">
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Mã chức vụ:</label>
-                                            <input class="form-control" type="text" name="maChucVu" id="maChucVu" placeholder="(*)">
-                                            <span id="errorMaChucVu" class="error">Mã chức vụ đã tồn tại</span>
+                                            <label class="input-group-text" for="">Mã Nhân sự:</label>
+                                            <input class="form-control" name="Manhansu" id="Manhansu" placeholder="(*)">
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Tên chức vụ:</label>
-                                            <input class="form-control" name="tenChucVu" id="tenChucVu" placeholder="(*)">
+                                            <label class="input-group-text" for="">Mã hợp đồng:</label>
+                                            <input class="form-control" name="maHopdong" id="maHopdong" placeholder="(*)">
+                                            <span id="errorMaHopdong" class="error">Mã hợp đồng đã tồn tại</span>
                                         </div>
-
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Ngày bắt đầu:</label>
+                                            <input class="form-control" type="date" name="Ngaybatdau" id="Ngaybatdau" placeholder="(*)">
+                                        </div>
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Ngày kết thúc:</label>
+                                            <input class="form-control" type="date" name="Ngayketthuc" id="Ngayketthuc" placeholder="(*)">
+                                        </div>
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Ngày ký:</label>
+                                            <input class="form-control" type="date" name="Ngayky" id="Ngayky" placeholder="(*)">
+                                        </div>
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Lần ký:</label>
+                                            <input class="form-control" name="Lanky" id="Lanky" placeholder="(*)">
+                                        </div>
                                         <div class="form-group float-end">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                             <input type="submit" name="btSave" value="Cập nhật" class="btn btn-primary">
@@ -94,7 +108,7 @@
 
 
                         <!-- Modal delete -->
-                        <div class="modal fade" id="deleteChucvuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="deleteHopDongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -109,7 +123,7 @@
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                <form id="formDeleteChucvu" class="formDeleteChucvu" action="" method="POST">
+                                <form id="formDeleteHopdong" class="formDeleteHopdong" action="" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
@@ -121,18 +135,18 @@
                         </div>
 
                         <!-- Modal show -->
-                        <div class="modal fade" id="showChucvuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="showHopDongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết chức vụ</h4>
+                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết hợp đồng</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="mb-3 display"><h4 class="spanBold mt-5 mx-3" id="h4TenChucvu"></h4></div>
-                                    <div class="mb-3"><span class="spanBold">Mã chức vụ: </span><span id="spanMaChucvu"></span></div>
+                                    <div class="mb-3 display"><h4 class="spanBold mt-5 mx-3" id="h4TenHopdong"></h4></div>
+                                    <div class="mb-3"><span class="spanBold">Mã hợp đồng: </span><span id="spanMaHopdong"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
                                 </div>
@@ -152,61 +166,34 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
-            $('#errorMaChucVu').hide();
-            $('#formEditChucvu').validate({
+            $('#formEditHopdong').validate({
                 rules:{
-                    maChucVu:{
+                    maHopdong:{
                         required: true
                     },
-                    tenChucVu:{
-                        required: true
-                    }
                 },
                 messages:{
-                    maChucVu: {
-                        required: "Vui lòng nhập mã chức vụ"
-                    },
-                    tenChucVu: {
-                        required: "Vui lòng nhập tên chức vụ"
+                    maHopdong: {
+                        required: "Vui lòng nhập mã hợp đồng"
                     },
                 },
             });
 
-            $(document).on('keyup', '#maChucVu', function(){
-                $.ajax({
-                    url: '{{ route("check_maChucVu_unique") }}',
-                    type: 'get',
-                    data: {
-                        maChucVuF: function(){
-                            return $('#maChucVuF').val();
-                        },
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        maChucVu: function(){
-                            return $('#maChucVu').val();
-                        }
-                    },
-                    success: function(response){
-                        if(response == 'false'){
-                            $('#errorMaChucVu').show();
-                        }else{
-                            $('#errorMaChucVu').hide();
-                        }
-                    }
-                })
-            });
+
 
             $(function() {
-                fetchAllChucvus();
+                fetchAllHopdongs();
                 toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
                 "positionClass": "toast-bottom-right",
             };
 
-            $(document).on('click', '#aEditChucvu', function(e) {
+            $(document).on('click', '#aEditHopDong', function(e) {
+                $('#errorMaHopdong').hide()
                 let id = $(this).data('id_edit');
                 $.ajax({
-                    url: '{{ route("chucvus.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("hopdongs.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
@@ -214,25 +201,23 @@
                     },
                     success: function(response){
                         $('#id').val(response.id);
-                        $('#maChucVu').val(response.maChucVu);
-                        $('#tenChucVu').val(response.tenChucVu);
-                        $('#maChucVuF').val(response.maChucVu);
+                        $('#maHopdong').val(response.maHopdong);
+                        $('#maHopdongF').val(response.maHopdong);
                     }
                 })
             });
 
-            $(document).on('click', '#aShowChucvu', function(){
+            $(document).on('click', '#aShowHopdong', function(){
                 let id = $(this).data('id_show');
                 $.ajax({
-                    url: '{{ route("chucvus.show", ":id") }}'.replace(':id', id),
+                    url: '{{ route("hopdongs.show", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        $('#h4TenChucvu').text(response.tenChucVu);
-                        $('#spanMaChucvu').text(response.maChucVu);
+                        $('#spanMaHopdong').text(response.maHopdong);
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
@@ -241,34 +226,35 @@
                 })
             });
 
-            $(document).on('click', '#aDeleteChucvu', function(e){
+            $(document).on('click', '#aDeleteHopDong', function(e){
                 let id = $(this).data('id_xoa');
+
                 $.ajax({
-                    url: '{{ route("chucvus.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("hopdongs.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data:{
                         id: id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        var tenChucVu = response.tenChucVu;
+                        var maHopdong = response.maHopdong;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa chức vụ: "+tenChucVu+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa hợp đồng: "+maHopdong+"?");
                     }
                 })
             });
 
-            $(document).on('submit', '#formEditChucvu', function(e){
+            $(document).on('submit', '#formEditHopdong', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("chucvus.update", ":id") }}'.replace(':id', id),
+                    url: '{{ route("hopdongs.update", ":id") }}'.replace(':id', id),
                     type: 'post',
-                    data: $('#formEditChucvu').serialize(),
+                    data: $('#formEditHopdong').serialize(),
                     success: function(response){
-                        toastr.success('Cập nhật thông tin chức vụ thành công', 'Thông báo');
-                        fetchAllChucvus();
-                        $('#formEditChucvu')[0].reset();
+                        toastr.success('Cập nhật thông tin hợp đồng thành công', 'Thông báo');
+                        fetchAllHopdongs();
+                        $('#formEditHopdong')[0].reset();
                         $('.fade').hide();
                     },
                     error: function(){
@@ -277,32 +263,31 @@
                 })
             });
 
-            $(document).on('submit', '#formDeleteChucvu', function(e){
+            $(document).on('submit', '#formDeleteHopdong', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("chucvus.destroy", ":id") }}'.replace(':id', id),
+                    url: '{{ route("hopdongs.destroy", ":id") }}'.replace(':id', id),
                     type: 'delete',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        toastr.success('Xóa chức vụ thành công', 'Thông báo');
-                        $('#formDeleteChucvu')[0].reset();
-                        fetchAllChucvus();
+                        toastr.success('Xóa hợp đồng thành công', 'Thông báo');
+                        $('#formDeleteHopdong')[0].reset();
+                        fetchAllHopdongs();
                         $('.fade').hide();
                     }
                 })
             });
 
-            function fetchAllChucvus(){
+            function fetchAllHopdongs(){
                     $.ajax({
-                        url: "{{ route('chucvus.fetch') }}",
+                        url: "{{ route('hopdongs.fetch') }}",
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
-                            $('#chucvuTable').DataTable({
-                                select: true,
+                            $('#hopdongTable').DataTable({
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",
                                     zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
@@ -311,7 +296,7 @@
                                     infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
                                     search:         "",
                                 },
-                                dom: '<"H"lBrf><"clear">t<"F"p>',
+                                dom: 'lBrpf',
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
@@ -358,9 +343,13 @@
                                 ],
                                 select: true,
                             });
-                            $('.dt-length label').remove();
+                            $('label[for="dt-length-1"]').remove();
+                            $('label[for="dt-length-3"]').remove();
+                            $('label[for="dt-length-5"]').remove();
+                            $('label[for="dt-length-7"]').remove();
+                            $('label[for="dt-length-9"]').remove();
 
-                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
+                            $('#dt-search-1').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
                         }
                     })
