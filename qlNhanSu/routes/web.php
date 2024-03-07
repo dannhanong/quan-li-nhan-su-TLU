@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\ChucvuController;
 use App\Http\Controllers\KhoaController;
+use App\Http\Controllers\KiluatController;
 use App\Http\Controllers\NhansuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -63,6 +64,11 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/nhansuNghihuu@{id}', [NhansuController::class, 'nghiHuu'])->name('nhansus@nghihuu');
         Route::get('/nhansu_Nghihuu', [NhansuController::class, 'nhansuNghihuu'])->name('nhansu_Nghihuu');
         Route::get('/fetch-nhansuNghihuus', [NhansuController::class, 'fetchNhansuNghihuu'])->name('nhansuNghihuus.fetch');
+
+        Route::resource('kiluats', KiluatController::class);
+        Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');
+        Route::get('/check_maKiLuat_unique', [KiluatController::class, 'check_maKiLuat_unique'])->name('check_maKiLuat_unique');
+        Route::get('/check_tenKiLuat_unique', [KiluatController::class, 'check_tenKiLuat_unique'])->name('check_tenKiLuat_unique');
 
         Route::get('/dashboard', function () {
             return view('dashboard');
