@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\BikiluatController;
 use App\Http\Controllers\ChucvuController;
 use App\Http\Controllers\KhoaController;
 use App\Http\Controllers\KiluatController;
@@ -66,6 +67,10 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');
         Route::get('/check_maKiLuat_unique', [KiluatController::class, 'check_maKiLuat_unique'])->name('check_maKiLuat_unique');
         Route::get('/check_tenKiLuat_unique', [KiluatController::class, 'check_tenKiLuat_unique'])->name('check_tenKiLuat_unique');
+
+        Route::resource('bikiluats', BikiluatController::class);
+        Route::get('/fetch-bikiluats', [BikiluatController::class, 'fetchBiKiLuat'])->name('bikiluats.fetch');
+
 
         Route::get('/dashboard', function () {
             return view('dashboard');
