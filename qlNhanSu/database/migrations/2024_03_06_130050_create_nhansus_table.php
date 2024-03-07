@@ -33,7 +33,7 @@ return new class extends Migration
             $table->foreign('Maphongban')->references('id')->on('phongbans')->onDelete('cascade');
             $table->foreign('Machucvu')->references('id')->on('chucvus')->onDelete('cascade');
             $table->foreign('Makhoa')->references('id')->on('khoas')->onDelete('cascade');
-            $table->tinyInteger('deleted_at')->nullable();
+            $table->dateTime('deleted_at')->nullable();
         });
     }
 
