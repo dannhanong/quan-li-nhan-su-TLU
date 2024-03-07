@@ -61,6 +61,9 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('nhansus', NhansuController::class);
         Route::get('/fetch-nhansus', [NhansuController::class, 'fetchNhansu'])->name('nhansus.fetch');
+        Route::get('/nhansuNghihuu@{id}', [NhansuController::class, 'nghiHuu'])->name('nhansus@nghihuu');
+        Route::get('/nhansu_Nghihuu', [NhansuController::class, 'nhansuNghihuu'])->name('nhansu_Nghihuu');
+        Route::get('/fetch-nhansuNghihuus', [NhansuController::class, 'fetchNhansuNghihuu'])->name('nhansuNghihuus.fetch');
 
         Route::resource('kiluats', KiluatController::class);
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');

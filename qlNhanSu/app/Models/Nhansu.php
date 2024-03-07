@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Nhansu extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
     protected $fillable = [
         'Manhansu',
         'Hoten',
@@ -21,9 +24,11 @@ class Nhansu extends Model
         'Maphongban',
         'MaChucVu',
         'Makhoa',
+        'Hesoluong',
         'Bacluong',
         'Anhdaidien',
-        'email'
+        'email',
+        'deleted_at'
     ];
 
     public function phongban()
