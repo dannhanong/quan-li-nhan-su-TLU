@@ -165,7 +165,8 @@ class UserController extends Controller
             $filename = $request->u_avatar;
         }
 
-        $userData = ['name' => $request->name, 'account' => $request->account, 'email' => $request->email, 'avatar' => $filename, 'role' => $request->role];
+        $userData = ['name' => $request->name, 'account' => $request->account, 'email' => $request->email,
+        'avatar' => $filename, 'role' => $request->role];
         $user->update($userData);
         return response()->json([
             'status' => true

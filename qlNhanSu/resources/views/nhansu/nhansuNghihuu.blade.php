@@ -55,167 +55,18 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3>Danh sách nhân sự</h3>
+                                        <h3>Danh sách nhân sự đã nghỉ hưu</h3>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <a href="{{ route('nhansu_Nghihuu') }}" style="margin-left: 20%" class="btn btn-danger">Danh sách nghỉ hưu</a>
-                                        <a href="{{ route('nhansus.create') }}" class="btn btn-primary float-end">Thêm mới</a>
+                                        <a href="{{ route('nhansus.index') }}" class="btn btn-secondary float-end">Quay lại</a>
                                     </div>
-
                                 </div>
                             </div>
 
                             <div class="row card-body table-data">
 
                             </div>
-
-                            {{-- Modal edit --}}
-                            <div class="modal fade" id="editNhansuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document" style="max-width: 70%;">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa nhân sự</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form enctype="multipart/form-data" method="post" action="" class="m-5 mt-2 formEditNhansu" id="formEditNhansu">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="id" id="id">
-                                            <input type="hidden" name="u_Anhdaidien" id="u_Anhdaidien">
-
-                                            <div class="d-flex">
-                                                <div class="mt-2" style="margin-right: 10%" id="Anhdaidien"></div>
-
-                                                <div class="input-group">
-                                                    <div class="input-group mt-3 mb-3">
-                                                        <label class="input-group-text" for="">Mã nhân sự:</label>
-                                                        <input class="form-control pt90" type="text" name="Manhansu" id="Manhansu" value="{{ old('Manhansu') }}">
-                                                    </div>
-
-                                                    <div class="input-group mt-3 mb-3">
-                                                        <label class="input-group-text" for="">Họ tên:</label>
-                                                        <input class="form-control pt90" type="text" name="Hoten" id="Hoten" value="{{ old('Hoten') }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="input-group mt-3 mb-3">
-                                                <label class="input-group-text" for="">Ngày sinh:</label>
-                                                <input class="form-control pt90" type="date" name="Ngaysinh" id="Ngaysinh" value="{{ old('Ngaysinh') }}" placeholder="(*)">
-                                            </div>
-
-                                            <div class="input-group mt-3 mb-3">
-                                                <label class="input-group-text" for="">Giới tính:</label>
-                                                <label class="mt-2 mx-3">
-                                                    <input type="radio" name="Gioitinh" value="1">
-                                                    Nam
-                                                </label>
-                                                <label class="mt-2 mx-3">
-                                                    <input type="radio" name="Gioitinh" value="0">
-                                                    Nữ
-                                                </label>
-                                            </div>
-
-                                            <div class="input-group mt-3 mb-3">
-                                                <label class="input-group-text" for="">CCCD:</label>
-                                                <input class="form-control pt90" name="CCCD" id="CCCD" value="{{ old('CCCD') }}" placeholder="(*)">
-                                            {{-- </div> --}}
-
-                                            {{-- <div class="input-group mt-3 mb-3"> --}}
-                                                <label class="input-group-text" style="margin-left: 10%" for="">Ngày bắt đầu:</label>
-                                                <input class="form-control pt90" type="date" name="Ngaybatdau" id="Ngaybatdau" value="{{ old('Ngaybatdau') }}" placeholder="(*)">
-                                            </div>
-
-                                            <div class="input-group mt-3 mb-3">
-                                                <label class="input-group-text" for="">Địa chỉ:</label>
-                                                <input class="form-control pt90" type="text" name="Diachi" id="Diachi" value="{{ old('Diachi') }}" placeholder="(*)">
-                                            </div>
-
-                                            <div class="input-group mt-3 mb-3">
-                                                <label class="input-group-text" for="">Số điện thoại:</label>
-                                                <input class="form-control pt90" type="text" name="SDT" id="SDT" value="{{ old('SDT') }}" placeholder="(*)">
-                                            </div>
-
-                                            <div class="input-group mt-3 mb-3">
-                                                <label class="input-group-text" for="">Quê quán:</label>
-                                                <input class="form-control pt90" type="text" name="Quequan" id="Quequan" value="{{ old('Quequan') }}" placeholder="(*)">
-                                            </div>
-
-                                            <div class="mt-3 mb-3 d-flex justify-around">
-                                                <div class="input-group">
-                                                    <label class="input-group-text" for="">Phòng ban:</label>
-                                                    <select name="Maphongban" id="Maphongban">
-                                                        @foreach ($phongbans as $phongban)
-                                                            <option value="{{ $phongban->id }}">
-                                                                {{ $phongban->tenPhongBan }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="input-group">
-                                                    <label class="input-group-text" for="">Chức vụ:</label>
-                                                    <select name="MaChucVu" id="MaChucVu">
-                                                        @foreach ($chucvus as $chucvu)
-                                                            <option value="{{ $chucvu->id }}">
-                                                                {{ $chucvu->tenChucVu }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="mt-3 mb-3 d-flex justify-around">
-                                                <div class="input-group">
-                                                    <label class="input-group-text" for="">Khoa:</label>
-                                                    <select name="Makhoa" id="Makhoa">
-                                                        @foreach ($khoas as $khoa)
-                                                            <option value="{{ $khoa->id }}">
-                                                                {{ $khoa->tenKhoa }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="input-group">
-                                                    <label class="input-group-text" for="">Bậc lương:</label>
-                                                    <select name="Bacluong" id="Bacluong">
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select>
-                                                </div>
-                                                <div class="input-group d-flex">
-                                                    <label class="input-group-text" style="margin-left: 20px" for="">Hệ số lương:</label>
-                                                    <input type="text" class="form-control" style="background: white" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="input-group mt-3 mb-3">
-                                                <label class="input-group-text" for="">Ảnh đại diện:</label>
-                                                <input class="form-control pt90" type="file" name="Anhdaidien" id="Anhdaidien" value="{{ old('Anhdaidien') }}">
-                                                <span class="error" id="spanErrorAnhdaidien">Chỉ chấp nhận các tệp ảnh PNG hoặc JPEG</span>
-                                            </div>
-
-                                            <div class="input-group mt-3 mb-3">
-                                                <label class="input-group-text" for="">Email:</label>
-                                                <input class="form-control pt90" type="email" name="email" id="email" value="{{ old('email') }}" placeholder="(*)">
-                                            </div>
-
-                                            <div class="form-group float-end">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                                <input type="submit" name="btSave" value="Cập nhật" class="btn btn-primary">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-
 
                             <!-- Modal delete -->
                             <div class="modal fade" id="deleteNhansuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -237,33 +88,6 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
-                                    </form>
-                                    </div>
-
-                                </div>
-                                </div>
-                            </div>
-
-                            <!-- Modal reti -->
-                            <div class="modal fade" id="retiNhansuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận nghỉ hưu</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <span id="tbReti"></span>
-                                    </div>
-                                    <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-
-                                    <form id="formRetiNhansu" class="formRetiNhansu" action="" method="POST">
-                                        @csrf
-                                        @method('GET')
-                                        <button type="submit" class="btn btn-primary" id="btnSubmitReti">Xác nhận</button>
                                     </form>
                                     </div>
 
@@ -317,26 +141,6 @@
 
         <script>
             $('#spanErrorAnhdaidien').hide();
-            $('#formEditNhansu').validate({
-                rules:{
-                    account:{
-                        required: true
-                    },
-                    email:{
-                        required: true,
-                        email: true
-                    }
-                },
-                messages:{
-                    account: {
-                        required: "Trường tài khoản không được để trống"
-                    },
-                    email: {
-                        required: "Trường email không được để trống",
-                        email: "Vui lòng nhập đúng định dạng email"
-                    },
-                },
-            });
 
             $(document).on('keyup', '#email', function(){
                 $.ajax({
@@ -362,47 +166,12 @@
             });
 
             $(function() {
-                fetchAllNhansus();
+                fetchAllNhansuNghihuus();
                 toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
                 "positionClass": "toast-bottom-right",
             };
-
-            $(document).on('click', '#aEditNhansu', function(e) {
-                let id = $(this).data('id_edit');
-                $.ajax({
-                    url: '{{ route("nhansus.edit", ":id") }}'.replace(':id', id),
-                    type: 'get',
-                    data: {
-                        id: id,
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response){
-                        if (response.Gioitinh == 1) {
-                            $('input[name="Gioitinh"][value="1"]').prop('checked', true);
-                        } else {
-                            $('input[name="Gioitinh"][value="0"]').prop('checked', true);
-                        }
-                        $('#Anhdaidien').html(`<img src="/uploads/avatars/${response.Anhdaidien}" style="width: 100px;">`);
-                        $('#Hoten').val(response.Hoten);
-                        $('#Manhansu').val(response.Manhansu);
-                        $('#Ngaysinh').val(response.Ngaysinh);
-                        $('#CCCD').val(response.CCCD);
-                        $('#Ngaybatdau').val(response.Ngaybatdau);
-                        $('#Diachi').val(response.Diachi);
-                        $('#SDT').val(response.SDT);
-                        $('#Quequan').val(response.Quequan);
-                        $('#Maphongban').val(response.Maphongban);
-                        $('#MaChucVu').val(response.Machucvu);
-                        $('#Makhoa').val(response.Makhoa);
-                        $('#Bacluong').val(response.Bacluong);
-                        $('#email').val(response.email);
-                        $('#u_Anhdaidien').val(response.Anhdaidien);
-                        $('#id').val(response.id);
-                    }
-                })
-            });
 
             $(document).on('click', '#aShowNhansu', function(){
                 let id = $(this).data('id_show');
@@ -487,48 +256,6 @@
                 })
             });
 
-            $(document).on('click', '#aRetiNhansu', function(e){
-                let id = $(this).data('id_huu');
-                $.ajax({
-                    url: '{{ route("nhansus.edit", ":id") }}'.replace(':id', id),
-                    type: 'get',
-                    data:{
-                        id: id,
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response){
-                        var tenNhansu = response.Hoten;
-                        $('#id').val(response.id);
-                        $('#tbReti').text("Bạn chắc chắn muốn chuyển nhân sự: "+tenNhansu+" này sang thành nghỉ hưu?");
-                    }
-                })
-            });
-
-            $(document).on('submit', '#formEditNhansu', function(e){
-                e.preventDefault();
-                let id = $('#id').val();
-                const formEditNhansu = new FormData(this);
-                $.ajax({
-                    url: '{{ route("nhansus.update", ":id") }}'.replace(':id', id),
-                    type: 'post',
-                    data: formEditNhansu,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    dataType: 'json',
-                    success: function(response){
-                        toastr.success('Cập nhật tài nhân sự công', 'Thông báo');
-                        fetchAllNhansus();
-                        $('#formEditNhansu')[0].reset();
-                        $('.fade').hide();
-                        fetchAllNhansus();
-                    },
-                    error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
-                    }
-                })
-            });
-
             $(document).on('submit', '#formDeleteNhansu', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
@@ -541,15 +268,15 @@
                     success: function(response){
                         toastr.success('Xóa nhân sự thành công', 'Thông báo');
                         $('#formDeleteNhansu')[0].reset();
-                        fetchAllNhansus();
+                        fetchAllNhansuNghihuus();
                         $('.fade').hide();
                     }
                 })
             });
 
-                function fetchAllNhansus(){
+                function fetchAllNhansuNghihuus(){
                     $.ajax({
-                        url: "{{ route('nhansus.fetch') }}",
+                        url: "{{ route('nhansuNghihuus.fetch') }}",
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
@@ -619,7 +346,6 @@
 
                             $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
-
                         }
                     })
                 };
@@ -627,5 +353,3 @@
 
         </script>
 </x-app-layout>
-
-
