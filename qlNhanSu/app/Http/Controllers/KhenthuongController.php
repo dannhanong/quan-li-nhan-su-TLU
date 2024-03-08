@@ -21,11 +21,11 @@ class KhenthuongController extends Controller
     {
         $khenthuongs = DB::table('khenthuongs')
         ->join('nhansus', 'khenthuongs.Manhansu', '=', 'nhansus.Manhansu')
-        ->select('khenthuongs.id', 'khenthuongs.Manhansu', 'nhansus.Hoten', 
+        ->select('khenthuongs.id', 'khenthuongs.Manhansu', 'nhansus.Hoten',
         'khenthuongs.ngayKhenThuong', 'khenthuongs.lyDo', 'khenthuongs.chiTietKhenThuong')
         ->orderBy('khenthuongs.id', 'desc')
         ->get();
-      
+
         $i = $khenthuongs->count() - $khenthuongs->count();
         $output = '';
         if($khenthuongs->count() > 0){

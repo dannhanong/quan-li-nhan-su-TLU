@@ -7,16 +7,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Nhansu;
 
+
 class HopdongController extends Controller
 {
+    public function index()
+    {
+
+        return view('hopdong.index');
+    }
     public function fetchHopdong()
     {
-        $hopdongs = Hopdong::orderByDesc('id')->get();
-        // $hopdongs = DB::table('hopdongs')
-        // ->join('nhansus', 'hopdongs.Manhansu', '=', 'nhansus.Manhansu')
-        // ->select('hopdongs.id', 'maHopdong','nhansus.HoTen','Ngaybatdau','Ngayketthuc','Ngayky','Lanky')
-        // ->orderBy("hopdongs.id", "desc")
-        // ->get();
+        //$hopdongs = Hopdong::orderByDesc('id')->get();
+        $hopdongs = DB::table('hopdongs')
+        ->join('nhansus', 'hopdongs.Manhansu', '=', 'nhansus.Manhansu')
+        ->select('hopdongs.id','nhansus.Manhansu', 'hopdongs.maHopdong','hopdongs.Ngaybatdau','hopdongs.Ngayketthuc','hopdongs.Ngayky','hopdongs.Lanky')
+        ->orderBy('hopdongs.id', 'desc')
+        ->get();
 
         $i = $hopdongs->count() - $hopdongs->count();
         $output = '';
@@ -68,19 +74,14 @@ class HopdongController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-
-        $nhansus = Nhansu::select('id', 'Manhansu')->get();
-        return view('hopdong.index', compact('nhansus'));
-    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
-        return view('hopdong.create');
+        $nhansus = Nhansu::select('id','Manhansu')->get();
+        return view('hopdong.create', compact('nhansus'));
     }
 
     /**

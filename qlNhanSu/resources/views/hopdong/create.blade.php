@@ -9,21 +9,23 @@
                     <div class="col-sm">
                         <form id="#formHopdong" method="post" action="{{ route('hopdongs.store') }}" class="m-5 mt-2 formHopdong">
                             @csrf
-                            {{-- <div class="input-group">
-                                <label class="input-group-text" for="">Mã nhân sự:</label>
-                                <select name="Manhansu" id="Manhansu">
-                                    @foreach ($nhansus as $nhansu)
-                                        <option value="{{ $nhansu->id }}">
-                                            {{ $nhansu->Manhansu }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
-
                             <div class="input-group mt-3 mb-3">
+                                <div class="input-group">
+                                    <label class="input-group-text" for="">Mã nhân sự:</label>
+                                    <select name="Manhansu" id="Manhansu">
+                                        @foreach ($nhansus as $nhansu)
+                                            <option value="{{ $nhansu->id }}">
+                                                {{ $nhansu->Manhansu }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mã nhân sự:</label>
                                 <input class="form-control pt90" type="text" name="Manhansu" id="Manhansu" value="{{ old('Manhansu') }}" placeholder="(*)">
-                            </div>
+                            </div> --}}
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mã hợp đồng:</label>
