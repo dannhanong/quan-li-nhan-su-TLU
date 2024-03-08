@@ -19,7 +19,7 @@
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Tên phòng ban:</label>
                                 <input class="form-control pt90" name="tenPhongBan" id="tenPhongBan" value="{{ old('tenPhongBan') }}" placeholder="(*)">
-                                <span id="errorTenPhongBan" class="error">Tên phòng ban đã tồn tại</span>
+                                <span id="errorTenPhongBan" class="error"></span>
                             </div>
 
                             <div class="form-group  float-end ">
@@ -36,24 +36,24 @@
         <script>
             $('#errorTenPhongBan').hide();
             $('#errorMaPhongBan').hide();
-            $('#formPhongBan').validate({
-                rules:{
-                    maPhongBan:{
-                        required: true
-                    },
-                    tenPhongBan:{
-                        required: true
-                    }
-                }
-                ,messages:{
-                    maPhongBan: {
-                        required: "Vui lòng nhập mã phòng ban"
-                    },
-                    tenPhongBan: {
-                        required: "Vui lòng nhập tên phòng ban"
-                    },
-                }
-            });
+            // $('#formPhongBan').validate({
+            //     rules:{
+            //         maPhongBan:{
+            //             required: true
+            //         },
+            //         tenPhongBan:{
+            //             required: true
+            //         }
+            //     }
+            //     ,messages:{
+            //         maPhongBan: {
+            //             required: "Vui lòng nhập mã phòng ban"
+            //         },
+            //         tenPhongBan: {
+            //             required: "Vui lòng nhập tên phòng ban"
+            //         },
+            //     }
+            // });
             $(document).on('keyup', '#maPhongBan', function(){
                 $.ajax({
                     url: '{{ route("check_maPhongBan_unique") }}',
@@ -65,9 +65,13 @@
                         }
                     },
                     success: function(response){
-                        if(response == 'true'){
+                        if(response == 'b'){
+                            $("#errorMaPhongBan").text("Mã phòng ban đã tồn tại");
                             $("#errorMaPhongBan").show();
-                        }else{
+                        }else if(response=="a"){
+                            $("#errorMaPhongBan").text("Vui lòng nhập mã phòng ban");
+                            $("#errorMaPhongBan").show();
+                        }else if(response=="c"){
                             $("#errorMaPhongBan").hide();
                         }
                     }
@@ -86,9 +90,13 @@
 
                     },
                     success: function(response){
-                        if(response == 'true'){
-                            $("#errorTenPhongBan").show();
-                        }else{
+                        if(response == 'b'){
+                            $("#errorTenPhongBan").text("Tên phòng ban đã tồn tại").show();
+                            //$("#errorTenPhongBan").show();
+                        }else if(response=="a"){
+                            $("#errorTenPhongBan").text("Vui lòng nhập tên phòng ban").show();
+                            //$("#errorMaPhongBan").show();
+                        }else if(response=="c"){
                             $("#errorTenPhongBan").hide();
                         }
                     }
@@ -98,7 +106,7 @@
             $(document).on('submit', '.formPhongBan', function(e) {
                 e.preventDefault();
                 if (!($("#errorMaPhongBan").is(":hidden")) || !($("#errorTenPhongBan").is(":hidden"))) {
-                    toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
+                    toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');    
                 } else {
                     $.ajax({
                     url: "{{ route('phongbans.store') }}",
