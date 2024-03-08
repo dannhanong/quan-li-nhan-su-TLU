@@ -41,11 +41,10 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h3>Danh sách kỉ luật</h3>
+                                    <h3>Danh sách nhân viên bị kỉ luật</h3>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ route('bikiluats.index') }}" class="btn btn-primary float-end">Kỉ luật nhân viên</a>
                                     <a href="{{ route('kiluats.create') }}" class="btn btn-primary float-end">Thêm mới</a>
                                 </div>
                             </div>
@@ -60,7 +59,7 @@
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa kỉ luật</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa nhân viên bị kỉ luật</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
@@ -122,18 +121,31 @@
                         </div>
 
                         <!-- Modal show -->
-                        <div class="modal fade" id="showkiluatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="showNhansuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết kỉ luật</h4>
+                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết nhân sự</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="border border-primary mb-3"><h4 style="font-weight: bold; font-style: italic;padding: 30px;text-align: center", tex id="h4TenKiLuat"></h4></div>
-                                    <div class="mb-3"><span class="spanBold">Mã kỉ luật: </span><span id="spanMaKiLuat"></span></div>
+                                    <div class="mb-3 display"><div class="mt-2" id="divAnhdaidien"></div><h4 class="spanBold mt-5 mx-3" id="h4Hoten"></h4></div>
+                                    <div class="mb-3"><span class="spanBold">Mã nhân sự: </span><span id="spanManhansu"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Ngày sinh: </span><span id="spanNgaysinh"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Giới tính: </span><span id="spanGioitinh"></span></div>
+                                    <div class="mb-3"><span class="spanBold">CCCD: </span><span id="spanCCCD"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Ngày bắt đầu: </span><span id="spanNgaybatdau"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Địa chỉ: </span><span id="spanDiachi"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Số điện thoại: </span><span id="spanSDT"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Quê quán: </span><span id="spanQuequan"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Phòng ban: </span><span id="spanPhongban"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Chức vụ: </span><span id="spanChucvu"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Khoa: </span><span id="spanKhoa"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Bậc lương: </span><span id="spanBacluong"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Email cá nhân: </span><span id="spanEmail"></span></div>
+
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
                                 </div>
@@ -246,15 +258,61 @@
             $(document).on('click', '#aShowkiluat', function(){
                 let id = $(this).data('id_show');
                 $.ajax({
-                    url: '{{ route("kiluats.show", ":id") }}'.replace(':id', id),
+                    url: '{{ route("bikiluats.show", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        $('#h4TenKiLuat').text(response.tenKiLuat);
-                        $('#spanMaKiLuat').text(response.maKiLuat);
+                        var gt = response.Gioitinh;
+                        var gioitinh = gt == 0 ? "Nữ" : "Nam";
+                        $('#divAnhdaidien').html(`<img src="/uploads/avatars/${response.Anhdaidien}" style="width: 100px;">`);
+                        $('#h4Hoten').text(response.Hoten);
+                        $('#spanManhansu').text(response.Manhansu);
+                        $('#spanNgaysinh').text(response.Ngaysinh);
+                        $('#spanGioitinh').text(gioitinh);
+                        $('#spanCCCD').text(response.CCCD);
+                        $('#spanNgaybatdau').text(response.Ngaybatdau);
+                        $('#spanDiachi').text(response.Diachi);
+                        $('#spanSDT').text(response.SDT);
+                        $('#spanQuequan').text(response.Quequan);
+                        $.ajax({
+                            url: '/get-ten-phongban',
+                            method: 'POST',
+                            data: {
+                                id: response.Maphongban,
+                                '_token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('#spanPhongban').text(response.tenPhongBan);
+                            }
+                        });
+                        $.ajax({
+                            url: '/get-ten-chucvu',
+                            method: 'POST',
+                            data: {
+                                id: response.Machucvu ,
+                                '_token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('#spanChucvu').text(response.tenChucVu);
+                            }
+                        });
+                        $.ajax({
+                            url: '/get-ten-khoa',
+                            method: 'POST',
+                            data: {
+                                id: response.Makhoa ,
+                                '_token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('#spanKhoa').text(response.tenKhoa);
+                            }
+                        });
+                        $('#spanBacluong').text(response.Bacluong);
+                        $('#spanEmail').text(response.email);
+
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
@@ -266,7 +324,7 @@
             $(document).on('click', '#aDeletekiluat', function(e){
                 let id = $(this).data('id_xoa');
                 $.ajax({
-                    url: '{{ route("kiluats.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("bikiluats.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data:{
                         id: id,
@@ -275,7 +333,7 @@
                     success: function(response){
                         var tenKiLuat = response.tenKiLuat;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa kỉ luật: "+tenKiLuat+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa?");
                     }
                 })
             });
@@ -303,13 +361,13 @@
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("kiluats.destroy", ":id") }}'.replace(':id', id),
+                    url: '{{ route("bikiluats.destroy", ":id") }}'.replace(':id', id),
                     type: 'delete',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        toastr.success('Xóa kỉ luật thành công', 'Thông báo');
+                        toastr.success('Xóa thành công', 'Thông báo');
                         $('#formDeleteKiluat')[0].reset();
                         fetchAllKiLuat();
                         $('.fade').hide();
@@ -319,7 +377,7 @@
 
             function fetchAllKiLuat(){
                     $.ajax({
-                        url: "{{ route('kiluats.fetch') }}",
+                        url: "{{ route('bikiluats.fetch') }}",
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
