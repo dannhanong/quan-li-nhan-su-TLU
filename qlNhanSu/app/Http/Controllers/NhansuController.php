@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Nhansu;
 use App\Models\Chucvu;
 use App\Models\Khoa;
-use App\Models\Nhansu;
 use Illuminate\Http\Request;
 use App\Models\Phongban;
 use Illuminate\Support\Facades\DB;
@@ -255,7 +255,6 @@ class NhansuController extends Controller
             <tbody>';
 
             foreach ($nhansus as $nhansu){
-                // if($nhansu->account != Auth::nhansu()->account){
                     if($nhansu->Gioitinh == true){
                         $gioitinh = "Nam";
                     }else{

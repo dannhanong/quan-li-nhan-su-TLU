@@ -1,7 +1,7 @@
 <x-app-layout>
     @extends('header')
         @section('tit')
-            Quản lý tài khoản
+            Quản lý khen thưởng
         @endsection
         {{-- css tb --}}
         @push('css')
@@ -41,11 +41,11 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h3>Danh sách chức vụ</h3>
+                                    <h3>Danh sách khen thưởng</h3>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ route('chucvus.create') }}" class="btn btn-primary float-end">Thêm mới</a>
+                                    <a href="{{ route('khenthuongs.create') }}" class="btn btn-primary float-end">Thêm mới</a>
                                 </div>
                             </div>
                         </div>
@@ -55,31 +55,41 @@
                         </div>
 
                         {{-- Modal edit --}}
-                        <div class="modal fade" id="editChucvuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="editKhenthuongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa chức vụ</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa khen thưởng</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="post" action="" class="m-5 mt-2 formEditChucvu" id="formEditChucvu">
+                                    <form method="post" action="" class="m-5 mt-2 formEditKhenthuong" id="formEditKhenthuong">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="id" id="id">
-                                        <input type="hidden" name="maChucVuF" id="maChucVuF">
+                                        
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Mã chức vụ:</label>
-                                            <input class="form-control" type="text" name="maChucVu" id="maChucVu" placeholder="(*)">
-                                            <span id="errorMaChucVu" class="error">Mã chức vụ đã tồn tại</span>
+                                            <label class="input-group-text" for="">Tên nhân sự:</label>
+                                            <input class="form-control" type="text" name="Manhansu" id="Manhansu" placeholder="(*)">
+                                            
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Tên chức vụ:</label>
-                                            <input class="form-control" name="tenChucVu" id="tenChucVu" placeholder="(*)">
+                                            <label class="input-group-text" for="">Ngày khen thưởng:</label>
+                                            <input type="date" class="form-control" name="ngayKhenThuong" id="ngayKhenThuong" placeholder="(*)">
+                                        </div>
+
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Lý do:</label>
+                                            <input class="form-control" name="lyDo" id="lyDo" placeholder="(*)">
+                                        </div>
+
+                                        <div class="mt-3 mb-3">
+                                            <label class="input-group-text" for="">Chi tiết khen thưởng:</label>
+                                            <textarea class="form-control" name="chiTietKhenThuong" id="chiTietKhenThuong" placeholder="(*)" rows="5"></textarea>
                                         </div>
 
                                         <div class="form-group float-end">
@@ -92,9 +102,8 @@
                             </div>
                         </div>
 
-
                         <!-- Modal delete -->
-                        <div class="modal fade" id="deleteChucvuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="deleteKhenthuongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -109,7 +118,7 @@
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                <form id="formDeleteChucvu" class="formDeleteChucvu" action="" method="POST">
+                                <form id="formDeleteKhenthuong" class="formDeleteKhenthuong" action="" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
@@ -121,18 +130,20 @@
                         </div>
 
                         <!-- Modal show -->
-                        <div class="modal fade" id="showChucvuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="showKhenthuongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết chức vụ</h4>
+                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết khoa</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="mb-3 display"><h4 class="spanBold mt-5 mx-3" id="h4TenChucvu"></h4></div>
-                                    <div class="mb-3"><span class="spanBold">Mã chức vụ: </span><span id="spanMaChucvu"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Mã nhân sự: </span><span id="spanManhansu"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Ngày khen thưởng: </span><span id="spanngayKhenThuong"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Lý do: </span><span id="spanlyDo"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Chi tiết khen thưởng: </span><span id="spanchiTietKhenThuong"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
                                 </div>
@@ -142,71 +153,60 @@
                             </div>
                             </div>
                         </div>
+                        
 
                     </div>
                 </div>
             </div>
         </section>
         @endsection
-
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
-            $('#errorMaChucVu').hide();
-            $('#formEditChucvu').validate({
+            $('#formEditKhenthuong').validate({
                 rules:{
-                    maChucVu:{
+                    Manhansu:{
                         required: true
                     },
-                    tenChucVu:{
+                    ngayKhenThuong:{
+                        required: true
+                    },
+                    lyDo:{
+                        required: true
+                    },
+                    chiTietKhenThuong:{
                         required: true
                     }
                 },
                 messages:{
-                    maChucVu: {
-                        required: "Vui lòng nhập mã chức vụ"
+                    Manhansu: {
+                        required: "Vui lòng nhập mã khen thưởng"
                     },
-                    tenChucVu: {
-                        required: "Vui lòng nhập tên chức vụ"
+                    ngayKhenThuong: {
+                        required: "Vui lòng nhập ngày khen thưởng"
                     },
+                    lyDo: {
+                        required: "Vui lòng nhập lý do"
+                    },
+                    chiTietKhenThuong: {
+                        required: "Vui lòng nhập chi tiết khen thưởng"
+                    }
                 },
             });
 
-            $(document).on('keyup', '#maChucVu', function(){
-                $.ajax({
-                    url: '{{ route("check_maChucVu_unique") }}',
-                    type: 'get',
-                    data: {
-                        maChucVuF: function(){
-                            return $('#maChucVuF').val();
-                        },
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        maChucVu: function(){
-                            return $('#maChucVu').val();
-                        }
-                    },
-                    success: function(response){
-                        if(response == 'false'){
-                            $('#errorMaChucVu').show();
-                        }else{
-                            $('#errorMaChucVu').hide();
-                        }
-                    }
-                })
-            });
-
             $(function() {
-                fetchAllChucvus();
+                fetchAllKhenthuongs();
                 toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
                 "positionClass": "toast-bottom-right",
             };
 
-            $(document).on('click', '#aEditChucvu', function(e) {
+            $(document).on('click', '#aEditKhenthuong', function(e) {
+                // $('#errorMaKhoa').hide()
                 let id = $(this).data('id_edit');
                 $.ajax({
-                    url: '{{ route("chucvus.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("khenthuongs.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
@@ -214,25 +214,29 @@
                     },
                     success: function(response){
                         $('#id').val(response.id);
-                        $('#maChucVu').val(response.maChucVu);
-                        $('#tenChucVu').val(response.tenChucVu);
-                        $('#maChucVuF').val(response.maChucVu);
+                        $('#Manhansu').val(response.Manhansu);
+                        $('#ngayKhenThuong').val(response.ngayKhenThuong);
+                        $('#lyDo').val(response.lyDo);
+                        $('#chiTietKhenThuong').val(response.chiTietKhenThuong);
                     }
                 })
             });
 
-            $(document).on('click', '#aShowChucvu', function(){
+            $(document).on('click', '#aShowKhenthuong', function(){
                 let id = $(this).data('id_show');
                 $.ajax({
-                    url: '{{ route("chucvus.show", ":id") }}'.replace(':id', id),
+                    url: '{{ route("khenthuongs.show", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        $('#h4TenChucvu').text(response.tenChucVu);
-                        $('#spanMaChucvu').text(response.maChucVu);
+                        $('#spanManhansu').text(response.Manhansu);
+                        var formattedngayKhenThuong = moment(response.ngayKhenThuong).format('DD/MM/YYYY');
+                        $('#spanngayKhenThuong').text(formattedngayKhenThuong);
+                        $('#spanlyDo').text(response.lyDo);
+                        $('#spanchiTietKhenThuong').text(response.chiTietKhenThuong);
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
@@ -241,34 +245,35 @@
                 })
             });
 
-            $(document).on('click', '#aDeleteChucvu', function(e){
+            $(document).on('click', '#aDeleteKhenthuong', function(e){
                 let id = $(this).data('id_xoa');
+
                 $.ajax({
-                    url: '{{ route("chucvus.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("khenthuongs.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data:{
                         id: id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        var tenChucVu = response.tenChucVu;
+                        var Manhansu = response.Manhansu;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa chức vụ: "+tenChucVu+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa khen thưởng của: "+Manhansu+"?");
                     }
                 })
             });
 
-            $(document).on('submit', '#formEditChucvu', function(e){
+            $(document).on('submit', '#formEditKhenthuong', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("chucvus.update", ":id") }}'.replace(':id', id),
+                    url: '{{ route("khenthuongs.update", ":id") }}'.replace(':id', id),
                     type: 'post',
-                    data: $('#formEditChucvu').serialize(),
+                    data: $('#formEditKhenthuong').serialize(),
                     success: function(response){
-                        toastr.success('Cập nhật thông tin chức vụ thành công', 'Thông báo');
-                        fetchAllChucvus();
-                        $('#formEditChucvu')[0].reset();
+                        toastr.success('Cập nhật thông tin khen thưởng thành công', 'Thông báo');
+                        fetchAllKhenthuongs();
+                        $('#formEditKhenthuong')[0].reset();
                         $('.fade').hide();
                     },
                     error: function(){
@@ -277,31 +282,31 @@
                 })
             });
 
-            $(document).on('submit', '#formDeleteChucvu', function(e){
+            $(document).on('submit', '#formDeleteKhenthuong', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("chucvus.destroy", ":id") }}'.replace(':id', id),
+                    url: '{{ route("khenthuongs.destroy", ":id") }}'.replace(':id', id),
                     type: 'delete',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        toastr.success('Xóa chức vụ thành công', 'Thông báo');
-                        $('#formDeleteChucvu')[0].reset();
-                        fetchAllChucvus();
+                        toastr.success('Xóa khen thưởng thành công', 'Thông báo');
+                        $('#formDeleteKhenthuong')[0].reset();
+                        fetchAllKhenthuongs();
                         $('.fade').hide();
                     }
                 })
             });
 
-            function fetchAllChucvus(){
+            function fetchAllKhenthuongs(){
                     $.ajax({
-                        url: "{{ route('chucvus.fetch') }}",
+                        url: "{{ route('khenthuongs.fetch') }}",
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
-                            $('#chucvuTable').DataTable({
+                            $('#KhenthuongTable').DataTable({
                                 select: true,
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",
@@ -312,11 +317,17 @@
                                     search:         "",
                                 },
                                 dom: '<"H"lBrf><"clear">t<"F"p>',
+                                responsive: true,
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
                                     {
                                         data: 'Thao tác',
+                                        className: 'not-exp',
+                                        targets: [6]
+                                    },
+                                    {
+                                        data: 'Ảnh đại diện',
                                         className: 'not-exp',
                                         targets: [3]
                                     }
@@ -356,12 +367,12 @@
                                         text: 'Các trường hiển thị'
                                     },
                                 ],
-                                select: true,
                             });
                             $('.dt-length label').remove();
 
                             $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
+
                         }
                     })
                 };

@@ -9,9 +9,12 @@ use App\Http\Controllers\NhansuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhongbanController;
+use App\Http\Controllers\KhenthuongController;
+use App\Models\Khenthuong;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\HopdongController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +34,6 @@ Route::get('/', function () {
 Route::group(['middleware'=>'disable_back_btn'], function(){
     Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
-        // Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::get('/fetch-users', [UserController::class, 'fetchUser'])->name('users.fetch');
         Route::post('/check_email_unique', [UserController::class, 'check_email_unique'])->name('check_email_unique');
         Route::post('/check_account_unique', [UserController::class, 'check_account_unique'])->name('check_account_unique');
@@ -66,6 +68,13 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/nhansu_Nghihuu', [NhansuController::class, 'nhansuNghihuu'])->name('nhansu_Nghihuu');
         Route::get('/fetch-nhansuNghihuus', [NhansuController::class, 'fetchNhansuNghihuu'])->name('nhansuNghihuus.fetch');
 
+        Route::resource('hopdongs', HopdongController::class);
+        Route::get('/fetch-hopdongs', [HopdongController::class, 'fetchHopdong'])->name('hopdongs.fetch');
+        Route::post('/get-ten-hopdong', [ChucvuController::class, 'getTenHopdong'])->name('get-ten-hopdong');
+
+        Route::resource('khenthuongs', KhenthuongController::class);
+        Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');
+
         Route::resource('kiluats', KiluatController::class);
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');
         Route::get('/check_maKiLuat_unique', [KiluatController::class, 'check_maKiLuat_unique'])->name('check_maKiLuat_unique');
@@ -73,7 +82,6 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('bikiluats', BikiluatController::class);
         Route::get('/fetch-bikiluats', [BikiluatController::class, 'fetchBiKiLuat'])->name('bikiluats.fetch');
-
 
         Route::get('/dashboard', function () {
             return view('dashboard');

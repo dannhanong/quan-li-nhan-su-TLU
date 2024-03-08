@@ -148,7 +148,15 @@
 
                     <li class="{{ request() -> is('chucvus*') ? 'active' : '' }}"><a href="{{ route('chucvus.index') }}"><i class="fa-solid fa-rectangle-list col-md-2"></i>Chức vụ</a></li>
                     <li class="{{ request() -> is('phongbans*') ? 'active' : '' }}"><a href="{{ route('phongbans.index') }}"><i class="fa-solid fa-building-user col-md-2"></i>Phòng ban</a></li>
+
+                    <li class="{{ request() -> is('hopdongs*') ? 'active' : '' }}"><a href="{{ route('hopdongs.index') }}"><i class="fa-solid fa-building-user col-md-2"></i>Hợp đồng</a></li>
+
+
+                    <li class="{{ request() -> is('khenthuongs*') ? 'active' : '' }}"><a href="{{ route('khenthuongs.index') }}"><i class="fa-solid fa-award col-md-2"></i></i>Khen thưởng</a></li>
+
                     <li class="{{ request() -> is('kiluat*') ? 'active' : '' }}"><a href="{{ route('kiluats.index') }}"><i class="fa-solid fa-ban col-md-2"></i></i>Kỉ luật</a></li>
+
+
                     <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">
                         <a href="#">
                             <i class="fa-solid fa-circle-exclamation col-md-2"></i><span>Thông tin</span>
