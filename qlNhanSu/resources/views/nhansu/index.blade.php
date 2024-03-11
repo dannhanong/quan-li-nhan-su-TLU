@@ -66,8 +66,8 @@
                                 </div>
                             </div>
 
-                            <div class="mx-3 mt-1 d-flex">
-                                <div class="input-group">
+                            <div class="mx-3 mt-1 d-flex justify-between">
+                                <div class="d-flex" style="max-height: 40px;">
                                     <label class="input-group-text" for="">Phòng ban:</label>
                                     <select name="MaphongbanF" id="MaphongbanF">
                                         <option value="">Chọn phòng ban...</option>
@@ -79,7 +79,7 @@
                                     </select>
                                 </div>
 
-                                <div class="input-group">
+                                <div class="d-flex" style="max-height: 40px;">
                                     <label class="input-group-text" for="">Chức vụ:</label>
                                     <select name="MaChucVuF" id="MaChucVuF">
                                         <option value="">Chọn chức vụ...</option>
@@ -91,7 +91,7 @@
                                     </select>
                                 </div>
 
-                                <div class="input-group">
+                                <div class="d-flex" style="max-height: 40px;">
                                     <label class="input-group-text" for="">Khoa:</label>
                                     <select name="MakhoaF" id="MakhoaF">
                                         <option value="">Chọn khoa...</option>
@@ -232,7 +232,7 @@
                                                 </div>
                                                 <div class="input-group d-flex">
                                                     <label class="input-group-text" style="margin-left: 20px" for="">Hệ số lương:</label>
-                                                    <input type="text" class="form-control" style="background: white" readonly>
+                                                    <input type="text" class="form-control" name="Hesoluong" id="Hesoluong" style="background: white" readonly>
                                                 </div>
                                             </div>
 
@@ -336,6 +336,7 @@
                                         <div class="mb-3"><span class="spanBold">Chức vụ: </span><span id="spanChucvu"></span></div>
                                         <div class="mb-3"><span class="spanBold">Khoa: </span><span id="spanKhoa"></span></div>
                                         <div class="mb-3"><span class="spanBold">Bậc lương: </span><span id="spanBacluong"></span></div>
+                                        <div class="mb-3"><span class="spanBold">Hệ số lương: </span><span id="spanHeSoLuong"></span></div>
                                         <div class="mb-3"><span class="spanBold">Email cá nhân: </span><span id="spanEmail"></span></div>
 
                                         <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
@@ -462,9 +463,27 @@
                         $('#MaChucVu').val(response.Machucvu);
                         $('#Makhoa').val(response.Makhoa);
                         $('#Bacluong').val(response.Bacluong);
+                        $('#Hesoluong').val(response.Hesoluong);
                         $('#email').val(response.email);
                         $('#u_Anhdaidien').val(response.Anhdaidien);
                         $('#id').val(response.id);
+
+                        var curentDate = new Date();
+                        var bacluongDate = new Date(response.Ngaybatdau);
+                        var diffYears = curentDate.getFullYear() - bacluongDate.getFullYear();
+
+
+                        if (diffYears < 5) {
+                            $('#Hesoluong').val("1");
+                        } else if (diffYears <10){
+                            $('#Hesoluong').val("1.5");
+                        } else if (diffYears < 15) {
+                            $('#Hesoluong').val("2");
+                        } else if (diffYears < 20) {
+                            $('#Hesoluong').val("2.5");
+                        } else {
+                            $('#Hesoluong').val("3");
+                        }
                     }
                 })
             });
@@ -480,6 +499,7 @@
                     },
                     success: function(response){
                         var gt = response.Gioitinh;
+
                         var gioitinh = gt == 0 ? "Nữ" : "Nam";
                         $('#divAnhdaidien').html(`<img src="/uploads/avatars/${response.Anhdaidien}" style="width: 100px;">`);
                         $('#h4Hoten').text(response.Hoten);
@@ -525,6 +545,24 @@
                             }
                         });
                         $('#spanBacluong').text(response.Bacluong);
+
+                        var curentDate = new Date();
+                        var bacluongDate = new Date(response.Ngaybatdau);
+                        var diffYears = curentDate.getFullYear() - bacluongDate.getFullYear();
+
+
+                        if (diffYears < 5) {
+                            $('#spanHeSoLuong').text("1");
+                        } else if (diffYears <10){
+                            $('#spanHeSoLuong').text("1.5");
+                        } else if (diffYears < 15) {
+                            $('#spanHeSoLuong').text("2");
+                        } else if (diffYears < 20) {
+                            $('#spanHeSoLuong').text("2.5");
+                        } else {
+                            $('#spanHeSoLuong').text("3");
+                        }
+
                         $('#spanEmail').text(response.email);
 
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
