@@ -123,11 +123,11 @@
                                                 @foreach ($roles as $role)
                                                     @php
                                                         if($role == 0){
-                                                            $quyen = "Admin";
+                                                            $quyen = "Quản trị";
                                                         }
 
                                                         else if ($role == 1) {
-                                                            $quyen = "Người dùng thường";
+                                                            $quyen = "Nhân viên quản lý";
                                                         }
                                                     @endphp
                                                     <option value="{{ $role }}">
@@ -325,9 +325,9 @@
                     success: function(response){
                         var userRole = response.role;
                         if(userRole == 0){
-                            var quyen = "Admin";
+                            var quyen = "Quản trị";
                         }else if(userRole == 1){
-                            var quyen = "Người dùng thường";
+                            var quyen = "Nhân viên quản lý";
                         }
                         $('#divAvatar').html(`<img src="/uploads/avatars/${response.avatar}" style="width: 100px; border-radius: 50%;">`);
                         $('#h4Name').text(response.name);

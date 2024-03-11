@@ -77,6 +77,22 @@
                     },
                     chiTietKhenThuong:{
                         required: true
+
+            $(document).on('submit', '.formKhenthuong', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{ route('khenthuongs.store') }}",
+                type: 'post',
+                data: $('.formKhenthuong').serialize(),
+                success: function (response) {
+                    $('#ngayKhenThuong').val('');
+                    $('#lyDo').val('');
+                    $('#chiTietKhenThuong').val('');
+                    $('#maKhoa').val('');
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
                     }
                 },
                 messages:{
@@ -91,6 +107,12 @@
                     },
                     chiTietKhenThuong: {
                         required: "Vui lòng nhập chi tiết khen thưởng"
+
+                error: function (xhr, status, error) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
                     }
                 },
             });

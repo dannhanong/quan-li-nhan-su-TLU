@@ -55,7 +55,7 @@
                     @endif
                     <br> <br>
                 </div>
-                <label class="fst-italic" style="color: red; font-size: 14px">(*) Đăng nhập bằng tài khoản/mật khẩu của <span class="fst-italic fw-bold" style="color: red; font-size: 13px">trang khai báo thông tin thí sinh</span></label>
+                <label class="fst-italic" style="color: red; font-size: 14px">(*) Đăng nhập bằng tài khoản/mật khẩu của <span class="fst-italic fw-bold" style="color: red; font-size: 13px">trang khai báo thông tin</span></label>
                 <label class="fst-italic" style="color: red; font-size: 14px">(*) Email + Điện thoại hỗ trợ:</label> <br>
                 <label class="fst-italic fw-bold" style="color: red; font-size: 14px">phanmemttth@tlu.edu.vn - 0865903174</label>  <br>
                 <a href="#" style="color: red;">HƯỚNG DẪN SỬ DỤNG</a>

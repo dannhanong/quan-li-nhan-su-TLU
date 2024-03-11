@@ -42,7 +42,7 @@
 
                 <div class="col-md-3">
                     <div class="small-box icon">
-                        <a href="{{ route('khoas.index') }}">
+                        <a href="{{ route('nhansus.index') }}">
                             <div class="box-content text-center">
                                 <i class="fa-solid fa-people-group my-4 ic"></i>
                                 <h4 class="can">Nhân sự</h4>
@@ -57,6 +57,17 @@
                             <div class="box-content text-center">
                                 <i class="fa-solid fa-rectangle-list my-4 ic"></i>
                                 <h4 class="can">Chức vụ</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="small-box icon">
+                        <a href="{{ route('hopdongs.index') }}">
+                            <div class="box-content text-center">
+                                <i class="fa-solid fa-file-signature my-4 ic"></i>
+                                <h4 class="can">Hợp đồng</h4>
                             </div>
                         </a>
                     </div>

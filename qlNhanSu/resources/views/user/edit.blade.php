@@ -46,9 +46,9 @@
                         <select name="role" id="role">
                             @foreach ($roles as $role)
                                 @if($role == 0){
-                                    {{ $quyen = "Admin" }}
+                                    {{ $quyen = "Quản trị" }}
                                 }@elseif ($role == 1){
-                                    {{ $quyen = "Người dùng thường" }}
+                                    {{ $quyen = "Nhân viên quản lý" }}
                                 }
                                 @endif
                                 <option value="{{ $category_id }}" {{ $category_id == $product->category_id ? 'selected' : '' }}>

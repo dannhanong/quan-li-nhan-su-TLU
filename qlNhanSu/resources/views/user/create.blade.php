@@ -53,9 +53,9 @@
                                 <select name="role" id="role">
                                     @foreach ($roles as $role)
                                         @if($role == 0){
-                                            {{ $quyen = "Admin" }}
+                                            {{ $quyen = "Quản trị" }}
                                         }@elseif ($role == 1){
-                                            {{ $quyen = "Người dùng thường" }}
+                                            {{ $quyen = "Nhân viên quản lý" }}
                                         }
                                         @endif
                                         <option value="{{ $role }}">
@@ -115,6 +115,14 @@
                         }
                         toastr.success('Thêm tài khoản mới thành công', 'Thông báo');
                     },
+                    error: function (response) {
+                        toastr.options = {
+                        "closeButton": true,
+                            "progressBar": true,
+                            "positionClass": "toast-bottom-right",
+                        }
+                        toastr.error('Thêm tài khoản mới thất bại', 'Thông báo');
+                    }
                 })
             })
         </script>
