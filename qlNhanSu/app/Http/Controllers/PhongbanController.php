@@ -122,18 +122,22 @@ class PhongbanController extends Controller
         }
     }
     public function check_maPhongBan_unique(Request $request){
-        if (Phongban::where('maPhongBan', $request->maPhongBan)->exists()) {
-            echo "true";
-        } else {
-            echo "false";
+        if($request->maPhongBan==""){
+            return response()->json(["a"]);
+        }else if (Phongban::where('maPhongBan', $request->maPhongBan)->exists()) {
+            return response()->json(["b"]);
+        }else{
+            return response()->json(["c"]);
         }
     }
 
     public function check_tenPhongBan_unique(Request $request){
-        if (Phongban::where('tenPhongBan', $request->tenPhongBan)->exists()) {
-            echo "true";
-        } else {
-            echo "false";
+        if($request->tenPhongBan==""){
+            return response()->json(["a"]);
+        }else if (Phongban::where('tenPhongBan', $request->tenPhongBan)->exists()) {
+            return response()->json(["b"]);
+        }else{
+            return response()->json(["c"]);
         }
     }
 
