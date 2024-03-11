@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhongbanController;
 use App\Http\Controllers\KhenthuongController;
+use App\Models\Hopdong;
 use App\Models\Khenthuong;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -72,7 +73,9 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('hopdongs', HopdongController::class);
         Route::get('/fetch-hopdongs', [HopdongController::class, 'fetchHopdong'])->name('hopdongs.fetch');
-        Route::post('/get-ten-hopdong', [ChucvuController::class, 'getTenHopdong'])->name('get-ten-hopdong');
+        Route::post('/get-ten-hopdong', [HopdongController::class, 'getTenHopdong'])->name('get-ten-hopdong');
+        Route::get('/check_maHopdong_unique', [HopdongController::class, 'check_maHopdong_unique'])->name('check_maHopdong_unique');
+
 
         Route::resource('khenthuongs', KhenthuongController::class);
         Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');

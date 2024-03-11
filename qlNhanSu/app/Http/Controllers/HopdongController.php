@@ -12,17 +12,18 @@ class HopdongController extends Controller
 {
     public function index()
     {
-
-        return view('hopdong.index');
+        $nhansus = Nhansu::select('id', 'maNhanSu')->get();
+        return view('hopdong.index', compact('nhansus'));
     }
     public function fetchHopdong()
     {
-        //$hopdongs = Hopdong::orderByDesc('id')->get();
-        $hopdongs = DB::table('hopdongs')
-        ->join('nhansus', 'hopdongs.Manhansu', '=', 'nhansus.Manhansu')
-        ->select('hopdongs.id','nhansus.Manhansu', 'hopdongs.maHopdong','hopdongs.Ngaybatdau','hopdongs.Ngayketthuc','hopdongs.Ngayky','hopdongs.Lanky')
-        ->orderBy('hopdongs.id', 'desc')
-        ->get();
+        // $hopdongs = Hopdong::orderByDesc('id')->get();
+         $hopdongs = DB::table('hopdongs')
+         ->join('nhansus', 'hopdongs.Manhansu', '=', 'nhansus.Manhansu')
+         ->select('hopdongs.id','nhansus.HoTen', 'hopdongs.maHopdong','hopdongs.Ngaybatdau',
+                 'hopdongs.Ngayketthuc','hopdongs.Ngayky','hopdongs.Lanky')
+         ->orderBy('hopdongs.id', 'desc')
+         ->get();
 
         $i = $hopdongs->count() - $hopdongs->count();
         $output = '';
@@ -31,8 +32,8 @@ class HopdongController extends Controller
             <thead>
                 <tr>
                     <th class="text-center align-middle">STT</th>
-                    <th class="text-center align-middle">Mã nhân sự</th>
-                    <th class="text-center align-middle">Mã Hợp đồng</th>
+                    <th class="text-center align-middle">Tên nhân sự</th>
+                    <th class="text-center align-middle">Mã hợp đồng</th>
                     <th class="text-center align-middle">Ngày bắt đầu</th>
                     <th class="text-center align-middle">Ngày kết thúc</th>
                     <th class="text-center align-middle">Ngày ký</th>
@@ -47,7 +48,7 @@ class HopdongController extends Controller
                 $i++;
                 $output .= '<tr id="row_{{ $hopdong->id }}">
                     <td class="text-center align-middle">'.$i.'</td>
-                    <td class="text-center align-middle">'.$hopdong->Manhansu.'</td>
+                    <td class="text-center align-middle">'.$hopdong->HoTen.'</td>
                     <td class="text-center align-middle">'.$hopdong->maHopdong.'</td>
                     <td class="text-center align-middle">'.$hopdong->Ngaybatdau.'</td>
                     <td class="text-center align-middle">'.$hopdong->Ngayketthuc.'</td>
@@ -80,7 +81,7 @@ class HopdongController extends Controller
      */
     public function create(Request $request)
     {
-        $nhansus = Nhansu::select('id','Manhansu')->get();
+        $nhansus = Nhansu::select('id','Manhansu','Hoten')->get();
         return view('hopdong.create', compact('nhansus'));
     }
 
@@ -122,8 +123,6 @@ class HopdongController extends Controller
     {
         $hopdong = Hopdong::find($id);
 
-        // $chucvuData = ['maChucVu' => $request->maChucVu, 'tenChucVu' => $request->tenChucVu];
-        // $chucvu->update($chucvuData);
         $hopdong->update($request->all());
         return response()->json([
             'status' => true
@@ -142,11 +141,12 @@ class HopdongController extends Controller
         ]);
     }
 
-public function pagination(Request $request)
-    {
-        $hopdongs = Hopdong::orderBy('id', 'desc')->paginate(5);
-        $startNumber = ($hopdongs->currentPage() - 1) * $hopdongs->perPage() + 1;
-        return view('hopdong.pagination_hopdongs', compact('hopdongs', 'startNumber'))->render();
+    public function check_maHopdong_unique(Request $request){
+        if (Hopdong::where('maHopdong', $request->maHopdong)->exists()) {
+            echo "true";
+        } else {
+            echo "false";
+        }
     }
 
     public function getTenHopdong(Request $request){
