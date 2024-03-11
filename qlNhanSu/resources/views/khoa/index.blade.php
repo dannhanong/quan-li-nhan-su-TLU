@@ -131,8 +131,8 @@
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="mb-3 display"><h4 class="spanBold mt-5 mx-3" id="h4TenKhoa"></h4></div>
                                     <div class="mb-3"><span class="spanBold">Mã khoa: </span><span id="spanMaKhoa"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Tên khoa: </span><span id="h4TenKhoa"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
                                 </div>
@@ -155,20 +155,29 @@
             $('#formEditKhoa').validate({
                 rules:{
                     maKhoa:{
-                        required: true
+                        required: true,
+                        specialChars: true                       
                     },
                     tenKhoa:{
-                        required: true
+                        required: true,
+                        specialChars: true
                     }
                 },
                 messages:{
                     maKhoa: {
-                        required: "Vui lòng nhập mã khoa"
+                        required: "Vui lòng nhập mã khoa",
+                        specialChars: "Vui lòng không nhập ký tự đặc biệt"
                     },
                     tenKhoa: {
-                        required: "Vui lòng nhập tên khoa"
+                        required: "Vui lòng nhập tên khoa",
+                        specialChars: "Vui lòng không nhập ký tự đặc biệt"
                     },
                 },
+            });
+
+            // Thêm quy tắc kiểm tra ký tự đặc biệt
+            $.validator.addMethod("specialChars", function (value, element) {
+                return /^[a-zA-Z0-9À-ỹ]+$/.test(value);
             });
 
             $(document).on('keyup', '#maKhoa', function(){
@@ -273,7 +282,7 @@
                         $('.fade').hide();
                     },
                     error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
+                        toastr.error('Có lỗi xảy ra. Kiểm tra lại thông tin đã nhập', 'Thông báo');
                     }
                 })
             });
