@@ -156,6 +156,7 @@
 
                     <li class="{{ request() -> is('kiluat*') ? 'active' : '' }}"><a href="{{ route('kiluats.index') }}"><i class="fa-solid fa-ban col-md-2"></i></i>Kỉ luật</a></li>
 
+                    <li class="{{ request() -> is('trangthai*') ? 'active' : '' }}"><a href="{{ route('trangthais.index') }}"><i class="fa-solid fa-device-ssd col-md-2"></i></i>Trạng Thái</a></li>
 
                     <li class="treeview {{ request() -> is('profile*') || request() -> is('password') ? 'active' : '' }}">
                         <a href="#">

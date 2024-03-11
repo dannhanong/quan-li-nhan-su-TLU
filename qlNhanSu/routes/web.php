@@ -15,7 +15,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\HopdongController;
-
+use App\Http\Controllers\TrangthaiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,6 +84,13 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('bikiluats', BikiluatController::class);
         Route::get('/fetch-bikiluats', [BikiluatController::class, 'fetchBiKiLuat'])->name('bikiluats.fetch');
+
+        Route::resource('trangthais', TrangthaiController::class);
+        Route::get('/fetch-trangthais', [TrangthaiController::class, 'fetchTrangthai'])->name('trangthais.fetch');
+        Route::get('/check_maTrangThai_unique', [TrangthaiController::class, 'check_maTrangThai_unique'])->name('check_maTrangThai_unique');
+        Route::get('/check_tenTrangThai_unique', [TrangthaiController::class, 'check_tenTrangThai_unique'])->name('check_tenTrangThai_unique');
+        Route::post('/get-ten-trangthai', [TrangthaiController::class, 'getTenTrangthai'])->name('get-ten-trangthai');
+
 
         Route::get('/dashboard', function () {
             return view('dashboard');
