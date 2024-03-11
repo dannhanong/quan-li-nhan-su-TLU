@@ -77,6 +77,23 @@
                     },
                     chiTietKhenThuong:{
                         required: true
+                    }
+                },
+                messages:{
+                    Manhansu: {
+                        required: "Vui lòng nhập mã nhân sự"
+                    },
+                    ngayKhenThuong: {
+                        required: "Vui lòng nhập ngày khen thưởng"
+                    },
+                    lyDo: {
+                        required: "Vui lòng nhập lý do"
+                    },
+                    chiTietKhenThuong: {
+                        required: "Vui lòng nhập chi tiết khen thưởng"
+                    }
+                },
+            });
 
             $(document).on('submit', '.formKhenthuong', function(e) {
             e.preventDefault();
@@ -95,19 +112,6 @@
                         "positionClass": "toast-bottom-right",
                     }
                 },
-                messages:{
-                    Manhansu: {
-                        required: "Vui lòng nhập mã nhân sự"
-                    },
-                    ngayKhenThuong: {
-                        required: "Vui lòng nhập ngày khen thưởng"
-                    },
-                    lyDo: {
-                        required: "Vui lòng nhập lý do"
-                    },
-                    chiTietKhenThuong: {
-                        required: "Vui lòng nhập chi tiết khen thưởng"
-
                 error: function (xhr, status, error) {
                     toastr.options = {
                         "closeButton": true,
@@ -115,6 +119,7 @@
                         "positionClass": "toast-bottom-right",
                     }
                 },
+            });
             });
 
             $(document).on('change', '#Manhansu', function(){
