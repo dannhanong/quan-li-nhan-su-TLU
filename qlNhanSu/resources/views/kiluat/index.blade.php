@@ -45,7 +45,6 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ route('bikiluats.index') }}" class="btn btn-primary float-end">Kỉ luật nhân viên</a>
                                     <a href="{{ route('kiluats.create') }}" class="btn btn-primary float-end">Thêm mới</a>
                                 </div>
                             </div>
@@ -74,16 +73,26 @@
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Mã kỉ luật:</label>
-                                            <input class="form-control" type="text" name="maKiLuat" id="maKiLuat" placeholder="(*)">
-                                            <span id="errorMaKiLuat" class="error">Mã kỉ luật đã tồn tại</span>
+                                            <input class="form-control" type="text" name="maKiLuat" id="maKiLuat" readonly>
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Tên kỉ luật:</label>
-                                            <input class="form-control" name="tenKiLuat" id="tenKiLuat" placeholder="(*)">
-                                            <span id="errortenKiLuat" class="error">Tên kỉ luật đã tồn tại</span>
+                                            <label class="input-group-text" for="">Mã nhân sự:</label>
+                                            <input class="form-control" name="mans" id="mans" readonly>                                
                                         </div>
 
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Lí do kỉ luật:</label>
+                                            <input class="form-control" name="lidokiluat" id="lidokiluat">                                
+                                        </div>
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Chi tiết kỉ luật:</label>
+                                            <input class="form-control" name="chitietkiluat" id="chitietkiluat">                                
+                                        </div>
+                                        <div class="input-group mt-3 mb-3">
+                                            <label class="input-group-text" for="">Ngày kỉ luật:</label>
+                                            <input class="form-control" name="ngaykiluat" id="ngaykiluat" type="date" required>                                
+                                        </div>
                                         <div class="form-group float-end">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                             <input type="submit" name="btSave" value="Cập nhật" class="btn btn-primary">
@@ -134,6 +143,7 @@
                                 <div class="modal-body">
                                     <div class="border border-primary mb-3"><h4 style="font-weight: bold; font-style: italic;padding: 30px;text-align: center", tex id="h4TenKiLuat"></h4></div>
                                     <div class="mb-3"><span class="spanBold">Mã kỉ luật: </span><span id="spanMaKiLuat"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Chi tiết kỉ luật: </span><span id="spanChiTietKiLuat"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
                                 </div>
@@ -155,24 +165,24 @@
         <script>
             $('#errorMaKiLuat').hide();
             $('#errortenKiLuat').hide();
-            $('#formEditKiluat').validate({
-                rules:{
-                    maKiLuat:{
-                        required: true
-                    },
-                    tenKiLuat:{
-                        required: true
-                    }
-                }
-                ,messages:{
-                    maKiLuat: {
-                        required: "Vui lòng nhập mã kỉ luật"
-                    },
-                    tenKiLuat: {
-                        required: "Vui lòng nhập tên kỉ luật"
-                    },
-                }
-            });
+            // $('#formEditKiluat').validate({
+            //     rules:{
+            //         maKiLuat:{
+            //             required: true
+            //         },
+            //         tenKiLuat:{
+            //             required: true
+            //         }
+            //     }
+            //     ,messages:{
+            //         maKiLuat: {
+            //             required: "Vui lòng nhập mã kỉ luật"
+            //         },
+            //         tenKiLuat: {
+            //             required: "Vui lòng nhập tên kỉ luật"
+            //         },
+            //     }
+            // });
 
             $(document).on('keyup', '#maKiLuat', function(){
                 $.ajax({
@@ -237,8 +247,10 @@
                     success: function(response){
                         $('#id').val(response.id);
                         $('#maKiLuat').val(response.maKiLuat);
-                        $('#tenKiLuat').val(response.tenKiLuat);
-                        $('#maKiLuatF').val(response.maKiLuat);
+                        $('#mans').val(response.mans);
+                        $('#lidokiluat').val(response.lidokiluat);
+                        $('#chitietkiluat').val(response.chitietkiluat);
+                        $('#ngaykiluat').val(response.ngaykiluat);
                     }
                 })
             });
@@ -255,6 +267,7 @@
                     success: function(response){
                         $('#h4TenKiLuat').text(response.tenKiLuat);
                         $('#spanMaKiLuat').text(response.maKiLuat);
+                        $('#spanChiTietKiLuat').text(response.chitietkiluat);
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
@@ -275,7 +288,7 @@
                     success: function(response){
                         var tenKiLuat = response.tenKiLuat;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa kỉ luật: "+tenKiLuat+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa mã kỉ luật: "+response.maKiLuat+"?");
                     }
                 })
             });

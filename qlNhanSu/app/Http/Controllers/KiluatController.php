@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kiluat;
+use App\Models\Nhansu;
 use Illuminate\Http\Request;
 
 class KiluatController extends Controller
@@ -20,7 +21,8 @@ class KiluatController extends Controller
      */
     public function create()
     {
-        return view("kiluat.create");
+        $nhansus=Nhansu::all();
+        return view("kiluat.create", compact('nhansus'));
     }
 
     /**
@@ -89,7 +91,9 @@ class KiluatController extends Controller
                 <tr>
                     <th class="text-center align-middle">STT</th>
                     <th class="text-center align-middle">Mã kỉ luật</th>
-                    <th class="text-center align-middle">Tên kỉ luật</th>
+                    <th class="text-center align-middle">Mã nhân sự</th>
+                    <th class="text-center align-middle">Lí do</th>
+                    <th class="text-center align-middle">Ngày kỉ luật</th>
                     <th class="text-center align-middle">Thao tác</th>
                 </tr>
             </thead>
@@ -101,7 +105,9 @@ class KiluatController extends Controller
                 $output .= '<tr id="row_{{ $kiluat->id }}">
                     <td class="text-center align-middle">'.$i.'</td>
                     <td class="text-center align-middle">'.$kiluat->maKiLuat.'</td>
-                    <td class="text-center align-middle">'.$kiluat->tenKiLuat.'</td>
+                    <td class="text-center align-middle">'.$kiluat->mans.'</td>
+                    <td class="text-center align-middle">'.$kiluat->lidokiluat.'</td>
+                    <td class="text-center align-middle">'.$kiluat->ngaykiluat.'</td>
                     <td class="text-center align-middle">
                         <a id="aShowkiluat" data-id_show="'.$kiluat->id.'" href="#" data-toggle="modal" data-target="#showkiluatModal"><i class="fa-solid fa-eye"></i></a> ';
                         if (auth()->check() && auth()->user()->role == 0) {
@@ -121,10 +127,12 @@ class KiluatController extends Controller
     }
 
     public function check_maKiLuat_unique(Request $request){
-        if (Kiluat::where('maKiLuat', $request->maKiLuat)->exists()) {
-            echo "true";
-        } else {
-            echo "false";
+        if($request->maKiLuat==""){
+            return response()->json(["a"]);
+        }else if (Kiluat::where('maKiLuat', $request->maKiLuat)->exists()) {
+            return response()->json(["b"]);
+        }else{
+            return response()->json(["c"]);
         }
     }
 
