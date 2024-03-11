@@ -139,6 +139,47 @@
         <script src="{{ asset('assets') }}/js/app.js"></script>
         <script>
             $('#spanErrorAvatar').hide();
+            $('#formNhansu').validate({
+                rules:{
+                    Manhansu:{
+                        required: true
+                    },
+                    account:{
+                        required: true
+                    },
+                    email:{
+                        required: true,
+                        email: true
+                    },
+                    CCCD: {
+                        required: true
+                    },
+                    Hoten: {
+                        required: true
+                    },
+                    SDT: {
+                        required: true
+                    },
+                },
+                messages:{
+                    account: {
+                        required: "Trường tài khoản không được để trống"
+                    },
+                    email: {
+                        required: "Trường email không được để trống",
+                        email: "Vui lòng nhập đúng định dạng email"
+                    },
+                    CCCD: {
+                        required: "Trường CCCD không được để trống"
+                    },
+                    Hoten: {
+                        required: "Trường họ tên không được để trống"
+                    },
+                    SDT: {
+                        required: "Trường số điện thoại không được để trống"
+                    }
+                },
+            });
             $('#avatar').change(function() {
                 var fileName = $(this).val();
                 var extension = fileName.split('.').pop().toLowerCase();
@@ -184,6 +225,9 @@
                         }
                         toastr.success('Thêm nhân sự mới thành công', 'Thông báo');
                     },
+                    error: function (error) {
+                        toastr.error('Thêm nhân sự mới thất bại', 'Lỗi');
+                    }
                 })
             })
         </script>

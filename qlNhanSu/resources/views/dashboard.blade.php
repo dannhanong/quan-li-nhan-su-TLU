@@ -42,7 +42,7 @@
 
                 <div class="col-md-3">
                     <div class="small-box icon">
-                        <a href="{{ route('khoas.index') }}">
+                        <a href="{{ route('nhansus.index') }}">
                             <div class="box-content text-center">
                                 <i class="fa-solid fa-people-group my-4 ic"></i>
                                 <h4 class="can">Nhân sự</h4>

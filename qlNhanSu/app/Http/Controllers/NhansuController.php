@@ -33,6 +33,7 @@ class NhansuController extends Controller
         'Ngaybatdau', 'Diachi', 'SDT', 'Quequan', 'phongbans.tenPhongBan',
         'chucvus.tenChucVu', 'khoas.tenKhoa', 'Anhdaidien', 'nhansus.email',
         'Hesoluong', 'Bacluong')
+        ->where('nhansus.deleted_at', null)
         ->orderBy("nhansus.id", "desc")
         ->get();
         $i =  $nhansus->count() - $nhansus->count();
@@ -279,9 +280,9 @@ class NhansuController extends Controller
                         <td class="text-center align-middle">'.$nhansu->tenChucVu.'</td>
                         <td class="text-center align-middle">'.$nhansu->tenKhoa.'</td>
                         <td class="text-center align-middle">
-                            <a id="aShowNhansu" data-id_show="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#showNhansuModal"><i class="fa-solid fa-eye"></i></a> ';
+                            <a id="aShowNhansuNghiHuu" data-id_show="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#showNhansuModal"><i class="fa-solid fa-eye"></i></a> ';
                             if (auth()->check() && auth()->user()->role == 0) {
-                                $output .= ' <a id="aDeleteNhansu" data-id_xoa="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#deleteNhansuModal"><i class="anhansu fa-solid fa-solid fa-trash"></i></a>';
+                                $output .= ' <a id="aDeleteNhansuNghiHuu" data-id_xoa="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#deleteNhansuModal"><i class="anhansu fa-solid fa-solid fa-trash"></i></a>';
                             }
                         $output .= '</td>
                     </tr>';
@@ -294,5 +295,21 @@ class NhansuController extends Controller
         }else{
             echo '<h1 class = "text-center text-secondary my-5">Chưa có dữ liệu</h1>';
         }
+    }
+
+    public function showNhanSuNghiHuu(Request $request)
+    {
+        $id = $request->id;
+        $nhansu = Nhansu::withTrashed()->find($id);
+        return response()->json($nhansu);
+    }
+
+    public function deleteNhansuNghihuu(string $id)
+    {
+        $nhansu = Nhansu::withTrashed()->find($id);
+        $nhansu->forceDelete();
+        return response()->json([
+            'status' => true
+        ]);
     }
 }

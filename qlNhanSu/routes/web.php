@@ -67,6 +67,8 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/nhansuNghihuu@{id}', [NhansuController::class, 'nghiHuu'])->name('nhansus@nghihuu');
         Route::get('/nhansu_Nghihuu', [NhansuController::class, 'nhansuNghihuu'])->name('nhansu_Nghihuu');
         Route::get('/fetch-nhansuNghihuus', [NhansuController::class, 'fetchNhansuNghihuu'])->name('nhansuNghihuus.fetch');
+        Route::get('/showNhansusnghihuu', [NhansuController::class, 'showNhanSuNghiHuu'])->name('showNhansusnghihuu');
+        Route::get('/delete_Nhansu_Nghihuu#{id}', [NhansuController::class, 'deleteNhansuNghihuu'])->name('delete_Nhansu_Nghihuu');
 
         Route::resource('hopdongs', HopdongController::class);
         Route::get('/fetch-hopdongs', [HopdongController::class, 'fetchHopdong'])->name('hopdongs.fetch');

@@ -165,7 +165,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ request() -> is('profile*') ? 'active' : '' }}"><a href="{{ route('profile.edit') }}"><i class="fa-solid fa-id-card-clip col-md-3"></i>Thông tin cá nhân</a></li>
+                            {{-- <li class="{{ request() -> is('profile*') ? 'active' : '' }}"><a href="{{ route('profile.edit') }}"><i class="fa-solid fa-id-card-clip col-md-3"></i>Thông tin cá nhân</a></li> --}}
                             <li class="{{ request() -> is('profile*') ? 'active' : '' }}"><a href="{{ route('profile.edit') }}"><i class="fa-solid fa-wrench col-md-3"></i>Thông tin tài khoản</a></li>
                             <li class="{{ request() -> is('password*') ? 'active' : '' }}"><a href="{{ route('profile.change-pass') }}"><i class="fa-solid fa-shield-halved col-md-3"></i>Đổi mật khẩu</a></li>
                         </ul>

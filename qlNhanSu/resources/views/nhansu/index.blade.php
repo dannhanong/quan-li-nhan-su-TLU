@@ -325,7 +325,19 @@
                     email:{
                         required: true,
                         email: true
-                    }
+                    },
+                    Manhansu:{
+                        required: true
+                    },
+                    Hoten:{
+                        required: true
+                    },
+                    CCCD:{
+                        required: true
+                    },
+                    SDT:{
+                        required: true
+                    },
                 },
                 messages:{
                     account: {
@@ -335,6 +347,18 @@
                         required: "Trường email không được để trống",
                         email: "Vui lòng nhập đúng định dạng email"
                     },
+                    Manhansu: {
+                        required: "Trường mã nhân sự không được để trống"
+                    },
+                    Hoten: {
+                        required: "Trường họ tên không được để trống"
+                    },
+                    CCCD: {
+                        required: "Trường CCCD không được để trống"
+                    },
+                    SDT: {
+                        required: "Trường số điện thoại không được để trống"
+                    }
                 },
             });
 
@@ -543,6 +567,30 @@
                         $('#formDeleteNhansu')[0].reset();
                         fetchAllNhansus();
                         $('.fade').hide();
+                    },
+                    error: function(){
+                        toastr.error('Có lỗi xảy ra', 'Thông báo');
+                    }
+                })
+            });
+
+            $(document).on('submit', '#formRetiNhansu', function(e){
+                e.preventDefault();
+                let id = $('#id').val();
+                $.ajax({
+                    url: '/nhansuNghihuu@:id"'.replace(':id', id),
+                    type: 'get',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response){
+                        toastr.success('Chuyển nhân sự thành công', 'Thông báo');
+                        $('#formRetiNhansu')[0].reset();
+                        fetchAllNhansus();
+                        $('.fade').hide();
+                    },
+                    error: function(){
+                        toastr.error('Có lỗi xảy ra', 'Thông báo');
                     }
                 })
             });
@@ -571,12 +619,12 @@
                                     {
                                         data: 'Thao tác',
                                         className: 'not-exp',
-                                        targets: [6]
+                                        targets: [10]
                                     },
                                     {
                                         data: 'Ảnh đại diện',
                                         className: 'not-exp',
-                                        targets: [3]
+                                        targets: [2 ]
                                     }
                                 ],
 
@@ -616,10 +664,8 @@
                                 ],
                             });
                             $('.dt-length label').remove();
-
                             $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
-
                         }
                     })
                 };

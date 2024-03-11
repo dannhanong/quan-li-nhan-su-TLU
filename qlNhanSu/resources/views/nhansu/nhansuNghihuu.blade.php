@@ -84,9 +84,10 @@
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                    <form id="formDeleteNhansu" class="formDeleteNhansu" action="" method="POST">
+                                    <form id="formDeleteNhansuNghiHuu" class="formDeleteNhansuNghiHuu" action="" method="POST">
                                         @csrf
                                         @method('DELETE')
+                                        <input type="hidden" name="idHuu" id="idHuu">
                                         <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
                                     </form>
                                     </div>
@@ -121,8 +122,7 @@
                                         <div class="mb-3"><span class="spanBold">Bậc lương: </span><span id="spanBacluong"></span></div>
                                         <div class="mb-3"><span class="spanBold">Email cá nhân: </span><span id="spanEmail"></span></div>
 
-                                        <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
-                                        <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
+                                        <div class="mb-3"><span class="spanBold">Thời gian nghỉ: </span><span id="spanDeleteAt"></span></div>
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -140,31 +140,6 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
-            $('#spanErrorAnhdaidien').hide();
-
-            $(document).on('keyup', '#email', function(){
-                $.ajax({
-                    url: '{{ route("check_email_edit") }}',
-                    type: 'get',
-                    data: {
-                            email: function(){
-                                return $('#email').val();
-                            },
-                            '_token': $('meta[name="csrf-token"]').attr('content'),
-                            emailF: function(){
-                                return $('#emailF').val();
-                            }
-                        },
-                    success: function(response){
-                        if(response.status == false){
-                            $('.sErrEmail').show();
-                        }else if (response.status == true){
-                            $('.sErrEmail').hide();
-                        }
-                    }
-                })
-            });
-
             $(function() {
                 fetchAllNhansuNghihuus();
                 toastr.options = {
@@ -173,10 +148,10 @@
                 "positionClass": "toast-bottom-right",
             };
 
-            $(document).on('click', '#aShowNhansu', function(){
+            $(document).on('click', '#aShowNhansuNghiHuu', function(){
                 let id = $(this).data('id_show');
                 $.ajax({
-                    url: '{{ route("nhansus.show", ":id") }}'.replace(':id', id),
+                    url: '{{ route("showNhansusnghihuu", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
@@ -231,18 +206,16 @@
                         $('#spanBacluong').text(response.Bacluong);
                         $('#spanEmail').text(response.email);
 
-                        var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
-                        $('#spanCreateAt').text(formattedCreate);
-                        var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
-                        $('#spanUpdateAt').text(formattedUpdate);
+                        var formattedDelete = moment(response.delete_at).format('DD/MM/YYYY');
+                        $('#spanDeleteAt').text(formattedDelete);
                     }
                 })
             });
 
-            $(document).on('click', '#aDeleteNhansu', function(e){
+            $(document).on('click', '#aDeleteNhansuNghiHuu', function(e){
                 let id = $(this).data('id_xoa');
                 $.ajax({
-                    url: '{{ route("nhansus.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("showNhansusnghihuu", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data:{
                         id: id,
@@ -250,15 +223,15 @@
                     },
                     success: function(response){
                         var tenNhansu = response.Hoten;
-                        $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa nhân sự: "+tenNhansu+"?");
+                        $('#idHuu').val(response.id);
+                        $('#tb').text("Bạn chắc chắn muốn xóa nhân sự: "+tenNhansu+" khỏi danh sách nghỉ hưu?");
                     }
                 })
             });
 
-            $(document).on('submit', '#formDeleteNhansu', function(e){
+            $(document).on('submit', '#formDeleteNhansuNghiHuu', function(e){
                 e.preventDefault();
-                let id = $('#id').val();
+                let id = $('#idHuu').val();
                 $.ajax({
                     url: '{{ route("nhansus.destroy", ":id") }}'.replace(':id', id),
                     type: 'delete',
@@ -267,7 +240,7 @@
                     },
                     success: function(response){
                         toastr.success('Xóa nhân sự thành công', 'Thông báo');
-                        $('#formDeleteNhansu')[0].reset();
+                        $('#formDeleteNhansuNghiHuu')[0].reset();
                         fetchAllNhansuNghihuus();
                         $('.fade').hide();
                     }
@@ -298,12 +271,12 @@
                                     {
                                         data: 'Thao tác',
                                         className: 'not-exp',
-                                        targets: [6]
+                                        targets: [11]
                                     },
                                     {
                                         data: 'Ảnh đại diện',
                                         className: 'not-exp',
-                                        targets: [3]
+                                        targets: [2]
                                     }
                                 ],
 
@@ -343,7 +316,6 @@
                                 ],
                             });
                             $('.dt-length label').remove();
-
                             $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
                         }
