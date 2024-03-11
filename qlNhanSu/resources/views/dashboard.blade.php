@@ -64,6 +64,17 @@
 
                 <div class="col-md-3">
                     <div class="small-box icon">
+                        <a href="{{ route('hopdongs.index') }}">
+                            <div class="box-content text-center">
+                                <i class="fa-solid fa-file-signature my-4 ic"></i>
+                                <h4 class="can">Hợp đồng</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="small-box icon">
                         <a href="{{ route('profile.edit') }}">
                             <div class="box-content text-center">
                                 <i class="fa-solid fa-circle-exclamation my-4 ic"></i>

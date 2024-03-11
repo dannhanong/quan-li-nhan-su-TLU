@@ -57,7 +57,6 @@
                 type: 'post',
                 data: $('.formKhenthuong').serialize(),
                 success: function (response) {
-                    // Handle success
                     $('#ngayKhenThuong').val('');
                     $('#lyDo').val('');
                     $('#chiTietKhenThuong').val('');
@@ -70,7 +69,6 @@
                     toastr.success('Thêm mới khen thưởng thành công', 'Thông báo');
                 },
                 error: function (xhr, status, error) {
-                    // Handle errors
                     toastr.options = {
                         "closeButton": true,
                         "progressBar": true,

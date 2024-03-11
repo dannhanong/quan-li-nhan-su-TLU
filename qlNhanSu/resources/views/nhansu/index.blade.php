@@ -66,6 +66,47 @@
                                 </div>
                             </div>
 
+                            <div class="mx-3 mt-1 d-flex">
+                                <div class="input-group">
+                                    <label class="input-group-text" for="">Phòng ban:</label>
+                                    <select name="MaphongbanF" id="MaphongbanF">
+                                        <option value="">Chọn phòng ban...</option>
+                                        @foreach ($phongbans as $phongban)
+                                            <option value="{{ $phongban->id }}">
+                                                {{ $phongban->tenPhongBan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="input-group-text" for="">Chức vụ:</label>
+                                    <select name="MaChucVuF" id="MaChucVuF">
+                                        <option value="">Chọn chức vụ...</option>
+                                        @foreach ($chucvus as $chucvu)
+                                            <option value="{{ $chucvu->id }}">
+                                                {{ $chucvu->tenChucVu }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="input-group-text" for="">Khoa:</label>
+                                    <select name="MakhoaF" id="MakhoaF">
+                                        <option value="">Chọn khoa...</option>
+                                        @foreach ($khoas as $khoa)
+                                            <option value="{{ $khoa->id }}">
+                                                {{ $khoa->tenKhoa }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <button class="mx-2" id="btn_Refesh"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                <button type="button" class="btn btn-outline-primary filter-button" id="filter-button">Lọc</button>
+                            </div>
+
                             <div class="row card-body table-data">
 
                             </div>
@@ -595,10 +636,103 @@
                 })
             });
 
+            $('#filter-button').click(function() {
+                var Maphongban = $('#MaphongbanF').val();
+                var MaChucVu = $('#MaChucVuF').val();
+                var Makhoa = $('#MakhoaF').val();
+                $('#nhansuTable').DataTable().destroy();
+                fetchFilterNhansus(Maphongban, MaChucVu, Makhoa);
+            });
+
+            $('#btn_Refesh').click(function() {
+                $('#nhansuTable').DataTable().destroy();
+                fetchAllNhansus();
+            });
+
                 function fetchAllNhansus(){
                     $.ajax({
                         url: "{{ route('nhansus.fetch') }}",
                         type: 'get',
+                        success: function(response){
+                            $('.table-data').html(response);
+                            $('#nhansuTable').DataTable({
+                                select: true,
+                                language: {
+                                    emptyTable:     "Không có dữ liệu nào được tìm thấy",
+                                    zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
+                                    info:           "",
+                                    infoEmpty:      "",
+                                    infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
+                                    search:         "",
+                                },
+                                dom: '<"H"lBrf><"clear">t<"F"p>',
+                                responsive: true,
+                                // pagingType: 'numbers',
+                                order: [0, 'asc'],
+                                columnDefs: [
+                                    {
+                                        data: 'Thao tác',
+                                        className: 'not-exp',
+                                        targets: [10]
+                                    },
+                                    {
+                                        data: 'Ảnh đại diện',
+                                        className: 'not-exp',
+                                        targets: [2 ]
+                                    }
+                                ],
+
+                                buttons: [
+                                    {
+                                        extend: 'copyHtml5',
+                                        text: 'Copy',
+                                        exportOptions: {
+                                            columns: ':visible :not(.not-exp)'
+                                        }
+                                    },
+                                    {
+                                        extend: 'excelHtml5',
+                                        text: 'Excel',
+                                        exportOptions: {
+                                            columns: ':visible :not(.not-exp)'
+                                        }
+                                    },
+                                    {
+                                        extend: 'csvHtml5',
+                                        text: 'CSV',
+                                        exportOptions: {
+                                            columns: ':visible :not(.not-exp)'
+                                        }
+                                    },
+                                    {
+                                        extend: 'pdfHtml5',
+                                        text: 'PDF',
+                                        exportOptions: {
+                                            columns: ':visible :not(.not-exp)'
+                                        }
+                                    },
+                                    {
+                                        extend: 'colvis',
+                                        text: 'Các trường hiển thị'
+                                    },
+                                ],
+                            });
+                            $('.dt-length label').remove();
+                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
+                            $('#dt-length-1').prepend('<option value="5">5</option>');
+                        }
+                    })
+                };
+
+                function fetchFilterNhansus(phongban, chucvu, khoa){
+                    $.ajax({
+                        url: '/filter',
+                        type: 'GET',
+                        data: {
+                            Maphongban: phongban,
+                            MaChucVu: chucvu,
+                            Makhoa: khoa
+                        },
                         success: function(response){
                             $('.table-data').html(response);
                             $('#nhansuTable').DataTable({
