@@ -21,21 +21,22 @@ class KhenthuongController extends Controller
     {
         $khenthuongs = DB::table('khenthuongs')
         ->join('nhansus', 'khenthuongs.Manhansu', '=', 'nhansus.Manhansu')
-        ->select('khenthuongs.id', 'khenthuongs.Manhansu', 'nhansus.Hoten',
-        'khenthuongs.ngayKhenThuong', 'khenthuongs.lyDo', 'khenthuongs.chiTietKhenThuong')
+        ->select('khenthuongs.*', 'nhansus.Hoten')
         ->orderBy('khenthuongs.id', 'desc')
         ->get();
 
         $i = $khenthuongs->count() - $khenthuongs->count();
         $output = '';
         if($khenthuongs->count() > 0){
-            $output .= '<table class="table table-bordered" id="khoaTable" style="width: 100%">
+            $output .= '<table class="table table-bordered" id="khenthuongTable" style="width: 100%">
             <thead>
                 <tr>
                     <th class="text-center align-middle">STT</th>
                     <th class="text-center align-middle">Mã nhân sự</th>
                     <th class="text-center align-middle">Tên nhân sự</th>
                     <th class="text-center align-middle">Ngày khen thưởng</th>
+                    <th class="text-center align-middle">Lý do</th>
+                    <th class="text-center align-middle">Chi tiết khen thưởng</th>
                     <th class="text-center align-middle">Thao tác</th>
                 </tr>
             </thead>
@@ -49,6 +50,8 @@ class KhenthuongController extends Controller
                     <td class="text-center align-middle">'.$khenthuong->Manhansu.'</td>
                     <td class="text-center align-middle">'.$khenthuong->Hoten.'</td>
                     <td class="text-center align-middle">'.$khenthuong->ngayKhenThuong.'</td>
+                    <td class="text-center align-middle">'.$khenthuong->lyDo.'</td>
+                    <td class="text-center align-middle">'.$khenthuong->chiTietKhenThuong.'</td>
                     <td class="text-center align-middle">
                         <a id="aShowKhenthuong" data-id_show="'.$khenthuong->id.'" href="#" data-toggle="modal" data-target="#showKhenthuongModal"><i class="fa-solid fa-eye"></i></a> ';
                         if (auth()->check() && auth()->user()->role == 0) {
@@ -93,7 +96,9 @@ class KhenthuongController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
-        $khenthuong = Khenthuong::find($id);
+        $khenthuong = Khenthuong::select('khenthuongs.*', 'nhansus.Hoten')
+        ->join('nhansus', 'khenthuongs.Manhansu', '=', 'nhansus.Manhansu')
+        ->find($id);
         return response()->json($khenthuong);
     }
 
@@ -128,5 +133,21 @@ class KhenthuongController extends Controller
         $khenthuong->delete();
         return response()->json([
         ]);
+    }
+
+    public function getManhansuList(Request $request)
+    {
+        $query = $request->get('query');
+        $suggestions = Nhansu::where('Manhansu', 'like', '%' . $query . '%')->pluck('Manhansu');
+        return response()->json($suggestions);
+    }
+
+    public function getManhansuExists(Request $request){
+        $Manhansu = Nhansu::where('Manhansu', $request->Manhansu)->first();
+        if($Manhansu){
+            echo 'true';
+        }else{
+            echo 'flase';
+        }
     }
 }

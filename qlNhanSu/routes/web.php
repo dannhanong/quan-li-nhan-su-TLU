@@ -77,6 +77,8 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('khenthuongs', KhenthuongController::class);
         Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');
+        Route::get('/get_Manhansu_list', [KhenThuongController::class, 'getManhansuList'])->name('get_Manhansu_list');
+        Route::get('/check_Manhansu_exists', [KhenThuongController::class, 'getManhansuExists'])->name('check_Manhansu_exists');
 
         Route::resource('kiluats', KiluatController::class);
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');

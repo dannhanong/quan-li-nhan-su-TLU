@@ -12,5 +12,4 @@ class Khoa extends Model
         'maKhoa',
         'tenKhoa'
     ];
-    public $timestamps = false;
 }
