@@ -69,7 +69,7 @@
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="id" id="id">
-                                        <input type="hidden" name="maHopdongF" id="maHopdongF">
+                                        <input type="hidden" name="maHopdong" id="maHopdong">
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Mã Nhân sự:</label>
@@ -214,7 +214,7 @@
                 "positionClass": "toast-bottom-right",
             };
 
-            $(document).on('click', '#aEditHopdong', function(e) {
+            $(document).on('click', '#aEditHopDong', function(e) {
                 let id = $(this).data('id_edit');
                 $.ajax({
                     url: '{{ route("hopdongs.edit", ":id") }}'.replace(':id', id),
@@ -225,8 +225,12 @@
                     },
                     success: function(response){
                         $('#id').val(response.id);
-                        $('#maHopDong').val(response.maHopDong);
-                        $('#maHopDongF').val(response.maHopDong);
+                        $('#maHopdong').val(response.maHopdong);
+                        $('#Manhansu').val(response.Manhansu);
+                        $('#Ngaybatdau').val(response.Ngaybatdau);
+                        $('#Ngayketthuc').val(response.Ngayketthuc);
+                        $('#Ngayky').val(response.Ngayky);
+                        $('#Lanky').val(response.Lanky);
                     }
                 })
             });
@@ -272,8 +276,7 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        var maHopDong = response.maHopDong;
-                        $('#id').val(response.id);
+                        var maHopDong = response.maHopdong;
                         $('#tb').text("Bạn chắc chắn muốn xóa hợp đồng: "+maHopDong+"?");
                     }
                 })

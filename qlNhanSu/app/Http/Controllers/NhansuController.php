@@ -425,7 +425,7 @@ class NhansuController extends Controller
 
     public function getTenNhanSu(Request $request)
     {
-        $nhansu = Nhansu::find($request->id);
+        $nhansu = Nhansu::where('Manhansu', $request->id);
         return response()->json($nhansu);
     }
 
