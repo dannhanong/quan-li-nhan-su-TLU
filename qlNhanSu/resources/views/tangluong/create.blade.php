@@ -2,7 +2,7 @@
     @extends('header')
         @section('main-content')
         <section class="content bg-white" style="height: 85vh">
-            <h1 class="text-center text-dark">Thêm kỉ luật</h1>
+            <h1 class="text-center text-dark">Thêm tăng lương</h1>
 
             <div class="container-fluid col-8">
                 <div class="row">
@@ -11,24 +11,24 @@
                             @csrf
 
                             <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Mã kỉ luật:</label>
-                                <input class="form-control pt90" type="text" name="maKiLuat" id="maKiLuat" value="{{ old('maKiLuat') }}" placeholder="(*)" required>
+                                <label class="input-group-text" for="">Mã tăng lương:</label>
+                                <input class="form-control pt90" type="text" name="maTangLuong" id="maTangLuong" value="{{ old('maTangLuong') }}" placeholder="(*)" required>
                                 <span id="errorMaKiLuat" class="error"></span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Ngày kỉ luật:</label>
-                                <input class="form-control pt90" type="date" name="ngaykiluat" id="ngaykiluat" required>
+                                <label class="input-group-text" for="">Ngày tăng lương:</label>
+                                <input class="form-control pt90" type="date" name="ngaytangluong" id="ngaytangluong" required>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Lí do kỉ luật:</label>
-                                <input class="form-control pt90" type="text" name="lidokiluat" id="lidokiluat" placeholder="(*)" required>
+                                <label class="input-group-text" for="">Lí do tăng lương:</label>
+                                <input class="form-control pt90" type="text" name="lidotangluong" id="lidotangluong" placeholder="(*)" required>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Chi tiết kỉ luật:</label>
-                                <input class="form-control pt90" type="text" name="chitietkiluat" id="chitietkiluat" placeholder="(*)" required>
+                                <label class="input-group-text" for="">Chi tiết tăng lương:</label>
+                                <input class="form-control pt90" type="text" name="chitiettangluong" id="chitiettangluong" placeholder="(*)" required>
                             </div>
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mã nhân sự:</label>
@@ -42,7 +42,7 @@
                             </div>
                             
                             <div class="form-group  float-end ">
-                                <a href="{{ route('kiluats.index') }}" class="btn btn-secondary ">Quay lại</a>
+                                <a href="{{ route('tangluongs.index') }}" class="btn btn-secondary ">Quay lại</a>
                                 <input type="submit" value="Xác nhận" class="btn btn-primary" name="btAdd" id="btAddKiLuat">
                             </div>
                         </form>
@@ -72,22 +72,22 @@
             //         },
             //     }
             // });
-            $(document).on('keyup', '#maKiLuat', function(){
+            $(document).on('keyup', '#maTangLuong', function(){
                 $.ajax({
-                    url: '{{ route("check_maKiLuat_unique") }}',
+                    url: '{{ route("check_maTangLuong_unique") }}',
                     type: 'get',
                     data: {
                         '_token': $('meta[name="csrf-token"]').attr('content'),
-                        maKiLuat: function(){
-                            return $('#maKiLuat').val();
+                        maTangLuong: function(){
+                            return $('#maTangLuong').val();
                         }
                     },
                     success: function(response){
                         if(response == 'b'){
-                            $("#errorMaKiLuat").text("Mã kỉ luật đã tồn tại")
+                            $("#errorMaKiLuat").text("Mã tăng lương đã tồn tại")
                             $("#errorMaKiLuat").show();
                         }else if(response=="a"){
-                            $("#errorMaKiLuat").text("Vui lòng nhập mã Kỉ luật");
+                            $("#errorMaKiLuat").text("Vui lòng nhập mã tăng lương");
                             $("#errorMaKiLuat").show();
                         }else if(response=="c"){
                             $("#errorMaKiLuat").hide();
@@ -102,20 +102,20 @@
                     toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
                 } else {
                     $.ajax({
-                    url: "{{ route('kiluats.store') }}",
+                    url: "{{ route('tangluongs.store') }}",
                     type: 'post',
                     data: $('.formKiLuat').serialize(),
                     success: function (response) {
-                        $('#maKiLuat').val('');
-                        $('#lidokiluat').val('');
-                        $('#ngaykiluat').val('');
-                        $('#chitietkiluat').val('');
+                        $('#maTangLuong').val('');
+                        $('#lidotangluong').val('');
+                        $('#ngaytangluong').val('');
+                        $('#chitiettangluong').val('');
                         toastr.options = {
                         "closeButton": true,
                             "progressBar": true,
                             "positionClass": "toast-bottom-right",
                         }
-                        toastr.success('Thêm mới kỉ luật thành công', 'Thông báo');
+                        toastr.success('Thêm mới tăng lương thành công', 'Thông báo');
                     },
                     })   
                 }

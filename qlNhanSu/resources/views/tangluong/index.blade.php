@@ -41,11 +41,11 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h3>Danh sách kỉ luật</h3>
+                                    <h3>Danh sách tăng lương</h3>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ route('kiluats.create') }}" class="btn btn-primary float-end">Thêm mới</a>
+                                    <a href="{{ route('tangluongs.create') }}" class="btn btn-primary float-end">Thêm mới</a>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa kỉ luật</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa tăng lương</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
@@ -72,8 +72,8 @@
                                         <input type="hidden" name="maKiLuatF" id="maKiLuatF">
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Mã kỉ luật:</label>
-                                            <input class="form-control" type="text" name="maKiLuat" id="maKiLuat" readonly>
+                                            <label class="input-group-text" for="">Mã tăng lương:</label>
+                                            <input class="form-control" type="text" name="maTangLuong" id="maTangLuong" readonly>
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
@@ -82,16 +82,16 @@
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Lí do kỉ luật:</label>
-                                            <input class="form-control" name="lidokiluat" id="lidokiluat" required>                                
+                                            <label class="input-group-text" for="">Lí do tăng lương:</label>
+                                            <input class="form-control" name="lidotangluong" id="lidotangluong" required>                                
                                         </div>
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Chi tiết kỉ luật:</label>
-                                            <input class="form-control" name="chitietkiluat" id="chitietkiluat" required>                                
+                                            <label class="input-group-text" for="">Chi tiết tăng lương:</label>
+                                            <input class="form-control" name="chitiettangluong" id="chitiettangluong" required>                                
                                         </div>
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Ngày kỉ luật:</label>
-                                            <input class="form-control" name="ngaykiluat" id="ngaykiluat" type="date" required>                                
+                                            <label class="input-group-text" for="">Ngày tăng lương:</label>
+                                            <input class="form-control" name="ngaytangluong" id="ngaytangluong" type="date" required>                                
                                         </div>
                                         <div class="form-group float-end">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -135,15 +135,15 @@
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết kỉ luật</h4>
+                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết tăng lương cho nhân sự</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="border border-primary mb-3"><h4 style="font-weight: bold; font-style: italic;padding: 30px;text-align: center", tex id="h4TenKiLuat"></h4></div>
-                                    <div class="mb-3"><span class="spanBold">Mã kỉ luật: </span><span id="spanMaKiLuat"></span></div>
-                                    <div class="mb-3"><span class="spanBold">Chi tiết kỉ luật: </span><span id="spanChiTietKiLuat"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Mã tăng lương: </span><span id="spanMaKiLuat"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Chi tiết tăng lương: </span><span id="spanChiTietKiLuat"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
                                 </div>
@@ -228,7 +228,7 @@
             });
 
             $(function() {
-                fetchAllKiLuat();
+                fetchAllTangLuong();
                 toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
@@ -238,7 +238,7 @@
             $(document).on('click', '#aEditkiluat', function(e) {
                 let id = $(this).data('id_edit');
                 $.ajax({
-                    url: '{{ route("kiluats.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("tangluongs.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
@@ -246,11 +246,11 @@
                     },
                     success: function(response){
                         $('#id').val(response.id);
-                        $('#maKiLuat').val(response.maKiLuat);
+                        $('#maTangLuong').val(response.maTangLuong);
                         $('#mans').val(response.mans);
-                        $('#lidokiluat').val(response.lidokiluat);
-                        $('#chitietkiluat').val(response.chitietkiluat);
-                        $('#ngaykiluat').val(response.ngaykiluat);
+                        $('#lidotangluong').val(response.lidotangluong);
+                        $('#chitiettangluong').val(response.chitiettangluong);
+                        $('#ngaytangluong').val(response.ngaytangluong);
                     }
                 })
             });
@@ -258,7 +258,7 @@
             $(document).on('click', '#aShowkiluat', function(){
                 let id = $(this).data('id_show');
                 $.ajax({
-                    url: '{{ route("kiluats.show", ":id") }}'.replace(':id', id),
+                    url: '{{ route("tangluongs.show", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
@@ -266,8 +266,8 @@
                     },
                     success: function(response){
                         $('#h4TenKiLuat').text(response.tenKiLuat);
-                        $('#spanMaKiLuat').text(response.maKiLuat);
-                        $('#spanChiTietKiLuat').text(response.chitietkiluat);
+                        $('#spanMaKiLuat').text(response.maTangLuong);
+                        $('#spanChiTietKiLuat').text(response.chitiettangluong);
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
@@ -279,7 +279,7 @@
             $(document).on('click', '#aDeletekiluat', function(e){
                 let id = $(this).data('id_xoa');
                 $.ajax({
-                    url: '{{ route("kiluats.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("tangluongs.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data:{
                         id: id,
@@ -288,7 +288,7 @@
                     success: function(response){
                         var tenKiLuat = response.tenKiLuat;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa mã kỉ luật: "+response.maKiLuat+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa mã tăng lương: "+response.maTangLuong+"?");
                     }
                 })
             });
@@ -297,12 +297,12 @@
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("kiluats.update", ":id") }}'.replace(':id', id),
+                    url: '{{ route("tangluongs.update", ":id") }}'.replace(':id', id),
                     type: 'post',
                     data: $('#formEditKiluat').serialize(),
                     success: function(response){
-                        toastr.success('Cập nhật thông tin kỉ luật thành công', 'Thông báo');
-                        fetchAllKiLuat();
+                        toastr.success('Cập nhật thông tin tăng lương thành công', 'Thông báo');
+                        fetchAllTangLuong();
                         $('#formEditKiluat')[0].reset();
                         $('.fade').hide();
                     },
@@ -316,27 +316,27 @@
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("kiluats.destroy", ":id") }}'.replace(':id', id),
+                    url: '{{ route("tangluongs.destroy", ":id") }}'.replace(':id', id),
                     type: 'delete',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        toastr.success('Xóa kỉ luật thành công', 'Thông báo');
+                        toastr.success('Xóa tăng lương thành công', 'Thông báo');
                         $('#formDeleteKiluat')[0].reset();
-                        fetchAllKiLuat();
+                        fetchAllTangLuong();
                         $('.fade').hide();
                     }
                 })
             });
 
-            function fetchAllKiLuat(){
+            function fetchAllTangLuong(){
                     $.ajax({
-                        url: "{{ route('kiluats.fetch') }}",
+                        url: "{{ route('tangluongs.fetch') }}",
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
-                            $('#phongbanTable').DataTable({
+                            $('#tangluongTable').DataTable({
                                 select: true,
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",
