@@ -18,17 +18,17 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Ngày kỉ luật:</label>
-                                <input class="form-control pt90" type="date" name="ngaykiluat" id="ngaykiluat">
+                                <input class="form-control pt90" type="date" name="ngaykiluat" id="ngaykiluat" required>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Lí do kỉ luật:</label>
-                                <input class="form-control pt90" type="text" name="lidokiluat" id="lidokiluat" placeholder="(*)">
+                                <input class="form-control pt90" type="text" name="lidokiluat" id="lidokiluat" placeholder="(*)" required>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Chi tiết kỉ luật:</label>
-                                <input class="form-control pt90" type="text" name="chitietkiluat" id="chitietkiluat" placeholder="(*)">
+                                <input class="form-control pt90" type="text" name="chitietkiluat" id="chitietkiluat" placeholder="(*)" required>
                             </div>
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mã nhân sự:</label>

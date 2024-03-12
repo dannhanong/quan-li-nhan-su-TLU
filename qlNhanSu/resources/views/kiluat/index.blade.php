@@ -83,11 +83,11 @@
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Lí do kỉ luật:</label>
-                                            <input class="form-control" name="lidokiluat" id="lidokiluat">                                
+                                            <input class="form-control" name="lidokiluat" id="lidokiluat" required>                                
                                         </div>
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Chi tiết kỉ luật:</label>
-                                            <input class="form-control" name="chitietkiluat" id="chitietkiluat">                                
+                                            <input class="form-control" name="chitietkiluat" id="chitietkiluat" required>                                
                                         </div>
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Ngày kỉ luật:</label>
