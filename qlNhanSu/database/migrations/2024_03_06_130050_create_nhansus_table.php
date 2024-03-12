@@ -29,10 +29,13 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->decimal('Hesoluong', 10, 2)->default(1);
             $table->integer('Bacluong')->default(1);
+            $table->unsignedBigInteger('Matrangthai')->nullable();
+            $table->string('Chucvu_Cu')->nullable();
             $table->timestamps();
             $table->foreign('Maphongban')->references('id')->on('phongbans')->onDelete('cascade');
             $table->foreign('Machucvu')->references('id')->on('chucvus')->onDelete('cascade');
             $table->foreign('Makhoa')->references('id')->on('khoas')->onDelete('cascade');
+            $table->foreign('Matrangthai')->references('id')->on('trangthais')->onDelete('cascade');
             $table->dateTime('deleted_at')->nullable();
         });
     }

@@ -103,8 +103,10 @@
                                     </select>
                                 </div>
 
-                                <button class="mx-2" id="btn_Refesh"><i class="fa-solid fa-arrows-rotate"></i></button>
-                                <button type="button" class="btn btn-outline-primary filter-button" id="filter-button">Lọc</button>
+                                <div>
+                                    <button class="mx-2" id="btn_Refesh"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                    <button type="button" class="btn btn-outline-primary filter-button" id="filter-button">Lọc</button>
+                                </div>
                             </div>
 
                             <div class="row card-body table-data">

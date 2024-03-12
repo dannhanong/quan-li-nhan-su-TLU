@@ -332,9 +332,11 @@ class NhansuController extends Controller
         ->join('phongbans', 'phongbans.id', '=', 'nhansus.Maphongban')
         ->join('chucvus', 'chucvus.id', '=', 'nhansus.Machucvu')
         ->join('khoas', 'khoas.id', '=', 'nhansus.Makhoa')
+        ->join('tangluongs', 'tangluongs.Manhansu', '=', 'nhansus.id')
+        ->join('trangthais', 'trangthais.id', '=', 'nhansus.Matrangthai')
         ->select('nhansus.id', 'Manhansu', 'Hoten', 'Ngaysinh', 'Gioitinh', 'CCCD',
         'Ngaybatdau', 'Diachi', 'SDT', 'Quequan', 'phongbans.tenPhongBan',
-        'chucvus.tenChucVu', 'khoas.tenKhoa', 'Anhdaidien', 'nhansus.email',
+        'chucvus.tenChucVu', 'khoas.tenKhoa', 'Anhdaidien', 'nhansus.email', 'trangthais.tenTrangthai',
         'Hesoluong', 'Bacluong', 'deleted_at')
         ->orderBy("nhansus.id", "desc");
 
