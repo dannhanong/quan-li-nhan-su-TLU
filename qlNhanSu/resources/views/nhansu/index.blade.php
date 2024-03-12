@@ -81,7 +81,7 @@
 
                                 <div class="d-flex" style="max-height: 40px;">
                                     <label class="input-group-text" for="">Chức vụ:</label>
-                                    <select name="MaChucVuF" id="MaChucVuF">
+                                    <select name="MaChucvu_Cu" id="MaChucvu_Cu">
                                         <option value="">Chọn chức vụ...</option>
                                         @foreach ($chucvus as $chucvu)
                                             <option value="{{ $chucvu->id }}">
@@ -129,6 +129,7 @@
                                             @method('PUT')
                                             <input type="hidden" name="id" id="id">
                                             <input type="hidden" name="u_Anhdaidien" id="u_Anhdaidien">
+                                            <input type="hidden" name="Chucvu_Cu" id="Chucvu_Cu">
 
                                             <div class="d-flex">
                                                 <div class="mt-2" style="margin-right: 10%" id="Anhdaidien"></div>
@@ -347,6 +348,7 @@
                                         <div class="mb-3"><span class="spanBold">Quê quán: </span><span id="spanQuequan"></span></div>
                                         <div class="mb-3"><span class="spanBold">Phòng ban: </span><span id="spanPhongban"></span></div>
                                         <div class="mb-3"><span class="spanBold">Chức vụ: </span><span id="spanChucvu"></span></div>
+                                        <div class="mb-3"><span class="spanBold">Chức vụ cũ: </span><span id="spanChucvuCu"></span></div>
                                         <div class="mb-3"><span class="spanBold">Khoa: </span><span id="spanKhoa"></span></div>
                                         <div class="mb-3"><span class="spanBold">Trạng thái: </span><span id="spanTrangthai"></span></div>
                                         <div class="mb-3"><span class="spanBold">Bậc lương: </span><span id="spanBacluong"></span></div>
@@ -535,6 +537,7 @@
                         $('#MaChucVu').val(response.Machucvu);
                         $('#Makhoa').val(response.Makhoa);
                         $('#Bacluong').val(response.Bacluong);
+                        $('#Chucvu_Cu').val(response.Machucvu);
 
                         let curentDate = new Date();
                         let bacluongDate = new Date(response.Ngaybatdau);
@@ -605,6 +608,19 @@
                                 $('#spanChucvu').text(response.tenChucVu);
                             }
                         });
+
+                        $.ajax({
+                            url: '/get-ten-chucvu',
+                            method: 'POST',
+                            data: {
+                                id: response.Chucvu_Cu,
+                                '_token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('#spanChucvuCu').text(response.tenChucVu);
+                            }
+                        });
+
                         $.ajax({
                             url: '/get-ten-khoa',
                             method: 'POST',
@@ -693,6 +709,7 @@
                 e.preventDefault();
                 var ngaybatdau = $('#Ngaybatdau').val();
                 var ngaysinh = $('#Ngaysinh').val();
+                var chucvu = $('#MaChucVu').val();
                 if (ngaybatdau < ngaysinh) {
                         $('#spanErrorNgay').show();
                         $(this).val('');
@@ -766,7 +783,7 @@
 
             $('#filter-button').click(function() {
                 var Maphongban = $('#MaphongbanF').val();
-                var MaChucVu = $('#MaChucVuF').val();
+                var MaChucVu = $('#MaChucvu_Cu').val();
                 var Makhoa = $('#MakhoaF').val();
                 $('#nhansuTable').DataTable().destroy();
                 fetchFilterNhansus(Maphongban, MaChucVu, Makhoa);

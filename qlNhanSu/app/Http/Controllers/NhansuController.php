@@ -194,13 +194,23 @@ class NhansuController extends Controller
             $filename = $request->u_Anhdaidien;
         }
 
-        $nhansuData = ['Manhansu' => $request->Manhansu, 'Hoten' => $request->Hoten,
-        'Ngaysinh' => $request->Ngaysinh, 'Anhdaidien' => $filename, 'Gioitinh' => $request->Gioitinh,
-        'CCCD' => $request->CCCD, 'Ngaybatdau' => $request->Ngaybatdau, 'Diachi' => $request->Diachi,
-        'SDT' => $request->SDT, 'Quequan' => $request->Quequan, 'Maphongban' => $request->Maphongban,
-        'MaChucVu' => $request->MaChucVu, 'Makhoa' => $request->Makhoa, 'Bacluong' => $request->Bacluong,
-        'email' => $request->email
-        ];
+        if($request->Chucvu_Cu != $request->MaChucVu){
+            $nhansuData = ['Manhansu' => $request->Manhansu, 'Hoten' => $request->Hoten,
+            'Ngaysinh' => $request->Ngaysinh, 'Anhdaidien' => $filename, 'Gioitinh' => $request->Gioitinh,
+            'CCCD' => $request->CCCD, 'Ngaybatdau' => $request->Ngaybatdau, 'Diachi' => $request->Diachi,
+            'SDT' => $request->SDT, 'Quequan' => $request->Quequan, 'Maphongban' => $request->Maphongban,
+            'MaChucVu' => $request->MaChucVu, 'Makhoa' => $request->Makhoa, 'Bacluong' => $request->Bacluong,
+            'email' => $request->email, 'Chucvu_Cu' => $request->Chucvu_Cu
+            ];
+        }else{
+            $nhansuData = ['Manhansu' => $request->Manhansu, 'Hoten' => $request->Hoten,
+            'Ngaysinh' => $request->Ngaysinh, 'Anhdaidien' => $filename, 'Gioitinh' => $request->Gioitinh,
+            'CCCD' => $request->CCCD, 'Ngaybatdau' => $request->Ngaybatdau, 'Diachi' => $request->Diachi,
+            'SDT' => $request->SDT, 'Quequan' => $request->Quequan, 'Maphongban' => $request->Maphongban,
+            'MaChucVu' => $request->MaChucVu, 'Makhoa' => $request->Makhoa, 'Bacluong' => $request->Bacluong,
+            'email' => $request->email
+            ];
+        }
         $nhansu->update($nhansuData);
         return response()->json([
             'status' => true

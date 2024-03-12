@@ -23,6 +23,7 @@ class Nhansu extends Model
         'Quequan',
         'Maphongban',
         'MaChucVu',
+        'Chucvu_Cu',
         'Makhoa',
         'Hesoluong',
         'Bacluong',
