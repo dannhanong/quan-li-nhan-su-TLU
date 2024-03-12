@@ -137,7 +137,7 @@ class HopdongController extends Controller
         $hopdong = Hopdong::find($id);
         $hopdong->delete();
         return response()->json([
-
+            'status' => true
         ]);
     }
 

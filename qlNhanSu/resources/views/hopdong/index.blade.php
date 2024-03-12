@@ -277,6 +277,7 @@
                     },
                     success: function(response){
                         var maHopDong = response.maHopdong;
+                        $('#id').val(response.id);
                         $('#tb').text("Bạn chắc chắn muốn xóa hợp đồng: "+maHopDong+"?");
                     }
                 })
