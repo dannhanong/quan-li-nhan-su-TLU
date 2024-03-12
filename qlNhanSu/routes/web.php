@@ -10,12 +10,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhongbanController;
 use App\Http\Controllers\KhenthuongController;
+use App\Models\Hopdong;
 use App\Models\Khenthuong;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\HopdongController;
-
+use App\Http\Controllers\TrangthaiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,7 +74,9 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('hopdongs', HopdongController::class);
         Route::get('/fetch-hopdongs', [HopdongController::class, 'fetchHopdong'])->name('hopdongs.fetch');
-        Route::post('/get-ten-hopdong', [ChucvuController::class, 'getTenHopdong'])->name('get-ten-hopdong');
+        Route::post('/get-ten-hopdong', [HopdongController::class, 'getTenHopdong'])->name('get-ten-hopdong');
+        Route::get('/check_maHopdong_unique', [HopdongController::class, 'check_maHopdong_unique'])->name('check_maHopdong_unique');
+
 
         Route::resource('khenthuongs', KhenthuongController::class);
         Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');
@@ -87,6 +90,13 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('bikiluats', BikiluatController::class);
         Route::get('/fetch-bikiluats', [BikiluatController::class, 'fetchBiKiLuat'])->name('bikiluats.fetch');
+
+        Route::resource('trangthais', TrangthaiController::class);
+        Route::get('/fetch-trangthais', [TrangthaiController::class, 'fetchTrangthai'])->name('trangthais.fetch');
+        Route::get('/check_maTrangThai_unique', [TrangthaiController::class, 'check_maTrangThai_unique'])->name('check_maTrangThai_unique');
+        Route::get('/check_tenTrangThai_unique', [TrangthaiController::class, 'check_tenTrangThai_unique'])->name('check_tenTrangThai_unique');
+        Route::post('/get-ten-trangthai', [TrangthaiController::class, 'getTenTrangthai'])->name('get-ten-trangthai');
+
 
         Route::get('/dashboard', function () {
             return view('dashboard');
