@@ -18,9 +18,8 @@ return new class extends Migration
             $table->string("lidotangluong");
             $table->string("chitiettangluong");
             $table->string("mans");
-
             $table->foreign('mans')->references("Manhansu")->on("nhansus");
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 
@@ -29,7 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+
         Schema::dropIfExists('tangluongs');
     }
 };

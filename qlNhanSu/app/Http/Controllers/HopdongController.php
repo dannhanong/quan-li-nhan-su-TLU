@@ -20,7 +20,7 @@ class HopdongController extends Controller
         // $hopdongs = Hopdong::orderByDesc('id')->get();
          $hopdongs = DB::table('hopdongs')
          ->join('nhansus', 'hopdongs.Manhansu', '=', 'nhansus.Manhansu')
-         ->select('hopdongs.id','nhansus.HoTen', 'hopdongs.maHopdong','hopdongs.Ngaybatdau',
+         ->select('hopdongs.id','nhansus.Hoten', 'hopdongs.maHopdong','hopdongs.Ngaybatdau',
                  'hopdongs.Ngayketthuc','hopdongs.Ngayky','hopdongs.Lanky')
          ->orderBy('hopdongs.id', 'desc')
          ->get();
@@ -48,7 +48,7 @@ class HopdongController extends Controller
                 $i++;
                 $output .= '<tr id="row_{{ $hopdong->id }}">
                     <td class="text-center align-middle">'.$i.'</td>
-                    <td class="text-center align-middle">'.$hopdong->HoTen.'</td>
+                    <td class="text-center align-middle">'.$hopdong->Hoten.'</td>
                     <td class="text-center align-middle">'.$hopdong->maHopdong.'</td>
                     <td class="text-center align-middle">'.$hopdong->Ngaybatdau.'</td>
                     <td class="text-center align-middle">'.$hopdong->Ngayketthuc.'</td>

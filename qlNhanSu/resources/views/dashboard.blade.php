@@ -120,6 +120,17 @@
 
                 <div class="col-md-3">
                     <div class="small-box icon">
+                        <a href="{{ route('tangluongs.index') }}">
+                            <div class="box-content text-center">
+                                <i class="fa-solid fa-money-bill-trend-up my-4 ic"></i>
+                                <h4 class="can">Tăng lương</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="small-box icon">
                         <a href="{{ route('profile.edit') }}">
                             <div class="box-content text-center">
                                 <i class="fa-solid fa-circle-exclamation my-4 ic"></i>

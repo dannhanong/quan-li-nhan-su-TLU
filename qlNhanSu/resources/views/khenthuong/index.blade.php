@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="row card-body table-data">
-                        
+
                         </div>
 
                         {{-- Modal edit --}}
@@ -69,12 +69,12 @@
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="id" id="id">
-                                        
+
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Mã nhân sự:</label>
                                             <input type="text" name="Manhansu" id="Manhansu" class="form-control typeahead" autocomplete="off" required>
-                                            <span id="errorManhansu" class="error" style="display: none">Mã nhân sự không tồn tại</span>                                            
+                                            <span id="errorManhansu" class="error" style="display: none">Mã nhân sự không tồn tại</span>
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
@@ -154,7 +154,7 @@
                             </div>
                             </div>
                         </div>
-                        
+
 
                     </div>
                 </div>
@@ -162,12 +162,12 @@
         </section>
         @endsection
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" ></script>
-        
+
         <script>
             $('#Manhansu').typeahead({
                 source: function (query, process) {
                     return $.ajax({
-                        url: "{{ route('get_Manhansu_list') }}", 
+                        url: "{{ route('get_Manhansu_list') }}",
                         type: 'get',
                         data: { query: query },
                         dataType: 'json',
@@ -181,7 +181,7 @@
                     $('#Manhansu').val(selectedManhansu);
                     return selectedManhansu;
                 },
-                minLength: 1, 
+                minLength: 1,
             });
 
             $(document).on('click', '#formEditKhenthuong input, #formEditKhenthuong textarea, #formEditKhenthuong [type="submit"], .dropdown-item', function(){
@@ -328,14 +328,14 @@
                                     infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
                                     search:         "",
                                 },
-                                dom: 'lBrpf',
+                                dom: '<"H"lBrf><"clear">t<"F"p>',
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
                                     {
                                         data: 'Thao tác',
                                         className: 'not-exp',
-                                        targets: [3]
+                                        targets: [6]
                                     }
                                 ],
 

@@ -14,7 +14,7 @@
                                     <label class="input-group-text" for="">Tên nhân sự:</label>
                                     <select name="Manhansu" id="Manhansu">
                                         @foreach ($nhansus as $nhansu)
-                                            <option value="{{ $nhansu->Hoten }}">
+                                            <option value="{{ $nhansu->Manhansu }}">
                                                 {{ $nhansu->Hoten }}
                                             </option>
                                         @endforeach
@@ -35,11 +35,13 @@
                                 <div class="input-group mt-3 mb-3">
                                     <label class="input-group-text" for="">Ngày kết thúc:</label>
                                     <input class="form-control pt90" type="date" name="Ngayketthuc" id="Ngayketthuc" value="{{ old('Ngayketthuc') }}" placeholder="(*)">
+                                    <span class="error" id="spanErrorNgayBD">Ngày kết thúc không được nhỏ hơn ngày bắt đầu</span>
                                 </div>
 
                                 <div class="input-group mt-3 mb-3">
                                     <label class="input-group-text" for="">Ngày ký:</label>
                                     <input class="form-control pt90" type="date" name="Ngayky" id="Ngayky" value="{{ old('Ngayky') }}" placeholder="(*)">
+                                    <span class="error" id="spanErrorNgayKy">Ngày kết thúc không được nhỏ hơn ngày bắt đầu</span>
                                 </div>
 
                                 <div class="input-group mt-3 mb-3">
@@ -61,6 +63,8 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script>
             $('#errorMaHopdong').hide();
+            $('#spanErrorNgayBD').hide();
+            $('#spanErrorNgayKy').hide();
             $('#formHopdong').validate({
                 rules:{
                     maHopdong:{
@@ -73,6 +77,25 @@
                     },
                 }
             });
+
+            $(document).on('change', function() {
+                var ngaybatdau = $('#Ngaybatdau').val();
+                var ngayketthuc = $('#Ngayketthuc').val();
+                var ngayky = $('#Ngayky').val();
+                if (ngaybatdau < ngaysinh) {
+                    $('#spanErrorNgayBD').show();
+                    $(this).val('');
+                }else{
+                    $('#spanErrorNgay').hide();
+                }
+                if(ngayketthuc < ngayky){
+                    $('#spanErrorNgayKy').show();
+                    $(this).val('');
+                }else{
+                    $('#spanErrorNgayKy').hide();
+                }
+            });
+
             $(document).on('keyup', '#maHopdong', function(){
                 $.ajax({
                     url: '{{ route("check_maHopdong_unique") }}',

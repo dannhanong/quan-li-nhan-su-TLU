@@ -391,7 +391,7 @@
                                     infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
                                     search:         "",
                                 },
-                                dom: 'lBrpf',
+                                dom: '<"H"lBrf><"clear">t<"F"p>',
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [

@@ -423,4 +423,10 @@ class NhansuController extends Controller
         }
     }
 
+    public function getTenNhanSu(Request $request)
+    {
+        $nhansu = Nhansu::find($request->id);
+        return response()->json($nhansu);
+    }
+
 }

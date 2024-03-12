@@ -147,7 +147,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="border border-primary mb-3"><h4 style="font-weight: bold; font-style: italic;padding: 30px;text-align: center", tex id="h4TenHopDong"></h4></div>
-                                    <div class="mb-3"><span class="spanBold">Mã hợp đồng: </span><span id="spanMaHopdong"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Mã hợp đồng: </span><span id="spanMaHopDong"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Tên nhân sự: </span><span id="spanNhansu"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Lần ký: </span><span id="spanLanKy"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
                                 </div>
@@ -239,11 +241,23 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        $('#spanMaHopDong').text(response.maHopDong);
+                        $('#spanMaHopDong').text(response.maHopdong);
+                        $('#spanLanKy').text(response.Lanky);
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanUpdateAt').text(formattedUpdate);
+                        $.ajax({
+                            url: '/get-ten-nhansu',
+                            method: 'POST',
+                            data: {
+                                id: response.Manhansu,
+                                '_token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('#spanNhansu').text(response.Hoten);
+                            }
+                        });
                     }
                 })
             });

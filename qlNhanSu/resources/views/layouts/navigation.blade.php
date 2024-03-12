@@ -153,8 +153,7 @@
 
                     <li class="{{ request() -> is('khenthuongs*') ? 'active' : '' }}"><a href="{{ route('khenthuongs.index') }}"><i class="fa-solid fa-award col-md-2"></i></i>Khen thưởng</a></li>
 
-                    <li class="{{ request() -> is('kiluat*') ? 'active' : '' }}"><a href="{{ route('kiluats.index') }}"><i class="fa-solid fa-ban col-md-2"></i>Kỉ luật</a></li>
-                    <li class="{{ request() -> is('kiluat*') ? 'active' : '' }}"><a href="{{ route('tangluongs.index') }}"><i class="fa-solid fa-money-bill col-md-2"></i>Tăng lương</a></li>
+                    <li class="{{ request() -> is('tangluong*') ? 'active' : '' }}"><a href="{{ route('tangluongs.index') }}"><i class="fa-solid fa-money-bill-trend-up col-md-2"></i>Tăng lương</a></li>
 
                     <li class="{{ request() -> is('kiluat*') ? 'active' : '' }}"><a href="{{ route('kiluats.index') }}"><i class="fa-solid fa-ban col-md-2"></i></i>Kỉ luật</a></li>
 

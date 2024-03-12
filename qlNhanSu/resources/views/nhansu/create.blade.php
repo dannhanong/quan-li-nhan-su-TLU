@@ -218,17 +218,15 @@
                 }
             });
 
-            $('#Ngaybatdau').on('change', function() {
-                var ngaybatdau = $(this).val();
-
-                if($('#Ngaysinh').val() !== null)
-                    var ngaysinh = $('#Ngaysinh').val();
-                    if (ngaybatdau < ngaysinh) {
-                        $('#spanErrorNgay').show();
-                        $(this).val('');
-                    }else{
-                        $('#spanErrorNgay').hide();
-                    }
+            $(document).on('change', function() {
+                var ngaybatdau = $('#Ngaybatdau').val();
+                var ngaysinh = $('#Ngaysinh').val();
+                if (ngaybatdau < ngaysinh) {
+                    $('#spanErrorNgay').show();
+                    $(this).val('');
+                }else{
+                    $('#spanErrorNgay').hide();
+                }
             });
 
             $(document).on('submit', '.formNhansu', function(e) {

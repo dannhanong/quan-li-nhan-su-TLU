@@ -78,20 +78,20 @@
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Mã nhân sự:</label>
-                                            <input class="form-control" name="mans" id="mans" readonly>                                
+                                            <input class="form-control" name="mans" id="mans" readonly>
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Lí do kỉ luật:</label>
-                                            <input class="form-control" name="lidokiluat" id="lidokiluat" required>                                
+                                            <input class="form-control" name="lidokiluat" id="lidokiluat" required>
                                         </div>
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Chi tiết kỉ luật:</label>
-                                            <input class="form-control" name="chitietkiluat" id="chitietkiluat" required>                                
+                                            <input class="form-control" name="chitietkiluat" id="chitietkiluat" required>
                                         </div>
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Ngày kỉ luật:</label>
-                                            <input class="form-control" name="ngaykiluat" id="ngaykiluat" type="date" required>                                
+                                            <input class="form-control" name="ngaykiluat" id="ngaykiluat" type="date" required>
                                         </div>
                                         <div class="form-group float-end">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -346,14 +346,13 @@
                                     infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
                                     search:         "",
                                 },
-                                dom: 'lBrpf',
-                                // pagingType: 'numbers',
+                                dom: '<"H"lBrf><"clear">t<"F"p>',
                                 order: [0, 'asc'],
                                 columnDefs: [
                                     {
                                         data: 'Thao tác',
                                         className: 'not-exp',
-                                        targets: [3]
+                                        targets: [5]
                                     }
                                 ],
 

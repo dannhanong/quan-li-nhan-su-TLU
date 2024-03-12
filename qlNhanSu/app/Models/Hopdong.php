@@ -16,9 +16,4 @@ class Hopdong extends Model
         'Ngayky',
         'Lanky',
     ];
-
-    public function nhansu()
-    {
-        return $this->belongsTo(Nhansu::class, 'Manhansu', 'id');
-    }
 }
