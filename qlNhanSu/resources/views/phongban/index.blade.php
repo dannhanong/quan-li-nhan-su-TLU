@@ -154,24 +154,24 @@
         <script>
             $('#errorMaPhongBan').hide();
             $('#errortenPhongBan').hide();
-            $('#formEditPhongban').validate({
-                rules:{
-                    maPhongBan:{
-                        required: true
-                    },
-                    tenPhongBan:{
-                        required: true
-                    }
-                }
-                ,messages:{
-                    maPhongBan: {
-                        required: "Vui lòng nhập mã phòng ban"
-                    },
-                    tenPhongBan: {
-                        required: "Vui lòng nhập tên phòng ban"
-                    },
-                }
-            });
+            // $('#formEditPhongban').validate({
+            //     rules:{
+            //         maPhongBan:{
+            //             required: true
+            //         },
+            //         tenPhongBan:{
+            //             required: true
+            //         }
+            //     }
+            //     ,messages:{
+            //         maPhongBan: {
+            //             required: "Vui lòng nhập mã phòng ban"
+            //         },
+            //         tenPhongBan: {
+            //             required: "Vui lòng nhập tên phòng ban"
+            //         },
+            //     }
+            // });
 
             $(document).on('keyup', '#maPhongBan', function(){
                 $.ajax({

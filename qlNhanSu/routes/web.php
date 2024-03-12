@@ -70,6 +70,7 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/fetch-nhansuNghihuus', [NhansuController::class, 'fetchNhansuNghihuu'])->name('nhansuNghihuus.fetch');
         Route::get('/showNhansusnghihuu', [NhansuController::class, 'showNhanSuNghiHuu'])->name('showNhansusnghihuu');
         Route::get('/delete_Nhansu_Nghihuu#{id}', [NhansuController::class, 'deleteNhansuNghihuu'])->name('delete_Nhansu_Nghihuu');
+        Route::get('/filter', [NhansuController::class, 'filter'])->name('nhansus.filter');
 
         Route::resource('hopdongs', HopdongController::class);
         Route::get('/fetch-hopdongs', [HopdongController::class, 'fetchHopdong'])->name('hopdongs.fetch');
@@ -79,6 +80,8 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
 
         Route::resource('khenthuongs', KhenthuongController::class);
         Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');
+        Route::get('/get_Manhansu_list', [KhenThuongController::class, 'getManhansuList'])->name('get_Manhansu_list');
+        Route::get('/check_Manhansu_exists', [KhenThuongController::class, 'getManhansuExists'])->name('check_Manhansu_exists');
 
         Route::resource('kiluats', KiluatController::class);
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');

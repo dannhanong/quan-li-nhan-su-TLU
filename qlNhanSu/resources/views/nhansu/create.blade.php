@@ -106,10 +106,10 @@
                                         <option value="5">5</option>
                                     </select>
                                 </div>
-                                <div class="input-group d-flex">
+                                {{-- <div class="input-group d-flex">
                                     <label class="input-group-text" style="margin-left: 20px" for="">Hệ số lương:</label>
                                     <input type="text" class="form-control" style="background: white" readonly>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class="input-group mt-3 mb-3">

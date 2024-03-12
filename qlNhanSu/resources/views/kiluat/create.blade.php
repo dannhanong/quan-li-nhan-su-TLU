@@ -12,16 +12,35 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mã kỉ luật:</label>
-                                <input class="form-control pt90" type="text" name="maKiLuat" id="maKiLuat" value="{{ old('maKiLuat') }}" placeholder="(*)">
-                                <span id="errorMaKiLuat" class="error">Mã kỉ luật đã tồn tại</span>
+                                <input class="form-control pt90" type="text" name="maKiLuat" id="maKiLuat" value="{{ old('maKiLuat') }}" placeholder="(*)" required>
+                                <span id="errorMaKiLuat" class="error"></span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Tên kỉ luật:</label>
-                                <input class="form-control pt90" name="tenKiLuat" id="tenKiLuat" value="{{ old('tenKiLuat') }}" placeholder="(*)">
-                                <span id="errorTenKiLuat" class="error">Tên kỉ luật đã tồn tại</span>
+                                <label class="input-group-text" for="">Ngày kỉ luật:</label>
+                                <input class="form-control pt90" type="date" name="ngaykiluat" id="ngaykiluat">
                             </div>
 
+                            <div class="input-group mt-3 mb-3">
+                                <label class="input-group-text" for="">Lí do kỉ luật:</label>
+                                <input class="form-control pt90" type="text" name="lidokiluat" id="lidokiluat" placeholder="(*)">
+                            </div>
+
+                            <div class="input-group mt-3 mb-3">
+                                <label class="input-group-text" for="">Chi tiết kỉ luật:</label>
+                                <input class="form-control pt90" type="text" name="chitietkiluat" id="chitietkiluat" placeholder="(*)">
+                            </div>
+                            <div class="input-group mt-3 mb-3">
+                                <label class="input-group-text" for="">Mã nhân sự:</label>
+                                <select name="mans" id="mans">
+                                    @foreach ($nhansus as $nhansu)
+                                        <option value="{{ $nhansu->Manhansu }}">
+                                            {{ $nhansu->Manhansu }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
                             <div class="form-group  float-end ">
                                 <a href="{{ route('kiluats.index') }}" class="btn btn-secondary ">Quay lại</a>
                                 <input type="submit" value="Xác nhận" class="btn btn-primary" name="btAdd" id="btAddKiLuat">
@@ -34,26 +53,25 @@
 
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script>
-            $('#errorTenKiLuat').hide();
             $('#errorMaKiLuat').hide();
-            $('#formKiLuat').validate({
-                rules:{
-                    maKiLuat:{
-                        required: true
-                    },
-                    tenKiLuat:{
-                        required: true
-                    }
-                }
-                ,messages:{
-                    maKiLuat: {
-                        required: "Vui lòng nhập mã kỉ luật"
-                    },
-                    tenKiLuat: {
-                        required: "Vui lòng nhập tên kỉ luật"
-                    },
-                }
-            });
+            // $('#formKiLuat').validate({
+            //     rules:{
+            //         maKiLuat:{
+            //             required: true
+            //         },
+            //         tenKiLuat:{
+            //             required: true
+            //         }
+            //     }
+            //     ,messages:{
+            //         maKiLuat: {
+            //             required: "Vui lòng nhập mã kỉ luật"
+            //         },
+            //         tenKiLuat: {
+            //             required: "Vui lòng nhập tên kỉ luật"
+            //         },
+            //     }
+            // });
             $(document).on('keyup', '#maKiLuat', function(){
                 $.ajax({
                     url: '{{ route("check_maKiLuat_unique") }}',
@@ -65,31 +83,14 @@
                         }
                     },
                     success: function(response){
-                        if(response == 'true'){
+                        if(response == 'b'){
+                            $("#errorMaKiLuat").text("Mã kỉ luật đã tồn tại")
                             $("#errorMaKiLuat").show();
-                        }else{
+                        }else if(response=="a"){
+                            $("#errorMaKiLuat").text("Vui lòng nhập mã Kỉ luật");
+                            $("#errorMaKiLuat").show();
+                        }else if(response=="c"){
                             $("#errorMaKiLuat").hide();
-                        }
-                    }
-                })
-            });
-
-            $(document).on('keyup', '#tenKiLuat', function(){
-                $.ajax({
-                    url: '{{ route("check_tenKiLuat_unique") }}',
-                    type: 'get',
-                    data: {
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        tenKiLuat: function(){
-                            return $('#tenKiLuat').val();
-                        }
-
-                    },
-                    success: function(response){
-                        if(response == 'true'){
-                            $("#errorTenKiLuat").show();
-                        }else{
-                            $("#errorTenKiLuat").hide();
                         }
                     }
                 })
@@ -97,7 +98,7 @@
 
             $(document).on('submit', '.formKiLuat', function(e) {
                 e.preventDefault();
-                if (!($("#errorMaKiLuat").is(":hidden")) || !($("#errorTenKiLuat").is(":hidden"))) {
+                if (!($("#errorMaKiLuat").is(":hidden"))) {
                     toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
                 } else {
                     $.ajax({
@@ -106,7 +107,9 @@
                     data: $('.formKiLuat').serialize(),
                     success: function (response) {
                         $('#maKiLuat').val('');
-                        $('#tenKiLuat').val('');
+                        $('#lidokiluat').val('');
+                        $('#ngaykiluat').val('');
+                        $('#chitietkiluat').val('');
                         toastr.options = {
                         "closeButton": true,
                             "progressBar": true,

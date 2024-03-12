@@ -9,7 +9,10 @@ class Kiluat extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'maKiLuat',
-        'tenKiLuat'
+        'maKiLuat'
+        ,'lidokiluat'
+        ,'ngaykiluat'
+        ,'mans'
+        ,'chitietkiluat'
     ];
 }
