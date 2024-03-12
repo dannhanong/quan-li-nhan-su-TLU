@@ -69,7 +69,7 @@
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="id" id="id">
-                                        <input type="hidden" name="maHopdong" id="maHopdong">
+                                        {{-- <input type="hidden" name="maHopdong" id="maHopdong"> --}}
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Mã Nhân sự:</label>
