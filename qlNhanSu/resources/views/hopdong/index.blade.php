@@ -55,7 +55,7 @@
                         </div>
 
                         {{-- Modal edit --}}
-                        <div class="modal fade" id="editHopDongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="editHopdongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -146,7 +146,7 @@
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="border border-primary mb-3"><h4 style="font-weight: bold; font-style: italic;padding: 30px;text-align: center", tex id="h4TenHopDong"></h4></div>
+                                    <div class="border border-primary mb-3"><h4 style="font-weight: bold; font-style: italic;padding: 30px;text-align: center", tex id="h4maHopdong"></h4></div>
                                     <div class="mb-3"><span class="spanBold">Mã hợp đồng: </span><span id="spanMaHopdong"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
@@ -239,7 +239,8 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        $('#spanMaHopDong').text(response.maHopDong);
+                        $('#h4maHopdong').text(response.maHopdong);
+                        $('#spanMaHopdong').text(response.maHopdong);
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
@@ -258,9 +259,9 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        var maHopDong = response.maHopDong;
+                        var maHopdong = response.maHopdong;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa hợp đồng: "+maHopDong+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa hợp đồng: "+maHopdong+"?");
                     }
                 })
             });

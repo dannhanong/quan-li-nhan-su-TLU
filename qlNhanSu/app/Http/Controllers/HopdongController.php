@@ -57,9 +57,9 @@ class HopdongController extends Controller
                     <td class="text-center align-middle">
                         <a id="aShowHopdong" data-id_show="'.$hopdong->id.'" href="#" data-toggle="modal" data-target="#showHopDongModal"><i class="fa-solid fa-eye"></i></a> ';
                         if (auth()->check() && auth()->user()->role == 0) {
-                            $output .= '<a id="aEditHopDong" data-id_edit="'.$hopdong->id.'" href="#" data-toggle="modal" data-target="#editHopDongModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                            $output .= '<a id="aEditHopdong" data-id_edit="'.$hopdong->id.'" href="#" data-toggle="modal" data-target="#editHopdongModal"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                                        <a id="aDeleteHopDong" data-id_xoa="'.$hopdong->id.'" href="#" data-toggle="modal" data-target="#deleteHopDongModal"><i class="fa-solid fa-solid fa-trash"></i></a>';
+                                        <a id="aDeleteHopdong" data-id_xoa="'.$hopdong->id.'" href="#" data-toggle="modal" data-target="#deleteHopDongModal"><i class="fa-solid fa-solid fa-trash"></i></a>';
                         }
                     $output .= '</td>
                 </tr>';
