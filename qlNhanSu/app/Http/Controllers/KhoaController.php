@@ -122,7 +122,7 @@ class KhoaController extends Controller
     }
 
     public function check_makhoa_unique(Request $request){
-        if($request->maKhoaF == $request->maKhoa){
+        if($request->maKhoaF && $request->maKhoaF == $request->maKhoa){
             echo 'true';
         }else{
             $khoa = Khoa::where('maKhoa', $request->maKhoa)->first();

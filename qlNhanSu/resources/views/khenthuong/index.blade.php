@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="row card-body table-data">
-
+                        
                         </div>
 
                         {{-- Modal edit --}}
@@ -72,9 +72,9 @@
                                         
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Tên nhân sự:</label>
-                                            <input class="form-control" type="text" name="Manhansu" id="Manhansu" placeholder="(*)">
-                                            
+                                            <label class="input-group-text" for="">Mã nhân sự:</label>
+                                            <input type="text" name="Manhansu" id="Manhansu" class="form-control typeahead" autocomplete="off">
+                                            <span id="errorManhansu" class="error" style="display: none">Mã nhân sự không tồn tại</span>                                            
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
@@ -82,14 +82,14 @@
                                             <input type="date" class="form-control" name="ngayKhenThuong" id="ngayKhenThuong" placeholder="(*)">
                                         </div>
 
-                                        <div class="input-group mt-3 mb-3">
+                                        <div class="">
                                             <label class="input-group-text" for="">Lý do:</label>
-                                            <input class="form-control" name="lyDo" id="lyDo" placeholder="(*)">
+                                            <textarea class="form-control" name="lyDo" id="lyDo" placeholder="(*)" rows="2"></textarea>
                                         </div>
 
                                         <div class="mt-3 mb-3">
                                             <label class="input-group-text" for="">Chi tiết khen thưởng:</label>
-                                            <textarea class="form-control" name="chiTietKhenThuong" id="chiTietKhenThuong" placeholder="(*)" rows="5"></textarea>
+                                            <input class="form-control" name="chiTietKhenThuong" id="chiTietKhenThuong" placeholder="(*)">
                                         </div>
 
                                         <div class="form-group float-end">
@@ -141,6 +141,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3"><span class="spanBold">Mã nhân sự: </span><span id="spanManhansu"></span></div>
+                                    <div class="mb-3"><span class="spanBold">Họ tên nhân sự: </span><span id="spanHoten"></span></div>
                                     <div class="mb-3"><span class="spanBold">Ngày khen thưởng: </span><span id="spanngayKhenThuong"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lý do: </span><span id="spanlyDo"></span></div>
                                     <div class="mb-3"><span class="spanBold">Chi tiết khen thưởng: </span><span id="spanchiTietKhenThuong"></span></div>
@@ -161,7 +162,8 @@
         </section>
         @endsection
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" ></script>
+        
         <script>
             $('#formEditKhenthuong').validate({
                 rules:{
@@ -180,7 +182,7 @@
                 },
                 messages:{
                     Manhansu: {
-                        required: "Vui lòng nhập mã khen thưởng"
+                        required: "Vui lòng nhập mã nhân sự"
                     },
                     ngayKhenThuong: {
                         required: "Vui lòng nhập ngày khen thưởng"
@@ -192,6 +194,46 @@
                         required: "Vui lòng nhập chi tiết khen thưởng"
                     }
                 },
+            });
+
+            $(document).on('change', '#Manhansu', function(){
+                if (($('#Manhansu').val().length) > 0) {
+                    $.ajax({
+                        url: '{{ route("check_Manhansu_exists") }}',
+                        type: 'get',
+                        data: {
+                            '_token': $('meta[name="csrf-token"]').attr('content'),
+                            Manhansu: function(){
+                                return $('#Manhansu').val();
+                            }
+                        },
+                        success: function(response){
+                            if(response == 'true'){
+                                $("#errorManhansu").hide();
+                            }else{
+                                $("#errorManhansu").show();
+                            }
+                        }
+                    })
+                }
+            });
+
+            $('#Manhansu').typeahead({
+                source: function (query, process) {
+                    return $.ajax({
+                        url: "{{ route('get_Manhansu_list') }}", 
+                        type: 'get',
+                        data: { query: query },
+                        dataType: 'json',
+                        success: function (data) {
+                            return process(data);
+                        }
+                    });
+                },
+                updater: function (item) {
+                    return item;
+                },
+                minLength: 1, 
             });
 
             $(function() {
@@ -233,6 +275,7 @@
                     },
                     success: function(response){
                         $('#spanManhansu').text(response.Manhansu);
+                        $('#spanHoten').text(response.Hoten);
                         var formattedngayKhenThuong = moment(response.ngayKhenThuong).format('DD/MM/YYYY');
                         $('#spanngayKhenThuong').text(formattedngayKhenThuong);
                         $('#spanlyDo').text(response.lyDo);
@@ -277,7 +320,7 @@
                         $('.fade').hide();
                     },
                     error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
+                        toastr.error('Có lỗi xảy ra. Kiểm tra lại thông tin đã nhập', 'Thông báo');
                     }
                 })
             });
@@ -306,8 +349,7 @@
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
-                            $('#KhenthuongTable').DataTable({
-                                select: true,
+                            $('#khenthuongTable').DataTable({
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",
                                     zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
@@ -316,18 +358,12 @@
                                     infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
                                     search:         "",
                                 },
-                                dom: '<"H"lBrf><"clear">t<"F"p>',
-                                responsive: true,
+                                dom: 'lBrpf',
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
                                     {
                                         data: 'Thao tác',
-                                        className: 'not-exp',
-                                        targets: [6]
-                                    },
-                                    {
-                                        data: 'Ảnh đại diện',
                                         className: 'not-exp',
                                         targets: [3]
                                     }
@@ -367,12 +403,16 @@
                                         text: 'Các trường hiển thị'
                                     },
                                 ],
+                                select: true,
                             });
-                            $('.dt-length label').remove();
+                            $('label[for="dt-length-1"]').remove();
+                            $('label[for="dt-length-3"]').remove();
+                            $('label[for="dt-length-5"]').remove();
+                            $('label[for="dt-length-7"]').remove();
+                            $('label[for="dt-length-9"]').remove();
 
-                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
+                            $('#dt-search-1').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
-
                         }
                     })
                 };

@@ -66,6 +66,49 @@
                                 </div>
                             </div>
 
+                            <div class="mx-3 mt-1 d-flex justify-between">
+                                <div class="d-flex" style="max-height: 40px;">
+                                    <label class="input-group-text" for="">Phòng ban:</label>
+                                    <select name="MaphongbanF" id="MaphongbanF">
+                                        <option value="">Chọn phòng ban...</option>
+                                        @foreach ($phongbans as $phongban)
+                                            <option value="{{ $phongban->id }}">
+                                                {{ $phongban->tenPhongBan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="d-flex" style="max-height: 40px;">
+                                    <label class="input-group-text" for="">Chức vụ:</label>
+                                    <select name="MaChucVuF" id="MaChucVuF">
+                                        <option value="">Chọn chức vụ...</option>
+                                        @foreach ($chucvus as $chucvu)
+                                            <option value="{{ $chucvu->id }}">
+                                                {{ $chucvu->tenChucVu }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="d-flex" style="max-height: 40px;">
+                                    <label class="input-group-text" for="">Khoa:</label>
+                                    <select name="MakhoaF" id="MakhoaF">
+                                        <option value="">Chọn khoa...</option>
+                                        @foreach ($khoas as $khoa)
+                                            <option value="{{ $khoa->id }}">
+                                                {{ $khoa->tenKhoa }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <button class="mx-2" id="btn_Refesh"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                    <button type="button" class="btn btn-outline-primary filter-button" id="filter-button">Lọc</button>
+                                </div>
+                            </div>
+
                             <div class="row card-body table-data">
 
                             </div>
@@ -128,6 +171,7 @@
                                             {{-- <div class="input-group mt-3 mb-3"> --}}
                                                 <label class="input-group-text" style="margin-left: 10%" for="">Ngày bắt đầu:</label>
                                                 <input class="form-control pt90" type="date" name="Ngaybatdau" id="Ngaybatdau" value="{{ old('Ngaybatdau') }}" placeholder="(*)">
+                                                <span class="error" id="spanErrorNgay" style="margin-left: 54%">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
                                             </div>
 
                                             <div class="input-group mt-3 mb-3">
@@ -189,9 +233,19 @@
                                                         <option value="5">5</option>
                                                     </select>
                                                 </div>
+                                                <div class="input-group">
+                                                    <label class="input-group-text" for="">Trạng thái:</label>
+                                                    <select name="Matrangthai" id="Matrangthai">
+                                                        @foreach ($trangthais as $trangthai)
+                                                            <option value="{{ $trangthai->id }}">
+                                                                {{ $trangthai->tenTrangThai }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                                 <div class="input-group d-flex">
                                                     <label class="input-group-text" style="margin-left: 20px" for="">Hệ số lương:</label>
-                                                    <input type="text" class="form-control" style="background: white" readonly>
+                                                    <input type="text" class="form-control" name="Hesoluong" id="Hesoluong" style="background: white" readonly>
                                                 </div>
                                             </div>
 
@@ -294,7 +348,9 @@
                                         <div class="mb-3"><span class="spanBold">Phòng ban: </span><span id="spanPhongban"></span></div>
                                         <div class="mb-3"><span class="spanBold">Chức vụ: </span><span id="spanChucvu"></span></div>
                                         <div class="mb-3"><span class="spanBold">Khoa: </span><span id="spanKhoa"></span></div>
+                                        <div class="mb-3"><span class="spanBold">Trạng thái: </span><span id="spanTrangthai"></span></div>
                                         <div class="mb-3"><span class="spanBold">Bậc lương: </span><span id="spanBacluong"></span></div>
+                                        <div class="mb-3"><span class="spanBold">Hệ số lương: </span><span id="spanHeSoLuong"></span></div>
                                         <div class="mb-3"><span class="spanBold">Email cá nhân: </span><span id="spanEmail"></span></div>
 
                                         <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
@@ -317,8 +373,12 @@
 
         <script>
             $('#spanErrorAnhdaidien').hide();
+            $('#spanErrorNgay').hide();
             $('#formEditNhansu').validate({
                 rules:{
+                    Manhansu:{
+                        required: true
+                    },
                     account:{
                         required: true
                     },
@@ -326,20 +386,31 @@
                         required: true,
                         email: true
                     },
-                    Manhansu:{
+                    CCCD: {
                         required: true
                     },
-                    Hoten:{
+                    Hoten: {
                         required: true
                     },
-                    CCCD:{
-                        required: true
+                    SDT: {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 10,
+                        digits: true
                     },
-                    SDT:{
-                        required: true
+                    Ngaysinh: {
+                        required: true,
+                        date: true
                     },
+                    Ngaybatdau: {
+                        required: true,
+                        date: true
+                    }
                 },
                 messages:{
+                    Manhansu: {
+                        required: "Trường mã nhân sự không được để trống"
+                    },
                     account: {
                         required: "Trường tài khoản không được để trống"
                     },
@@ -347,19 +418,51 @@
                         required: "Trường email không được để trống",
                         email: "Vui lòng nhập đúng định dạng email"
                     },
-                    Manhansu: {
-                        required: "Trường mã nhân sự không được để trống"
+                    CCCD: {
+                        required: "Trường CCCD không được để trống"
                     },
                     Hoten: {
                         required: "Trường họ tên không được để trống"
                     },
-                    CCCD: {
-                        required: "Trường CCCD không được để trống"
-                    },
                     SDT: {
-                        required: "Trường số điện thoại không được để trống"
+                        required: "Trường số điện thoại không được để trống",
+                        minlength: "Số điện thoại phải chứa ít nhất 10 chữ số",
+                        maxlength: "Số điện thoại chỉ được chứa tối đa 10 chữ số",
+                        digits: "Vui lòng chỉ nhập số"
+                    },
+                    Ngaysinh: {
+                        required: "Hãy chọn ngày sinh",
+                        date: "Vui lòng nhập đúng định dạng ngày"
+                    },
+                    Ngaybatdau: {
+                        required: "Hãy chọn ngày bắt đầu",
+                        date: "Vui lòng nhập đúng định dạng ngày"
                     }
                 },
+            });
+
+            $('#Anhdaidien').change(function() {
+                var fileName = $(this).val();
+                var extension = fileName.split('.').pop().toLowerCase();
+                if ($.inArray(extension, ['png', 'jpg', 'jpeg']) == -1) {
+                    $('#spanErrorAnhdaidien').show()
+                    $(this).val('');
+                }else{
+                    $('#spanErrorAnhdaidien').hide();
+                }
+            });
+
+            $('#Ngaybatdau').on('change', function() {
+                var ngaybatdau = $(this).val();
+
+                if($('#Ngaysinh').val() !== null)
+                    var ngaysinh = $('#Ngaysinh').val();
+                    if (ngaybatdau < ngaysinh) {
+                        $('#spanErrorNgay').show();
+                        $(this).val('');
+                    }else{
+                        $('#spanErrorNgay').hide();
+                    }
             });
 
             $(document).on('keyup', '#email', function(){
@@ -421,6 +524,24 @@
                         $('#MaChucVu').val(response.Machucvu);
                         $('#Makhoa').val(response.Makhoa);
                         $('#Bacluong').val(response.Bacluong);
+
+                        let curentDate = new Date();
+                        let bacluongDate = new Date(response.Ngaybatdau);
+                        let diffYears = curentDate.getFullYear() - bacluongDate.getFullYear();
+                        console.log(new Date(response.Ngaybatdau));
+
+                        if (diffYears < 5) {
+                            $('#Hesoluong').val("1");
+                        } else if (diffYears <10){
+                            $('#Hesoluong').val("1.5");
+                        } else if (diffYears < 15) {
+                            $('#Hesoluong').val("2");
+                        } else if (diffYears < 20) {
+                            $('#Hesoluong').val("2.5");
+                        } else {
+                            $('#Hesoluong').val("3");
+                        }
+
                         $('#email').val(response.email);
                         $('#u_Anhdaidien').val(response.Anhdaidien);
                         $('#id').val(response.id);
@@ -439,6 +560,7 @@
                     },
                     success: function(response){
                         var gt = response.Gioitinh;
+
                         var gioitinh = gt == 0 ? "Nữ" : "Nam";
                         $('#divAnhdaidien').html(`<img src="/uploads/avatars/${response.Anhdaidien}" style="width: 100px;">`);
                         $('#h4Hoten').text(response.Hoten);
@@ -483,7 +605,35 @@
                                 $('#spanKhoa').text(response.tenKhoa);
                             }
                         });
+
+                        $.ajax({
+                            url:'/get-ten-trangthai',
+                            method: 'POST',
+                            data: {
+                                id: response.Matrangthai,
+                                '_token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('#spanTrangthai').text(response.tenTrangThai);
+                            }
+                        })
                         $('#spanBacluong').text(response.Bacluong);
+
+                        let curentDate = new Date();
+                        let bacluongDate = new Date(response.Ngaybatdau);
+                        let diffYears = curentDate.getFullYear() - bacluongDate.getFullYear();
+                        if (diffYears < 5) {
+                            $('#spanHeSoLuong').text("1");
+                        } else if (diffYears <10){
+                            $('#spanHeSoLuong').text("1.5");
+                        } else if (diffYears < 15) {
+                            $('#spanHeSoLuong').text("2");
+                        } else if (diffYears < 20) {
+                            $('#spanHeSoLuong').text("2.5");
+                        } else {
+                            $('#spanHeSoLuong').text("3");
+                        }
+
                         $('#spanEmail').text(response.email);
 
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
@@ -530,6 +680,14 @@
 
             $(document).on('submit', '#formEditNhansu', function(e){
                 e.preventDefault();
+                var ngaybatdau = $('#Ngaybatdau').val();
+                var ngaysinh = $('#Ngaysinh').val();
+                if (ngaybatdau < ngaysinh) {
+                        $('#spanErrorNgay').show();
+                        $(this).val('');
+                    }else{
+                        $('#spanErrorNgay').hide();
+                }
                 let id = $('#id').val();
                 const formEditNhansu = new FormData(this);
                 $.ajax({
@@ -595,10 +753,103 @@
                 })
             });
 
+            $('#filter-button').click(function() {
+                var Maphongban = $('#MaphongbanF').val();
+                var MaChucVu = $('#MaChucVuF').val();
+                var Makhoa = $('#MakhoaF').val();
+                $('#nhansuTable').DataTable().destroy();
+                fetchFilterNhansus(Maphongban, MaChucVu, Makhoa);
+            });
+
+            $('#btn_Refesh').click(function() {
+                $('#nhansuTable').DataTable().destroy();
+                fetchAllNhansus();
+            });
+
                 function fetchAllNhansus(){
                     $.ajax({
                         url: "{{ route('nhansus.fetch') }}",
                         type: 'get',
+                        success: function(response){
+                            $('.table-data').html(response);
+                            $('#nhansuTable').DataTable({
+                                select: true,
+                                language: {
+                                    emptyTable:     "Không có dữ liệu nào được tìm thấy",
+                                    zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
+                                    info:           "",
+                                    infoEmpty:      "",
+                                    infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
+                                    search:         "",
+                                },
+                                dom: '<"H"lBrf><"clear">t<"F"p>',
+                                responsive: true,
+                                // pagingType: 'numbers',
+                                order: [0, 'asc'],
+                                columnDefs: [
+                                    {
+                                        data: 'Thao tác',
+                                        className: 'not-exp',
+                                        targets: [11]
+                                    },
+                                    {
+                                        data: 'Ảnh đại diện',
+                                        className: 'not-exp',
+                                        targets: [2 ]
+                                    }
+                                ],
+
+                                buttons: [
+                                    {
+                                        extend: 'copyHtml5',
+                                        text: 'Copy',
+                                        exportOptions: {
+                                            columns: ':visible :not(.not-exp)'
+                                        }
+                                    },
+                                    {
+                                        extend: 'excelHtml5',
+                                        text: 'Excel',
+                                        exportOptions: {
+                                            columns: ':visible :not(.not-exp)'
+                                        }
+                                    },
+                                    {
+                                        extend: 'csvHtml5',
+                                        text: 'CSV',
+                                        exportOptions: {
+                                            columns: ':visible :not(.not-exp)'
+                                        }
+                                    },
+                                    {
+                                        extend: 'pdfHtml5',
+                                        text: 'PDF',
+                                        exportOptions: {
+                                            columns: ':visible :not(.not-exp)'
+                                        }
+                                    },
+                                    {
+                                        extend: 'colvis',
+                                        text: 'Các trường hiển thị'
+                                    },
+                                ],
+                            });
+                            $('.dt-length label').remove();
+                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
+                            $('#dt-length-1').prepend('<option value="5">5</option>');
+                        }
+                    })
+                };
+
+                function fetchFilterNhansus(phongban, chucvu, khoa){
+                    $.ajax({
+                        url: '/filter',
+                        type: 'GET',
+                        data: {
+                            Maphongban: phongban,
+                            MaChucVu: chucvu,
+                            Makhoa: khoa
+                        },
                         success: function(response){
                             $('.table-data').html(response);
                             $('#nhansuTable').DataTable({

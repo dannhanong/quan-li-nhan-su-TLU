@@ -11,69 +11,100 @@
                             @csrf
                             <div class="input-group mt-3 mb-3">
                                 <div class="input-group">
-                                    <label class="input-group-text" for="">Mã nhân sự:</label>
+                                    <label class="input-group-text" for="">Tên nhân sự:</label>
                                     <select name="Manhansu" id="Manhansu">
                                         @foreach ($nhansus as $nhansu)
-                                            <option value="{{ $nhansu->id }}">
-                                                {{ $nhansu->Manhansu }}
+                                            <option value="{{ $nhansu->Hoten }}">
+                                                {{ $nhansu->Hoten }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
 
-                            {{-- <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Mã nhân sự:</label>
-                                <input class="form-control pt90" type="text" name="Manhansu" id="Manhansu" value="{{ old('Manhansu') }}" placeholder="(*)">
-                            </div> --}}
-
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mã hợp đồng:</label>
                                 <input class="form-control pt90" type="text" name="maHopdong" id="maHopdong" value="{{ old('maHopdong') }}" placeholder="(*)">
+                                <span id="errorMaHopdong" class="error">Mã hợp đồng đã tồn tại</span>
                             </div>
+                                <div class="input-group mt-3 mb-3">
+                                    <label class="input-group-text" for="">Ngày bắt đầu:</label>
+                                    <input class="form-control pt90" type="date" name="Ngaybatdau" id="Ngaybatdau" value="{{ old('Ngaybatdau') }}" placeholder="(*)">
+                                </div>
 
+                                <div class="input-group mt-3 mb-3">
+                                    <label class="input-group-text" for="">Ngày kết thúc:</label>
+                                    <input class="form-control pt90" type="date" name="Ngayketthuc" id="Ngayketthuc" value="{{ old('Ngayketthuc') }}" placeholder="(*)">
+                                </div>
 
+                                <div class="input-group mt-3 mb-3">
+                                    <label class="input-group-text" for="">Ngày ký:</label>
+                                    <input class="form-control pt90" type="date" name="Ngayky" id="Ngayky" value="{{ old('Ngayky') }}" placeholder="(*)">
+                                </div>
 
-                            <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Ngày bắt đầu:</label>
-                                <input class="form-control pt90" type="date" name="Ngaybatdau" id="Ngaybatdau" value="{{ old('Ngaybatdau') }}" placeholder="(*)">
-                            </div>
+                                <div class="input-group mt-3 mb-3">
+                                    <label class="input-group-text" for="">Lần ký:</label>
+                                    <input class="form-control pt90" type="" name="Lanky" id="Lanky" value="{{ old('Lanky') }}" placeholder="(*)">
+                                </div>
 
-                            <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Ngày kết thúc:</label>
-                                <input class="form-control pt90" type="date" name="Ngayketthuc" id="Ngayketthuc" value="{{ old('Ngayketthuc') }}" placeholder="(*)">
-                            </div>
-
-                            <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Ngày ký:</label>
-                                <input class="form-control pt90" type="date" name="Ngayky" id="Ngayky" value="{{ old('Ngayky') }}" placeholder="(*)">
-                            </div>
-
-                            <div class="input-group mt-3 mb-3">
-                                <label class="input-group-text" for="">Lần ký:</label>
-                                <input class="form-control pt90" type="" name="Lanky" id="Lanky" value="{{ old('Lanky') }}" placeholder="(*)">
-                            </div>
-
-                            <div class="form-group  float-end ">
-                                <a href="{{ route('hopdongs.index') }}" class="btn btn-secondary ">Quay lại</a>
-                                <input type="submit" value="Xác nhận" class="btn btn-primary" name="btAdd" id="btAddHopdong">
-                            </div>
-                        </form>
+                                <div class="form-group  float-end ">
+                                    <a href="{{ route('hopdongs.index') }}" class="btn btn-secondary ">Quay lại</a>
+                                    <input type="submit" value="Xác nhận" class="btn btn-primary" name="btAdd" id="btAddHopdong">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
+
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script>
+            $('#errorMaHopdong').hide();
+            $('#formHopdong').validate({
+                rules:{
+                    maHopdong:{
+                        required: true
+                    },
+                }
+                ,messages:{
+                    maHopdong: {
+                        required: "Vui lòng nhập mã hợp đồng"
+                    },
+                }
+            });
+            $(document).on('keyup', '#maHopdong', function(){
+                $.ajax({
+                    url: '{{ route("check_maHopdong_unique") }}',
+                    type: 'get',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        maHopdong: function(){
+                            return $('#maHopdong').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response == 'true'){
+                            $("#errorMaHopdong").show();
+                        }else{
+                            $("#errorMaHopdong").hide();
+                        }
+                    }
+                })
+            });
+
+
             $(document).on('submit', '.formHopdong', function(e) {
                 e.preventDefault();
-                $.ajax({
+                if (!($("#errorMaHopdong").is(":hidden")) ) {
+                    toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
+                } else {
+                    $.ajax({
                     url: "{{ route('hopdongs.store') }}",
                     type: 'post',
                     data: $('.formHopdong').serialize(),
                     success: function (response) {
                         $('#maHopdong').val('');
-                        $('#Manhansu').val('');
                         toastr.options = {
                         "closeButton": true,
                             "progressBar": true,
@@ -81,7 +112,8 @@
                         }
                         toastr.success('Thêm mới hợp đồng thành công', 'Thông báo');
                     },
-                })
+                    })
+                }
             });
         </script>
 
