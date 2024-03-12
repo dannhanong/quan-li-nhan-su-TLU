@@ -78,9 +78,6 @@
                     <div class="small-box icon">
                         <a href="{{ route('hopdongs.index') }}">
                             <div class="box-content text-center">
-                                <i class="fa-solid fa-newspaper my-4 ic"></i>
-                        <a href="{{ route('hopdongs.index') }}">
-                            <div class="box-content text-center">
                                 <i class="fa-solid fa-file-signature my-4 ic"></i>
                                 <h4 class="can">Hợp đồng</h4>
                             </div>
@@ -114,7 +111,7 @@
                     <div class="small-box icon">
                         <a href="{{ route('trangthais.index') }}">
                             <div class="box-content text-center">
-                                <i class="fa-solid fa-device my-4 ic"></i>
+                                <i class="fa-solid fa-signal my-4 ic"></i>
                                 <h4 class="can">Trạng thái</h4>
                             </div>
                         </a>

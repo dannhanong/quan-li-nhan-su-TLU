@@ -7,6 +7,8 @@ use App\Models\Chucvu;
 use App\Models\Khoa;
 use Illuminate\Http\Request;
 use App\Models\Phongban;
+use App\Models\Trangthai;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
@@ -20,7 +22,8 @@ class NhansuController extends Controller
         $khoas = Khoa::select('id', 'tenKhoa')->get();
         $phongbans = Phongban::select('id', 'tenPhongBan')->get();
         $chucvus = Chucvu::select('id', 'tenChucVu')->get();
-        return view('nhansu.index', compact('khoas', 'phongbans', 'chucvus'));
+        $trangthais = Trangthai::select('id', 'tenTrangThai')->get();
+        return view('nhansu.index', compact('khoas', 'phongbans', 'chucvus', 'trangthais'));
     }
 
     public function fetchNhansu()
@@ -29,9 +32,10 @@ class NhansuController extends Controller
         ->join('phongbans', 'phongbans.id', '=', 'nhansus.Maphongban')
         ->join('chucvus', 'chucvus.id', '=', 'nhansus.Machucvu')
         ->join('khoas', 'khoas.id', '=', 'nhansus.Makhoa')
+        ->join('trangthais', 'trangthais.id', '=', 'nhansus.Matrangthai')
         ->select('nhansus.id', 'Manhansu', 'Hoten', 'Ngaysinh', 'Gioitinh', 'CCCD',
         'Ngaybatdau', 'Diachi', 'SDT', 'Quequan', 'phongbans.tenPhongBan',
-        'chucvus.tenChucVu', 'khoas.tenKhoa', 'Anhdaidien', 'nhansus.email',
+        'chucvus.tenChucVu', 'khoas.tenKhoa', 'Anhdaidien', 'nhansus.email', 'tenTrangThai',
         'Hesoluong', 'Bacluong')
         ->where('nhansus.deleted_at', null)
         ->orderBy("nhansus.id", "desc")
@@ -52,6 +56,7 @@ class NhansuController extends Controller
                     <th class="text-center align-middle">Phòng ban</th>
                     <th class="text-center align-middle">Chức vụ</th>
                     <th class="text-center align-middle">Khoa</th>
+                    <th class="text-center align-middle">Trạng thái</th>
                     <th class="text-center align-middle">Thao tác</th>
                 </tr>
             </thead>
@@ -81,6 +86,7 @@ class NhansuController extends Controller
                         <td class="text-center align-middle">'.$nhansu->tenPhongBan.'</td>
                         <td class="text-center align-middle">'.$nhansu->tenChucVu.'</td>
                         <td class="text-center align-middle">'.$nhansu->tenKhoa.'</td>
+                        <td class="text-center align-middle">'.$nhansu->tenTrangThai.'</td>
                         <td class="text-center align-middle">
                             <a id="aShowNhansu" data-id_show="'.$nhansu->id.'" href="#" data-toggle="modal" data-target="#showNhansuModal"><i class="fa-solid fa-eye"></i></a> ';
                             if (auth()->check() && auth()->user()->role == 0) {
@@ -119,6 +125,11 @@ class NhansuController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'Ngaysinh' => ['required'],
+            'Ngaybatdau' => ['required', 'date', 'after:Ngaysinh'],
+        ]);
+
         if($request->hasFile('Anhdaidien')){
             $Anhdaidien = $request->file('Anhdaidien');
             $filename = time() . '.' . $Anhdaidien->getClientOriginalExtension();
@@ -168,6 +179,10 @@ class NhansuController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'Ngaysinh' => ['required'],
+            'Ngaybatdau' => ['required', 'date', 'after:Ngaysinh'],
+        ]);
         $nhansu = Nhansu::find($id);
 
         if($request->hasFile('Anhdaidien')){
@@ -332,12 +347,11 @@ class NhansuController extends Controller
         ->join('phongbans', 'phongbans.id', '=', 'nhansus.Maphongban')
         ->join('chucvus', 'chucvus.id', '=', 'nhansus.Machucvu')
         ->join('khoas', 'khoas.id', '=', 'nhansus.Makhoa')
-        ->join('tangluongs', 'tangluongs.Manhansu', '=', 'nhansus.id')
         ->join('trangthais', 'trangthais.id', '=', 'nhansus.Matrangthai')
         ->select('nhansus.id', 'Manhansu', 'Hoten', 'Ngaysinh', 'Gioitinh', 'CCCD',
         'Ngaybatdau', 'Diachi', 'SDT', 'Quequan', 'phongbans.tenPhongBan',
-        'chucvus.tenChucVu', 'khoas.tenKhoa', 'Anhdaidien', 'nhansus.email', 'trangthais.tenTrangthai',
-        'Hesoluong', 'Bacluong', 'deleted_at')
+        'chucvus.tenChucVu', 'khoas.tenKhoa', 'Anhdaidien', 'nhansus.email', 'tenTrangThai',
+        'Hesoluong', 'Bacluong')
         ->orderBy("nhansus.id", "desc");
 
         $nhansus = $nhansusF->get();
