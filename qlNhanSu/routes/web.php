@@ -15,6 +15,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\HopdongController;
+use App\Http\Controllers\TangluongController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,8 +83,9 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/check_maKiLuat_unique', [KiluatController::class, 'check_maKiLuat_unique'])->name('check_maKiLuat_unique');
         Route::get('/check_tenKiLuat_unique', [KiluatController::class, 'check_tenKiLuat_unique'])->name('check_tenKiLuat_unique');
 
-        Route::resource('bikiluats', BikiluatController::class);
-        Route::get('/fetch-bikiluats', [BikiluatController::class, 'fetchBiKiLuat'])->name('bikiluats.fetch');
+        Route::resource('tangluongs', TangluongController::class);
+        Route::get('/fetch-tangluongs', [TangluongController::class, 'fetchTangLuong'])->name('tangluongs.fetch');
+        Route::get('/check_maTangLuong_unique', [TangluongController::class, 'check_maTangLuong_unique'])->name('check_maTangLuong_unique');
 
         Route::get('/dashboard', function () {
             return view('dashboard');
