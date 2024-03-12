@@ -138,13 +138,16 @@ class KhenthuongController extends Controller
     public function getManhansuList(Request $request)
     {
         $query = $request->get('query');
-        $suggestions = Nhansu::where('Manhansu', 'like', '%' . $query . '%')->pluck('Manhansu');
-        return response()->json($suggestions);
+        $suggestions = Nhansu::where('Manhansu', 'like', '%' . $query . '%')
+        ->orWhere('Hoten', 'like', '%' . $query . '%')->limit(10)->get(['Manhansu', 'Hoten']);
+        $formattedSuggestions = $suggestions->map(function ($item) {
+            return $item['Manhansu'] . ' (' . $item['Hoten'] . ')';
+        });
+        return response()->json($formattedSuggestions);
     }
 
     public function getManhansuExists(Request $request){
-        $Manhansu = Nhansu::where('Manhansu', $request->Manhansu)->first();
-        if($Manhansu){
+        if(Nhansu::where('Manhansu', $request->Manhansu)->first()){
             echo 'true';
         }else{
             echo 'flase';
