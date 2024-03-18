@@ -56,7 +56,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'account' => __('Thông tin tài khoản hoặc mật khẩu không chính xác'),
+                'accountOrPass' => __('Thông tin tài khoản hoặc mật khẩu không chính xác'),
             ]);
         }
 

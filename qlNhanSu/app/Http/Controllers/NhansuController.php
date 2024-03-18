@@ -126,6 +126,7 @@ class NhansuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'Hoten' => ['required', 'regex:/^[a-zA-Z\s]*$/'],
             'Ngaysinh' => ['required'],
             'Ngaybatdau' => ['required', 'date', 'after:Ngaysinh'],
         ]);
@@ -180,6 +181,7 @@ class NhansuController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
+            'Hoten' => ['required', 'regex:/^[a-zA-Z\s]*$/'],
             'Ngaysinh' => ['required'],
             'Ngaybatdau' => ['required', 'date', 'after:Ngaysinh'],
         ]);

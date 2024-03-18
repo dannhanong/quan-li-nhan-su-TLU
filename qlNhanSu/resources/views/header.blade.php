@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('tit')</title>
+    <title>Trang quản lý nhân sự TLU</title>
     <link rel="stylesheet" href="{{ asset('assets') }}/css/bootstrap.min.css">
     <link href="bootoast.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/font-awesome.min.css">

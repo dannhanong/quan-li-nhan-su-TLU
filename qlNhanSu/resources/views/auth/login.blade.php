@@ -15,6 +15,7 @@
         border-bottom-left-radius: 70px;">
             <p class="font-serif fs-3 text-center fw-normal mt-2" for="">Đăng nhập</p>
             <form method="POST" action="{{ route('login') }}" style="width: 100%; margin-top: 10%;">
+                <x-input-error :messages="$errors->get('accountOrPass')" class="mt-2 text-center" style="font-size: 20px" />
                 @csrf
                 <!-- Account -->
                 <div>

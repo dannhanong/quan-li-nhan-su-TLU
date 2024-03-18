@@ -19,14 +19,14 @@ return new class extends Migration
             $table->boolean('Gioitinh');
             $table->string('CCCD')->unique();
             $table->date('Ngaybatdau');
-            $table->string('Diachi');
+            $table->string('Diachi')->nullable();
             $table->string('SDT')->unique();
-            $table->string('Quequan');
+            $table->string('Quequan')->nullable();
             $table->unsignedBigInteger('Maphongban');
             $table->unsignedBigInteger('Machucvu');
             $table->unsignedBigInteger('Makhoa');
             $table->string('Anhdaidien')->default('default.jpg');
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->unique();
             $table->decimal('Hesoluong', 10, 2)->default(1);
             $table->integer('Bacluong')->default(1);
             $table->unsignedBigInteger('Matrangthai')->default(1);

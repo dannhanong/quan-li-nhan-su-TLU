@@ -1,8 +1,5 @@
 <x-app-layout>
     @extends('header')
-        @section('tit')
-            Quản lý nhân sự
-        @endsection
         {{-- css tb --}}
         @push('css')
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css"
@@ -143,6 +140,7 @@
                                                     <div class="input-group mt-3 mb-3">
                                                         <label class="input-group-text" for="">Họ tên:</label>
                                                         <input class="form-control pt90" type="text" name="Hoten" id="Hoten" value="{{ old('Hoten') }}">
+                                                        <span class="error" id="error_Hoten">Họ tên không bao gồm các kí tự đặc biệt</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,6 +148,7 @@
                                             <div class="input-group mt-3 mb-3">
                                                 <label class="input-group-text" for="">Ngày sinh:</label>
                                                 <input class="form-control pt90" type="date" name="Ngaysinh" id="Ngaysinh" value="{{ old('Ngaysinh') }}" placeholder="(*)">
+                                                <span class="error spanErrorNgay" id="spanErrorNgay">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
                                             </div>
 
                                             <div class="input-group mt-3 mb-3">
@@ -167,12 +166,12 @@
                                             <div class="input-group mt-3 mb-3">
                                                 <label class="input-group-text" for="">CCCD:</label>
                                                 <input class="form-control pt90" name="CCCD" id="CCCD" value="{{ old('CCCD') }}" placeholder="(*)">
-                                            {{-- </div> --}}
+                                            </div>
 
-                                            {{-- <div class="input-group mt-3 mb-3"> --}}
-                                                <label class="input-group-text" style="margin-left: 10%" for="">Ngày bắt đầu:</label>
+                                            <div class="input-group mt-3 mb-3">
+                                                <label class="input-group-text" for="">Ngày bắt đầu:</label>
                                                 <input class="form-control pt90" type="date" name="Ngaybatdau" id="Ngaybatdau" value="{{ old('Ngaybatdau') }}" placeholder="(*)">
-                                                <span class="error" id="spanErrorNgay" style="margin-left: 54%">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
+                                                <span class="error spanErrorNgay" id="spanErrorNgay">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
                                             </div>
 
                                             <div class="input-group mt-3 mb-3">
@@ -374,8 +373,9 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
+            $('#error_Hoten').hide();
             $('#spanErrorAnhdaidien').hide();
-            $('#spanErrorNgay').hide();
+            $('.spanErrorNgay').hide();
             $('#formEditNhansu').validate({
                 rules:{
                     Manhansu:{
@@ -389,10 +389,13 @@
                         email: true
                     },
                     CCCD: {
-                        required: true
+                        required: true,
+                        digits: true,
+                        minlength: 12,
+                        maxlength: 12
                     },
                     Hoten: {
-                        required: true
+                        required: true,
                     },
                     SDT: {
                         required: true,
@@ -421,15 +424,18 @@
                         email: "Vui lòng nhập đúng định dạng email"
                     },
                     CCCD: {
-                        required: "Trường CCCD không được để trống"
+                        required: "Trường CCCD không được để trống",
+                        digits: "CCCD chỉ bao gồm các số",
+                        minlength: "CCCD phải có 12 chữ số",
+                        maxlength: "CCCD phải có 12 chữ số"
                     },
                     Hoten: {
-                        required: "Trường họ tên không được để trống"
+                        required: "Trường họ tên không được để trống",
                     },
                     SDT: {
                         required: "Trường số điện thoại không được để trống",
-                        minlength: "Số điện thoại phải chứa ít nhất 10 chữ số",
-                        maxlength: "Số điện thoại chỉ được chứa tối đa 10 chữ số",
+                        minlength: "Số điện thoại phải có 10 chữ số",
+                        maxlength: "Số điện thoại phải có 10 chữ số",
                         digits: "Vui lòng chỉ nhập số"
                     },
                     Ngaysinh: {
@@ -441,6 +447,12 @@
                         date: "Vui lòng nhập đúng định dạng ngày"
                     }
                 },
+                invalidHandler: function(event, validator) {
+                    if (validator.numberOfInvalids() > 0) {
+                        toastr.info('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+                        event.preventDefault();
+                    }
+                }
             });
 
             $('#Anhdaidien').change(function() {
@@ -457,25 +469,25 @@
             $(document).on('change', function() {
                 var ngaybatdau = $('#Ngaybatdau').val();
                 var ngaysinh = $('#Ngaysinh').val();
-                if (ngaybatdau < ngaysinh) {
-                    $('#spanErrorNgay').show();
-                    $(this).val('');
-                }else{
-                    $('#spanErrorNgay').hide();
+                var hoten = $('#Hoten').val();
+
+                if (hoten.length > 0){
+                    var kTraHoten = /^[a-zA-Z\s]+$/;
+                    if(kTraHoten.test(hoten) == false){
+                        $('#error_Hoten').show();
+                    }else{
+                        $('#error_Hoten').hide();
+                    }
                 }
-            });
 
-            $('#Ngaybatdau').on('change', function() {
-                var ngaybatdau = $(this).val();
-
-                if($('#Ngaysinh').val() !== null)
-                    var ngaysinh = $('#Ngaysinh').val();
+                if(ngaybatdau != '' && ngaysinh != ''){
                     if (ngaybatdau < ngaysinh) {
-                        $('#spanErrorNgay').show();
+                        $('.spanErrorNgay').show();
                         $(this).val('');
                     }else{
-                        $('#spanErrorNgay').hide();
+                        $('.spanErrorNgay').hide();
                     }
+                }
             });
 
             $(document).on('keyup', '#email', function(){
@@ -734,7 +746,7 @@
                         fetchAllNhansus();
                     },
                     error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
+                        toastr.info('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
                     }
                 })
             });
