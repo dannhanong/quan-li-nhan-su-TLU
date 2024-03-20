@@ -91,7 +91,8 @@
                                         </div>
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Ngày kỉ luật:</label>
-                                            <input class="form-control" name="ngaykiluat" id="ngaykiluat" type="date" required>                                
+                                            <input class="form-control" name="ngaykiluat" id="ngaykiluat" type="date" required>
+                                            <span id="errorNgayKiLuat" class="error"></span>                                
                                         </div>
                                         <div class="form-group float-end">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -163,68 +164,29 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
-            $('#errorMaKiLuat').hide();
-            $('#errortenKiLuat').hide();
-            // $('#formEditKiluat').validate({
-            //     rules:{
-            //         maKiLuat:{
-            //             required: true
-            //         },
-            //         tenKiLuat:{
-            //             required: true
-            //         }
-            //     }
-            //     ,messages:{
-            //         maKiLuat: {
-            //             required: "Vui lòng nhập mã kỉ luật"
-            //         },
-            //         tenKiLuat: {
-            //             required: "Vui lòng nhập tên kỉ luật"
-            //         },
-            //     }
-            // });
+            $('#errorNgayKiLuat').hide();
 
-            $(document).on('keyup', '#maKiLuat', function(){
+            $('#ngaykiluat').on('change', function() {
                 $.ajax({
-                    url: '{{ route("check_maKiLuat_unique") }}',
+                    url: '{{ route("check_ngaykiluat") }}',
                     type: 'get',
                     data: {
-                        maKiLuatF: function(){
-                            return $('#maKiLuatF').val();
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        ngaykiluat: function(){
+                            return $('#ngaykiluat').val();
                         },
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        maKiLuat: function(){
-                            return $('#maKiLuat').val();
+                        mans: function(){
+                            return $('#mans').val();
                         }
                     },
                     success: function(response){
-                        if(response == 'true'){
-                             $('#errorMaKiLuat').show();
+                        if(response=="ko hop le"){
+                            $("#errorNgayKiLuat").text("Ngày kỉ luật phải sau ngày vào làm của nhân sự").show();
                         }else{
-                             $('#errorMaKiLuat').hide();
+                            $("#errorNgayKiLuat").hide();
                         }
                     }
-                })
-            });
-
-            $(document).on('keyup', '#tenKiLuat', function(){
-                $.ajax({
-                    url: '{{ route("check_tenKiLuat_unique") }}',
-                    type: 'get',
-                    data: {
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        tenKiLuat: function(){
-                            return $('#tenKiLuat').val();
-                        }
-                    },
-                    success: function(response){
-                        if(response == 'true'){
-                             $('#errortenKiLuat').show();
-                        }else{
-                             $('#errortenKiLuat').hide();
-                        }
-                    }
-                })
+                })    
             });
 
             $(function() {
@@ -237,6 +199,7 @@
 
             $(document).on('click', '#aEditkiluat', function(e) {
                 let id = $(this).data('id_edit');
+                $('#errorNgayKiLuat').hide();
                 $.ajax({
                     url: '{{ route("kiluats.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
@@ -296,20 +259,21 @@
             $(document).on('submit', '#formEditKiluat', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
-                $.ajax({
-                    url: '{{ route("kiluats.update", ":id") }}'.replace(':id', id),
-                    type: 'post',
-                    data: $('#formEditKiluat').serialize(),
-                    success: function(response){
-                        toastr.success('Cập nhật thông tin kỉ luật thành công', 'Thông báo');
-                        fetchAllKiLuat();
-                        $('#formEditKiluat')[0].reset();
-                        $('.fade').hide();
-                    },
-                    error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
-                    }
-                })
+                if (!($("#errorNgayKiLuat").is(":hidden"))) {
+                    toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
+                }else{
+                    $.ajax({
+                        url: '{{ route("kiluats.update", ":id") }}'.replace(':id', id),
+                        type: 'post',
+                        data: $('#formEditKiluat').serialize(),
+                        success: function(response){
+                            toastr.success('Cập nhật thông tin kỉ luật thành công', 'Thông báo');
+                            fetchAllKiLuat();
+                            $('#formEditKiluat')[0].reset();
+                            $('.fade').hide();
+                        },
+                    })
+                }
             });
 
             $(document).on('submit', '#formDeleteKiluat', function(e){
@@ -336,7 +300,7 @@
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
-                            $('#phongbanTable').DataTable({
+                            $('#kiluatTable').DataTable({
                                 select: true,
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",

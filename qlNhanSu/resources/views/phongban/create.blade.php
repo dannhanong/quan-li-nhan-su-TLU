@@ -12,13 +12,13 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mã phòng ban:</label>
-                                <input class="form-control pt90" type="text" name="maPhongBan" id="maPhongBan" value="{{ old('maPhongBan') }}" placeholder="(*)">
+                                <input class="form-control pt90" type="text" name="maPhongBan" id="maPhongBan" value="{{ old('maPhongBan') }}" placeholder="(*)" required>
                                 <span id="errorMaPhongBan" class="error">Mã phòng ban đã tồn tại</span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Tên phòng ban:</label>
-                                <input class="form-control pt90" name="tenPhongBan" id="tenPhongBan" value="{{ old('tenPhongBan') }}" placeholder="(*)">
+                                <input class="form-control pt90" name="tenPhongBan" id="tenPhongBan" value="{{ old('tenPhongBan') }}" placeholder="(*)" required>
                                 <span id="errorTenPhongBan" class="error"></span>
                             </div>
 
@@ -36,24 +36,6 @@
         <script>
             $('#errorTenPhongBan').hide();
             $('#errorMaPhongBan').hide();
-            // $('#formPhongBan').validate({
-            //     rules:{
-            //         maPhongBan:{
-            //             required: true
-            //         },
-            //         tenPhongBan:{
-            //             required: true
-            //         }
-            //     }
-            //     ,messages:{
-            //         maPhongBan: {
-            //             required: "Vui lòng nhập mã phòng ban"
-            //         },
-            //         tenPhongBan: {
-            //             required: "Vui lòng nhập tên phòng ban"
-            //         },
-            //     }
-            // });
             $(document).on('keyup', '#maPhongBan', function(){
                 $.ajax({
                     url: '{{ route("check_maPhongBan_unique") }}',
@@ -66,12 +48,10 @@
                     },
                     success: function(response){
                         if(response == 'b'){
-                            $("#errorMaPhongBan").text("Mã phòng ban đã tồn tại");
-                            $("#errorMaPhongBan").show();
-                        }else if(response=="a"){
-                            $("#errorMaPhongBan").text("Vui lòng nhập mã phòng ban");
-                            $("#errorMaPhongBan").show();
+                            $("#errorMaPhongBan").text("Mã phòng ban đã tồn tại").show();
                         }else if(response=="c"){
+                            $("#errorMaPhongBan").text("Dữ liệu nhập có chứa kí tự đặc biệt").show();
+                        }else{
                             $("#errorMaPhongBan").hide();
                         }
                     }
@@ -92,11 +72,9 @@
                     success: function(response){
                         if(response == 'b'){
                             $("#errorTenPhongBan").text("Tên phòng ban đã tồn tại").show();
-                            //$("#errorTenPhongBan").show();
-                        }else if(response=="a"){
-                            $("#errorTenPhongBan").text("Vui lòng nhập tên phòng ban").show();
-                            //$("#errorMaPhongBan").show();
                         }else if(response=="c"){
+                            $("#errorTenPhongBan").text("Dữ liệu nhập có chứa kí tự đặc biệt").show();
+                        }else{
                             $("#errorTenPhongBan").hide();
                         }
                     }

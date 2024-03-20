@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tangluong;
 use App\Models\Nhansu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TangluongController extends Controller
 {
@@ -126,12 +127,19 @@ class TangluongController extends Controller
         }
     }
     public function check_maTangLuong_unique(Request $request){
-        if($request->maTangLuong==""){
-            return response()->json(["a"]);
-        }else if (Tangluong::where('maTangLuong', $request->maTangLuong)->exists()) {
-            return response()->json(["b"]);
-        }else{
-            return response()->json(["c"]);
+        if($request->maTangLuong!=""){
+            if (Tangluong::where('maTangLuong', $request->maTangLuong)->exists()) {
+                return "b";
+            }else if(Str::contains($request->maTangLuong, ['!','@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';', ':', '"', '\'', '<', '>', ',', '.', '/', '?', '\\', '|'])){
+                return "c";
+            }
+        }
+    }
+    public function check_ngaytangluong(Request $request){
+        $nhansu = Nhansu::where("Manhansu", $request->mans)->first();
+        if($request->ngaytangluong!="" && $nhansu->Ngaybatdau>=$request->ngaytangluong){
+            //return response()->json([$request->ngaytangluong,$nhansu->Ngaybatdau,"ko hop le"]);
+            return "ko hop le";
         }
     }
 }

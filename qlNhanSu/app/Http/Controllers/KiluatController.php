@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Kiluat;
 use App\Models\Nhansu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Str;
 
 class KiluatController extends Controller
 {
@@ -127,20 +129,19 @@ class KiluatController extends Controller
     }
 
     public function check_maKiLuat_unique(Request $request){
-        if($request->maKiLuat==""){
-            return response()->json(["a"]);
-        }else if (Kiluat::where('maKiLuat', $request->maKiLuat)->exists()) {
-            return response()->json(["b"]);
-        }else{
-            return response()->json(["c"]);
+        if($request->maKiLuat!=""){
+            if (Kiluat::where('maKiLuat', $request->maKiLuat)->exists()) {
+                return "b";
+            }else if(Str::contains($request->maKiLuat, ['!','@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';', ':', '"', '\'', '<', '>', ',', '.', '/', '?', '\\', '|'])){
+                return "c";
+            }
         }
     }
 
-    public function check_tenKiLuat_unique(Request $request){
-        if (Kiluat::where('tenKiLuat', $request->tenKiLuat)->exists()) {
-            echo "true";
-        } else {
-            echo "false";
+    public function check_ngaykiluat(Request $request){
+        $nhansu = Nhansu::where("Manhansu", $request->mans)->first();
+        if($request->ngaykiluat!="" && $nhansu->Ngaybatdau>=$request->ngaykiluat){
+            return "ko hop le";
         }
     }
 }

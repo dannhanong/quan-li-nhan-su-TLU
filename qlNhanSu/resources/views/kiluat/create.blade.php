@@ -19,6 +19,7 @@
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Ngày kỉ luật:</label>
                                 <input class="form-control pt90" type="date" name="ngaykiluat" id="ngaykiluat" required>
+                                <span id="errorNgayKiLuat" class="error"></span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
@@ -54,24 +55,7 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script>
             $('#errorMaKiLuat').hide();
-            // $('#formKiLuat').validate({
-            //     rules:{
-            //         maKiLuat:{
-            //             required: true
-            //         },
-            //         tenKiLuat:{
-            //             required: true
-            //         }
-            //     }
-            //     ,messages:{
-            //         maKiLuat: {
-            //             required: "Vui lòng nhập mã kỉ luật"
-            //         },
-            //         tenKiLuat: {
-            //             required: "Vui lòng nhập tên kỉ luật"
-            //         },
-            //     }
-            // });
+            $('#errorNgayKiLuat').hide();
             $(document).on('keyup', '#maKiLuat', function(){
                 $.ajax({
                     url: '{{ route("check_maKiLuat_unique") }}',
@@ -84,21 +68,42 @@
                     },
                     success: function(response){
                         if(response == 'b'){
-                            $("#errorMaKiLuat").text("Mã kỉ luật đã tồn tại")
-                            $("#errorMaKiLuat").show();
-                        }else if(response=="a"){
-                            $("#errorMaKiLuat").text("Vui lòng nhập mã Kỉ luật");
-                            $("#errorMaKiLuat").show();
+                            $("#errorMaKiLuat").text("Mã kỉ luật đã tồn tại").show();
                         }else if(response=="c"){
+                            $("#errorMaKiLuat").text("Dữ liệu nhập có chứa kí tự đặc biệt").show();
+                        }else{
                             $("#errorMaKiLuat").hide();
                         }
                     }
                 })
             });
 
+            $('#ngaykiluat').on('change', function() {
+                $.ajax({
+                    url: '{{ route("check_ngaykiluat") }}',
+                    type: 'get',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        ngaykiluat: function(){
+                            return $('#ngaykiluat').val();
+                        },
+                        mans: function(){
+                            return $('#mans').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response=="ko hop le"){
+                            $("#errorNgayKiLuat").text("Ngày kỉ luật phải sau ngày vào làm của nhân sự").show();
+                        }else{
+                            $("#errorNgayKiLuat").hide();
+                        }
+                    }
+                })    
+            });
+
             $(document).on('submit', '.formKiLuat', function(e) {
                 e.preventDefault();
-                if (!($("#errorMaKiLuat").is(":hidden"))) {
+                if (!($("#errorMaKiLuat").is(":hidden"))||!($("#errorNgayKiLuat").is(":hidden"))) {
                     toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
                 } else {
                     $.ajax({

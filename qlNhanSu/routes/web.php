@@ -81,11 +81,12 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::resource('kiluats', KiluatController::class);
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');
         Route::get('/check_maKiLuat_unique', [KiluatController::class, 'check_maKiLuat_unique'])->name('check_maKiLuat_unique');
-        Route::get('/check_tenKiLuat_unique', [KiluatController::class, 'check_tenKiLuat_unique'])->name('check_tenKiLuat_unique');
+        Route::get('/check_ngaykiluat', [KiluatController::class, 'check_ngaykiluat'])->name('check_ngaykiluat');
 
         Route::resource('tangluongs', TangluongController::class);
         Route::get('/fetch-tangluongs', [TangluongController::class, 'fetchTangLuong'])->name('tangluongs.fetch');
         Route::get('/check_maTangLuong_unique', [TangluongController::class, 'check_maTangLuong_unique'])->name('check_maTangLuong_unique');
+        Route::get('/check_ngaytangluong', [TangluongController::class, 'check_ngaytangluong'])->name('check_ngaytangluong');
 
         Route::get('/dashboard', function () {
             return view('dashboard');

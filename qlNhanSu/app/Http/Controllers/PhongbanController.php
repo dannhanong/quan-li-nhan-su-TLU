@@ -6,6 +6,7 @@ use App\Models\Phongban;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use function Laravel\Prompts\error;
+use Illuminate\Support\Str;
 
 class PhongbanController extends Controller
 {
@@ -122,22 +123,22 @@ class PhongbanController extends Controller
         }
     }
     public function check_maPhongBan_unique(Request $request){
-        if($request->maPhongBan==""){
-            return response()->json(["a"]);
-        }else if (Phongban::where('maPhongBan', $request->maPhongBan)->exists()) {
-            return response()->json(["b"]);
-        }else{
-            return response()->json(["c"]);
+        if($request->maPhongBan!=""){
+            if (Phongban::where('maPhongBan', $request->maPhongBan)->exists()) {
+                return "b";
+            }else if(Str::contains($request->maPhongBan, ['!','@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';', ':', '"', '\'', '<', '>', ',', '.', '/', '?', '\\', '|'])){
+                return "c";
+            }
         }
     }
 
     public function check_tenPhongBan_unique(Request $request){
-        if($request->tenPhongBan==""){
-            return response()->json(["a"]);
-        }else if (Phongban::where('tenPhongBan', $request->tenPhongBan)->exists()) {
-            return response()->json(["b"]);
-        }else{
-            return response()->json(["c"]);
+        if($request->tenPhongBan!=""){
+            if (Phongban::where('tenPhongBan', $request->tenPhongBan)->exists()) {
+                return "b";
+            }else if(Str::contains($request->tenPhongBan, ['!','@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';', ':', '"', '\'', '<', '>', ',', '.', '/', '?', '\\', '|'])){
+                return "c";
+            }
         }
     }
 

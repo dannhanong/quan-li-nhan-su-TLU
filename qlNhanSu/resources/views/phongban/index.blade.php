@@ -73,14 +73,14 @@
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Mã phòng ban:</label>
-                                            <input class="form-control" type="text" name="maPhongBan" id="maPhongBan" placeholder="(*)">
-                                            <span id="errorMaPhongBan" class="error">Mã phòng ban đã tồn tại</span>
+                                            <input class="form-control" type="text" name="maPhongBan" id="maPhongBan" placeholder="(*)" required>
+                                            <span id="errorMaPhongBan" class="error"></span>
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Tên phòng ban:</label>
-                                            <input class="form-control" name="tenPhongBan" id="tenPhongBan" placeholder="(*)">
-                                            <span id="errortenPhongBan" class="error">Tên phòng ban đã tồn tại</span>
+                                            <input class="form-control" name="tenPhongBan" id="tenPhongBan" placeholder="(*)"required>
+                                            <span id="errortenPhongBan" class="error"></span>
                                         </div>
 
                                         <div class="form-group float-end">
@@ -154,24 +154,6 @@
         <script>
             $('#errorMaPhongBan').hide();
             $('#errortenPhongBan').hide();
-            // $('#formEditPhongban').validate({
-            //     rules:{
-            //         maPhongBan:{
-            //             required: true
-            //         },
-            //         tenPhongBan:{
-            //             required: true
-            //         }
-            //     }
-            //     ,messages:{
-            //         maPhongBan: {
-            //             required: "Vui lòng nhập mã phòng ban"
-            //         },
-            //         tenPhongBan: {
-            //             required: "Vui lòng nhập tên phòng ban"
-            //         },
-            //     }
-            // });
 
             $(document).on('keyup', '#maPhongBan', function(){
                 $.ajax({
@@ -187,10 +169,12 @@
                         }
                     },
                     success: function(response){
-                        if(response == 'true'){
-                             $('#errorMaPhongBan').show();
+                        if(response == 'b'){
+                            $("#errorMaPhongBan").text("Mã phòng ban đã tồn tại").show();
+                        }else if(response=="c"){
+                            $("#errorMaPhongBan").text("Dữ liệu nhập có chứa kí tự đặc biệt").show();
                         }else{
-                             $('#errorMaPhongBan').hide();
+                            $("#errorMaPhongBan").hide();
                         }
                     }
                 })
@@ -207,10 +191,12 @@
                         }
                     },
                     success: function(response){
-                        if(response == 'true'){
-                             $('#errortenPhongBan').show();
+                        if(response == 'b'){
+                            $("#errortenPhongBan").text("Tên phòng ban đã tồn tại").show();
+                        }else if(response=="c"){
+                            $("#errortenPhongBan").text("Dữ liệu nhập có chứa kí tự đặc biệt").show();
                         }else{
-                             $('#errortenPhongBan').hide();
+                            $("#errortenPhongBan").hide();
                         }
                     }
                 })
@@ -226,6 +212,8 @@
 
             $(document).on('click', '#aEditPhongban', function(e) {
                 let id = $(this).data('id_edit');
+                $('#errorMaPhongBan').hide();
+                $('#errortenPhongBan').hide();
                 $.ajax({
                     url: '{{ route("phongbans.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
@@ -282,20 +270,24 @@
             $(document).on('submit', '#formEditPhongban', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
-                $.ajax({
-                    url: '{{ route("phongbans.update", ":id") }}'.replace(':id', id),
-                    type: 'post',
-                    data: $('#formEditPhongban').serialize(),
-                    success: function(response){
-                        toastr.success('Cập nhật thông tin phòng ban thành công', 'Thông báo');
-                        fetchAllPhongBan();
-                        $('#formEditPhongban')[0].reset();
-                        $('.fade').hide();
-                    },
-                    error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
-                    }
-                })
+                if (!($("#errorMaPhongBan").is(":hidden"))||!($("#errortenPhongBan").is(":hidden"))) {
+                    toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
+                }else{
+                    $.ajax({
+                        url: '{{ route("phongbans.update", ":id") }}'.replace(':id', id),
+                        type: 'post',
+                        data: $('#formEditPhongban').serialize(),
+                        success: function(response){
+                            toastr.success('Cập nhật thông tin phòng ban thành công', 'Thông báo');
+                            fetchAllPhongBan();
+                            $('#formEditPhongban')[0].reset();
+                            $('.fade').hide();
+                        },
+                        error: function(){
+                            toastr.error('Có lỗi xảy ra', 'Thông báo');
+                        }
+                    })
+                }    
             });
 
             $(document).on('submit', '#formDeletePhongban', function(e){

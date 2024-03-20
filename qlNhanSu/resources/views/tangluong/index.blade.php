@@ -91,7 +91,8 @@
                                         </div>
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Ngày tăng lương:</label>
-                                            <input class="form-control" name="ngaytangluong" id="ngaytangluong" type="date" required>                                
+                                            <input class="form-control" name="ngaytangluong" id="ngaytangluong" type="date" required>
+                                            <span id="errorNgayTangLuong" class="error"></span>                               
                                         </div>
                                         <div class="form-group float-end">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -163,70 +164,7 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
-            $('#errorMaKiLuat').hide();
-            $('#errortenKiLuat').hide();
-            // $('#formEditKiluat').validate({
-            //     rules:{
-            //         maKiLuat:{
-            //             required: true
-            //         },
-            //         tenKiLuat:{
-            //             required: true
-            //         }
-            //     }
-            //     ,messages:{
-            //         maKiLuat: {
-            //             required: "Vui lòng nhập mã kỉ luật"
-            //         },
-            //         tenKiLuat: {
-            //             required: "Vui lòng nhập tên kỉ luật"
-            //         },
-            //     }
-            // });
-
-            $(document).on('keyup', '#maKiLuat', function(){
-                $.ajax({
-                    url: '{{ route("check_maKiLuat_unique") }}',
-                    type: 'get',
-                    data: {
-                        maKiLuatF: function(){
-                            return $('#maKiLuatF').val();
-                        },
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        maKiLuat: function(){
-                            return $('#maKiLuat').val();
-                        }
-                    },
-                    success: function(response){
-                        if(response == 'true'){
-                             $('#errorMaKiLuat').show();
-                        }else{
-                             $('#errorMaKiLuat').hide();
-                        }
-                    }
-                })
-            });
-
-            $(document).on('keyup', '#tenKiLuat', function(){
-                $.ajax({
-                    url: '{{ route("check_tenKiLuat_unique") }}',
-                    type: 'get',
-                    data: {
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        tenKiLuat: function(){
-                            return $('#tenKiLuat').val();
-                        }
-                    },
-                    success: function(response){
-                        if(response == 'true'){
-                             $('#errortenKiLuat').show();
-                        }else{
-                             $('#errortenKiLuat').hide();
-                        }
-                    }
-                })
-            });
-
+            $('#errorNgayTangLuong').hide();
             $(function() {
                 fetchAllTangLuong();
                 toastr.options = {
@@ -237,6 +175,7 @@
 
             $(document).on('click', '#aEditkiluat', function(e) {
                 let id = $(this).data('id_edit');
+                $('#errorNgayTangLuong').hide();
                 $.ajax({
                     url: '{{ route("tangluongs.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
@@ -296,20 +235,24 @@
             $(document).on('submit', '#formEditKiluat', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
-                $.ajax({
-                    url: '{{ route("tangluongs.update", ":id") }}'.replace(':id', id),
-                    type: 'post',
-                    data: $('#formEditKiluat').serialize(),
-                    success: function(response){
-                        toastr.success('Cập nhật thông tin tăng lương thành công', 'Thông báo');
-                        fetchAllTangLuong();
-                        $('#formEditKiluat')[0].reset();
-                        $('.fade').hide();
-                    },
-                    error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
-                    }
-                })
+                if (!($("#errorNgayTangLuong").is(":hidden"))) {
+                    toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
+                }else{
+                    $.ajax({
+                        url: '{{ route("tangluongs.update", ":id") }}'.replace(':id', id),
+                        type: 'post',
+                        data: $('#formEditKiluat').serialize(),
+                        success: function(response){
+                            toastr.success('Cập nhật thông tin tăng lương thành công', 'Thông báo');
+                            fetchAllTangLuong();
+                            $('#formEditKiluat')[0].reset();
+                            $('.fade').hide();
+                        },
+                        error: function(){
+                            toastr.error('Có lỗi xảy ra', 'Thông báo');
+                        }
+                    })
+                } 
             });
 
             $(document).on('submit', '#formDeleteKiluat', function(e){
@@ -402,6 +345,28 @@
                 };
             });
 
+            $('#ngaytangluong').on('change', function() {
+                $.ajax({
+                    url: '{{ route("check_ngaytangluong") }}',
+                    type: 'get',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        ngaytangluong: function(){
+                            return $('#ngaytangluong').val();
+                        },
+                        mans: function(){
+                            return $('#mans').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response=="ko hop le"){
+                            $("#errorNgayTangLuong").text("Ngày tăng lương phải sau ngày vào làm của nhân sự").show();
+                        }else{
+                            $("#errorNgayTangLuong").hide();
+                        }
+                    }
+                })    
+            });
         </script>
 </x-app-layout>
 
