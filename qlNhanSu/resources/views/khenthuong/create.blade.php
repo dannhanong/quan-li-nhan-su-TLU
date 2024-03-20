@@ -20,7 +20,7 @@
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Ngày khen thưởng:</label>
                                 <input class="form-control pt90" type="date" name="ngayKhenThuong" id="ngayKhenThuong" value="{{ old('ngayKhenThuong', now()->toDateString()) }}" placeholder="(*)">
-                                <span id="errorngayKhenThuong" class="error" style="display: none">Ngày khen thưởng phải sau ngày sinh</span>
+                                <span id="errorngayKhenThuong" class="error" style="display: none">Ngày khen thưởng phải sau ngày bắt đầu làm</span>
                             </div>
 
                             <div class="">
@@ -77,8 +77,9 @@
             });
 
             $.validator.addMethod("specialChars", function (value, element) {
-                return /^[a-zA-Z0-9À-ỹ\s]+$/.test(value);
+                return /^[a-zA-Z0-9À-ỹ\s.,]+$/.test(value);
             });
+
 
             $('#Manhansu').typeahead({
                 source: function (query, process) {

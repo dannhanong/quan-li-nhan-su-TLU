@@ -95,17 +95,17 @@ class KhenthuongController extends Controller
             ['chiTietKhenThuong', $chiTietKhenThuong],
             ['Manhansu', $manhansu],
         ])->first();
-        $ngaySinh = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaysinh');
+        $Ngaybatdau = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaybatdau');
         
         if ($existingRecord) {
             return response()->json([
                 'status' => false,
                 'message' => 'Bản ghi đã tồn tại'
             ], 400); 
-        } elseif ($ngaySinh > $ngayKhenThuong){
+        } elseif ($Ngaybatdau > $ngayKhenThuong){
             return response()->json([
                 'status' => false,
-                'message' => 'Ngày khen thưởng phải sau ngày sinh'
+                'message' => 'Ngày khen thưởng phải sau ngày bắt đầu làm'
             ], 401); 
         } else {
             Khenthuong::create($request->all());
@@ -152,17 +152,17 @@ class KhenthuongController extends Controller
             ['chiTietKhenThuong', $chiTietKhenThuong],
             ['Manhansu', $manhansu],
         ])->first();
-        $ngaySinh = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaysinh');
+        $Ngaybatdau = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaybatdau');
         
         if ($existingRecord) {
             return response()->json([
                 'status' => false,
                 'message' => 'Bản ghi đã tồn tại'
             ], 400); 
-        }elseif ($ngaySinh > $ngayKhenThuong){
+        }elseif ($Ngaybatdau > $ngayKhenThuong){
             return response()->json([
                 'status' => false,
-                'message' => 'Ngày khen thưởng phải sau ngày sinh'
+                'message' => 'Ngày khen thưởng phải sau ngày bắt đầu làm'
             ], 401); 
         } else {
             $khenthuong = Khenthuong::find($id);
@@ -204,10 +204,10 @@ class KhenthuongController extends Controller
     }
 
     public function checkngayKhenThuong(Request $request){
-        $ngaySinh = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaysinh');
-        if ($ngaySinh) {
+        $Ngaybatdau = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaybatdau');
+        if ($Ngaybatdau) {
             $ngayKhenThuong = $request->ngayKhenThuong;
-            if ($ngayKhenThuong < $ngaySinh) {
+            if ($ngayKhenThuong < $Ngaybatdau) {
                 echo "false";
             }
             else{

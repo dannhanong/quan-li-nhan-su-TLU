@@ -81,7 +81,7 @@
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Ngày khen thưởng:</label>
                                             <input type="date" class="form-control" name="ngayKhenThuong" id="ngayKhenThuong" placeholder="(*)">
-                                            <span id="errorngayKhenThuong" class="error" style="display: none">Ngày khen thưởng phải sau ngày sinh</span>
+                                            <span id="errorngayKhenThuong" class="error" style="display: none">Ngày khen thưởng phải sau ngày bắt đầu làm</span>
                                         </div>
 
                                         <div class="">
@@ -198,8 +198,9 @@
             });
 
             $.validator.addMethod("specialChars", function (value, element) {
-                return /^[a-zA-Z0-9À-ỹ\s]+$/.test(value);
+                return /^[a-zA-Z0-9À-ỹ\s.,]+$/.test(value);
             });
+
 
             $('#Manhansu').typeahead({
                 source: function (query, process) {
