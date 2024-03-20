@@ -10,12 +10,16 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhongbanController;
 use App\Http\Controllers\KhenthuongController;
+use App\Models\Hopdong;
 use App\Models\Khenthuong;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\HopdongController;
+
 use App\Http\Controllers\TangluongController;
+
+use App\Http\Controllers\TrangthaiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,13 +74,18 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/fetch-nhansuNghihuus', [NhansuController::class, 'fetchNhansuNghihuu'])->name('nhansuNghihuus.fetch');
         Route::get('/showNhansusnghihuu', [NhansuController::class, 'showNhanSuNghiHuu'])->name('showNhansusnghihuu');
         Route::get('/delete_Nhansu_Nghihuu#{id}', [NhansuController::class, 'deleteNhansuNghihuu'])->name('delete_Nhansu_Nghihuu');
+        Route::get('/filter', [NhansuController::class, 'filter'])->name('nhansus.filter');
 
         Route::resource('hopdongs', HopdongController::class);
         Route::get('/fetch-hopdongs', [HopdongController::class, 'fetchHopdong'])->name('hopdongs.fetch');
-        Route::post('/get-ten-hopdong', [ChucvuController::class, 'getTenHopdong'])->name('get-ten-hopdong');
+        Route::post('/get-ten-hopdong', [HopdongController::class, 'getTenHopdong'])->name('get-ten-hopdong');
+        Route::get('/check_maHopdong_unique', [HopdongController::class, 'check_maHopdong_unique'])->name('check_maHopdong_unique');
+
 
         Route::resource('khenthuongs', KhenthuongController::class);
         Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');
+        Route::get('/get_Manhansu_list', [KhenThuongController::class, 'getManhansuList'])->name('get_Manhansu_list');
+        Route::get('/check_Manhansu_exists', [KhenThuongController::class, 'getManhansuExists'])->name('check_Manhansu_exists');
 
         Route::resource('kiluats', KiluatController::class);
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');
@@ -87,6 +96,13 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/fetch-tangluongs', [TangluongController::class, 'fetchTangLuong'])->name('tangluongs.fetch');
         Route::get('/check_maTangLuong_unique', [TangluongController::class, 'check_maTangLuong_unique'])->name('check_maTangLuong_unique');
         Route::get('/check_ngaytangluong', [TangluongController::class, 'check_ngaytangluong'])->name('check_ngaytangluong');
+
+        Route::resource('trangthais', TrangthaiController::class);
+        Route::get('/fetch-trangthais', [TrangthaiController::class, 'fetchTrangthai'])->name('trangthais.fetch');
+        Route::get('/check_maTrangThai_unique', [TrangthaiController::class, 'check_maTrangThai_unique'])->name('check_maTrangThai_unique');
+        Route::get('/check_tenTrangThai_unique', [TrangthaiController::class, 'check_tenTrangThai_unique'])->name('check_tenTrangThai_unique');
+        Route::post('/get-ten-trangthai', [TrangthaiController::class, 'getTenTrangthai'])->name('get-ten-trangthai');
+
 
         Route::get('/dashboard', function () {
             return view('dashboard');

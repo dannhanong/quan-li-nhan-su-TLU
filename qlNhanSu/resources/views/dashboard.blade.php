@@ -51,12 +51,68 @@
                     </div>
                 </div>
 
+
                 <div class="col-md-3">
                     <div class="small-box icon">
                         <a href="{{ route('chucvus.index') }}">
                             <div class="box-content text-center">
                                 <i class="fa-solid fa-rectangle-list my-4 ic"></i>
                                 <h4 class="can">Chức vụ</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="small-box icon">
+                        <a href="{{ route('phongbans.index') }}">
+                            <div class="box-content text-center">
+                                <i class="fa-solid fa-building-user my-4 ic"></i>
+                                <h4 class="can">Phòng ban</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="small-box icon">
+                        <a href="{{ route('hopdongs.index') }}">
+                            <div class="box-content text-center">
+                                <i class="fa-solid fa-file-signature my-4 ic"></i>
+                                <h4 class="can">Hợp đồng</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="small-box icon">
+                        <a href="{{ route('khenthuongs.index') }}">
+                            <div class="box-content text-center">
+                                <i class="fa-solid fa-award my-4 ic"></i>
+                                <h4 class="can">Khen thưởng</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="small-box icon">
+                        <a href="{{ route('kiluats.index') }}">
+                            <div class="box-content text-center">
+                                <i class="fa-solid fa-ban my-4 ic"></i>
+                                <h4 class="can">Kỉ luật</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="small-box icon">
+                        <a href="{{ route('trangthais.index') }}">
+                            <div class="box-content text-center">
+                                <i class="fa-solid fa-signal my-4 ic"></i>
+                                <h4 class="can">Trạng thái</h4>
                             </div>
                         </a>
                     </div>

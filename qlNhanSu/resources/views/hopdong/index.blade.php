@@ -41,7 +41,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h3>Danh sách Hợp đồng</h3>
+                                      <h3>Danh sách Hợp đồng</h3>
                                 </div>
 
                                 <div class="col-md-6">
@@ -70,9 +70,10 @@
                                         @method('PUT')
                                         <input type="hidden" name="id" id="id">
                                         <input type="hidden" name="maHopdongF" id="maHopdongF">
+
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Mã Nhân sự:</label>
-                                            <input class="form-control" name="Manhansu" id="Manhansu" placeholder="(*)">
+                                            <input class="form-control" name="Manhansu" id="Manhansu"readonly placeholder="(*)">
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
@@ -96,6 +97,7 @@
                                             <label class="input-group-text" for="">Lần ký:</label>
                                             <input class="form-control" name="Lanky" id="Lanky" placeholder="(*)">
                                         </div>
+
                                         <div class="form-group float-end">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                             <input type="submit" name="btSave" value="Cập nhật" class="btn btn-primary">
@@ -105,7 +107,6 @@
                             </div>
                             </div>
                         </div>
-
 
                         <!-- Modal delete -->
                         <div class="modal fade" id="deleteHopDongModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -139,13 +140,13 @@
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết hợp đồng</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết hợp đồng</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="mb-3 display"><h4 class="spanBold mt-5 mx-3" id="h4TenHopdong"></h4></div>
+                                    <div class="border border-primary mb-3"><h4 style="font-weight: bold; font-style: italic;padding: 30px;text-align: center", tex id="h4TenHopDong"></h4></div>
                                     <div class="mb-3"><span class="spanBold">Mã hợp đồng: </span><span id="spanMaHopdong"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
@@ -166,31 +167,52 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
+            $('#errorMaHopdong').hide();
             $('#formEditHopdong').validate({
+
                 rules:{
                     maHopdong:{
                         required: true
                     },
-                },
-                messages:{
+                }
+                ,messages:{
                     maHopdong: {
                         required: "Vui lòng nhập mã hợp đồng"
-                    },
-                },
+                    }
+                }
             });
 
-
-
+            $(document).on('keyup', '#maHopdong', function(){
+                $.ajax({
+                    url: '{{ route("check_maHopdong_unique") }}',
+                    type: 'get',
+                    data: {
+                        maHopDongF: function(){
+                            return $('#maHopDongF').val();
+                        },
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        maHopDong: function(){
+                            return $('#maHopDong').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response == 'true'){
+                             $('#errorMaHopDong').show();
+                        }else{
+                             $('#errorMaHopDong').hide();
+                        }
+                    }
+                })
+            });
             $(function() {
-                fetchAllHopdongs();
+                fetchAllHopDong();
                 toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
                 "positionClass": "toast-bottom-right",
             };
 
-            $(document).on('click', '#aEditHopDong', function(e) {
-                $('#errorMaHopdong').hide()
+            $(document).on('click', '#aEditHopdong', function(e) {
                 let id = $(this).data('id_edit');
                 $.ajax({
                     url: '{{ route("hopdongs.edit", ":id") }}'.replace(':id', id),
@@ -201,8 +223,8 @@
                     },
                     success: function(response){
                         $('#id').val(response.id);
-                        $('#maHopdong').val(response.maHopdong);
-                        $('#maHopdongF').val(response.maHopdong);
+                        $('#maHopDong').val(response.maHopDong);
+                        $('#maHopDongF').val(response.maHopDong);
                     }
                 })
             });
@@ -217,7 +239,7 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        $('#spanMaHopdong').text(response.maHopdong);
+                        $('#spanMaHopDong').text(response.maHopDong);
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
@@ -226,9 +248,8 @@
                 })
             });
 
-            $(document).on('click', '#aDeleteHopDong', function(e){
+            $(document).on('click', '#aDeleteHopdong', function(e){
                 let id = $(this).data('id_xoa');
-
                 $.ajax({
                     url: '{{ route("hopdongs.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
@@ -237,9 +258,9 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        var maHopdong = response.maHopdong;
+                        var maHopDong = response.maHopDong;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa hợp đồng: "+maHopdong+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa hợp đồng: "+maHopDong+"?");
                     }
                 })
             });
@@ -253,7 +274,7 @@
                     data: $('#formEditHopdong').serialize(),
                     success: function(response){
                         toastr.success('Cập nhật thông tin hợp đồng thành công', 'Thông báo');
-                        fetchAllHopdongs();
+                        fetchAllHopDong();
                         $('#formEditHopdong')[0].reset();
                         $('.fade').hide();
                     },
@@ -275,19 +296,20 @@
                     success: function(response){
                         toastr.success('Xóa hợp đồng thành công', 'Thông báo');
                         $('#formDeleteHopdong')[0].reset();
-                        fetchAllHopdongs();
+                        fetchAllHopDong();
                         $('.fade').hide();
                     }
                 })
             });
 
-            function fetchAllHopdongs(){
+            function fetchAllHopDong(){
                     $.ajax({
                         url: "{{ route('hopdongs.fetch') }}",
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
                             $('#hopdongTable').DataTable({
+                                select: true,
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",
                                     zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
@@ -296,7 +318,7 @@
                                     infoFiltered:   "(được lọc từ tổng số _MAX_ mục)",
                                     search:         "",
                                 },
-                                dom: 'lBrpf',
+                                dom: '<"H"lBrf><"clear">t<"F"p>',
                                 // pagingType: 'numbers',
                                 order: [0, 'asc'],
                                 columnDefs: [
@@ -341,15 +363,11 @@
                                         text: 'Các trường hiển thị'
                                     },
                                 ],
-                                select: true,
-                            });
-                            $('label[for="dt-length-1"]').remove();
-                            $('label[for="dt-length-3"]').remove();
-                            $('label[for="dt-length-5"]').remove();
-                            $('label[for="dt-length-7"]').remove();
-                            $('label[for="dt-length-9"]').remove();
 
-                            $('#dt-search-1').attr('placeholder', 'Tìm kiếm');
+                            });
+                            $('.dt-length label').remove();
+
+                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
                         }
                     })

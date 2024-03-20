@@ -28,7 +28,7 @@
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Giới tính:</label>
                                 <label class="mt-2 mx-3">
-                                    <input type="radio" name="Gioitinh" value="1">
+                                    <input type="radio" name="Gioitinh" value="1" checked>
                                     Nam
                                 </label>
                                 <label class="mt-2 mx-3">
@@ -45,6 +45,7 @@
                             {{-- <div class="input-group mt-3 mb-3"> --}}
                                 <label class="input-group-text" style="margin-left: 10%" for="">Ngày bắt đầu:</label>
                                 <input class="form-control pt90" type="date" name="Ngaybatdau" id="Ngaybatdau" value="{{ old('Ngaybatdau') }}" placeholder="(*)">
+                                <span class="error" id="spanErrorNgay">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
@@ -106,16 +107,16 @@
                                         <option value="5">5</option>
                                     </select>
                                 </div>
-                                <div class="input-group d-flex">
+                                {{-- <div class="input-group d-flex">
                                     <label class="input-group-text" style="margin-left: 20px" for="">Hệ số lương:</label>
                                     <input type="text" class="form-control" style="background: white" readonly>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Ảnh đại diện:</label>
                                 <input class="form-control pt90" type="file" name="Anhdaidien" id="Anhdaidien" value="{{ old('Anhdaidien') }}">
-                                <span class="error" id="spanErrorAvatar">Chỉ chấp nhận các tệp ảnh PNG hoặc JPEG</span>
+                                <span class="error" id="spanErrorAnhdaidien">Chỉ chấp nhận các tệp ảnh PNG hoặc JPEG</span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
@@ -138,7 +139,8 @@
         <script>window.baseUrl = "{{ URL::to('/') }}";</script>
         <script src="{{ asset('assets') }}/js/app.js"></script>
         <script>
-            $('#spanErrorAvatar').hide();
+            $('#spanErrorAnhdaidien').hide();
+            $('#spanErrorNgay').hide();
             $('#formNhansu').validate({
                 rules:{
                     Manhansu:{
@@ -158,10 +160,24 @@
                         required: true
                     },
                     SDT: {
-                        required: true
+                        required: true,
+                        minlength: 10,
+                        maxlength: 10,
+                        digits: true
                     },
+                    Ngaysinh: {
+                        required: true,
+                        date: true
+                    },
+                    Ngaybatdau: {
+                        required: true,
+                        date: true
+                    }
                 },
                 messages:{
+                    Manhansu: {
+                        required: "Trường mã nhân sự không được để trống"
+                    },
                     account: {
                         required: "Trường tài khoản không được để trống"
                     },
@@ -176,23 +192,55 @@
                         required: "Trường họ tên không được để trống"
                     },
                     SDT: {
-                        required: "Trường số điện thoại không được để trống"
+                        required: "Trường số điện thoại không được để trống",
+                        minlength: "Số điện thoại phải chứa ít nhất 10 chữ số",
+                        maxlength: "Số điện thoại chỉ được chứa tối đa 10 chữ số",
+                        digits: "Vui lòng chỉ nhập số"
+                    },
+                    Ngaysinh: {
+                        required: "Hãy chọn ngày sinh",
+                        date: "Vui lòng nhập đúng định dạng ngày"
+                    },
+                    Ngaybatdau: {
+                        required: "Hãy chọn ngày bắt đầu",
+                        date: "Vui lòng nhập đúng định dạng ngày"
                     }
                 },
             });
-            $('#avatar').change(function() {
+            $('#Anhdaidien').change(function() {
                 var fileName = $(this).val();
                 var extension = fileName.split('.').pop().toLowerCase();
                 if ($.inArray(extension, ['png', 'jpg', 'jpeg']) == -1) {
-                    $('#spanErrorAvatar').show()
+                    $('#spanErrorAnhdaidien').show()
                     $(this).val('');
                 }else{
-                    $('#spanErrorAvatar').hide();
+                    $('#spanErrorAnhdaidien').hide();
                 }
+            });
+
+            $('#Ngaybatdau').on('change', function() {
+                var ngaybatdau = $(this).val();
+
+                if($('#Ngaysinh').val() !== null)
+                    var ngaysinh = $('#Ngaysinh').val();
+                    if (ngaybatdau < ngaysinh) {
+                        $('#spanErrorNgay').show();
+                        $(this).val('');
+                    }else{
+                        $('#spanErrorNgay').hide();
+                    }
             });
 
             $(document).on('submit', '.formNhansu', function(e) {
                 e.preventDefault();
+                var ngaybatdau = $('#Ngaybatdau').val();
+                var ngaysinh = $('#Ngaysinh').val();
+                if (ngaybatdau < ngaysinh) {
+                        $('#spanErrorNgay').show();
+                        $(this).val('');
+                    }else{
+                        $('#spanErrorNgay').hide();
+                }
                 const formCreateNhansu = new FormData(this);
                 $.ajax({
                     url: "{{ route('nhansus.store') }}",
@@ -212,10 +260,6 @@
                         $('#Diachi').val('');
                         $('#SDT').val('');
                         $('#Quequan').val('');
-                        $('#Maphongban').val('');
-                        $('#MaChucVu').val('');
-                        $('#Makhoa').val('');
-                        $('#Bacluong').val('');
                         $('#Anhdaidien').val('');
                         $('#email').val('');
                         toastr.options = {

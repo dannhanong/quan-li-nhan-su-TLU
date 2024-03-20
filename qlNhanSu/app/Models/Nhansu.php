@@ -28,6 +28,7 @@ class Nhansu extends Model
         'Bacluong',
         'Anhdaidien',
         'email',
+        'Matrangthai',
         'deleted_at'
     ];
 

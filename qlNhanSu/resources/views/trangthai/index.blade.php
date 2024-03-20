@@ -41,11 +41,11 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h3>Danh sách khoa</h3>
+                                    <h3>Danh sách trạng thái</h3>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ route('khoas.create') }}" class="btn btn-primary float-end">Thêm mới</a>
+                                    <a href="{{ route('trangthais.create') }}" class="btn btn-primary float-end">Thêm mới</a>
                                 </div>
                             </div>
                         </div>
@@ -55,31 +55,32 @@
                         </div>
 
                         {{-- Modal edit --}}
-                        <div class="modal fade" id="editKhoaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="editTrangthaiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa khoa</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa trạng thái</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="post" action="" class="m-5 mt-2 formEditKhoa" id="formEditKhoa">
+                                    <form method="post" action="" class="m-5 mt-2 formEditTrangthai" id="formEditTrangthai">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="id" id="id">
-                                        <input type="hidden" name="maKhoaF" id="maKhoaF">
+                                        <input type="hidden" name="maTrangThaiF" id="maTrangThaiF">
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Mã khoa:</label>
-                                            <input class="form-control" type="text" name="maKhoa" id="maKhoa" placeholder="(*)">
-                                            <span id="errorMaKhoa" class="error">Mã khoa đã tồn tại</span>
+                                            <label class="input-group-text" for="">Mã trạng thái:</label>
+                                            <input class="form-control" type="text" name="maTrangThai" id="maTrangThai" placeholder="(*)">
+                                            <span id="errorMaTrangThai" class="error">Mã trạng thái đã tồn tại</span>
                                         </div>
 
                                         <div class="input-group mt-3 mb-3">
-                                            <label class="input-group-text" for="">Tên khoa:</label>
-                                            <input class="form-control" name="tenKhoa" id="tenKhoa" placeholder="(*)">
+                                            <label class="input-group-text" for="">Tên trạng thái:</label>
+                                            <input class="form-control" name="tenTrangThai" id="tenTrangThai" placeholder="(*)">
+                                            <span id="errortenTrangThai" class="error">Tên trạng thái đã tồn tại</span>
                                         </div>
 
                                         <div class="form-group float-end">
@@ -92,9 +93,8 @@
                             </div>
                         </div>
 
-
                         <!-- Modal delete -->
-                        <div class="modal fade" id="deleteKhoaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="deleteTrangthaiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -109,7 +109,7 @@
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                <form id="formDeleteKhoa" class="formDeleteKhoa" action="" method="POST">
+                                <form id="formDeleteTrangthai" class="formDeleteTrangthai" action="" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
@@ -121,18 +121,18 @@
                         </div>
 
                         <!-- Modal show -->
-                        <div class="modal fade" id="showKhoaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="showTrangthaiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết khoa</h4>
+                            <h4 class="modal-title spanBold" id="exampleModalLabel">Thông tin chi tiết trạng thái</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="mb-3"><span class="spanBold">Mã khoa: </span><span id="spanMaKhoa"></span></div>
-                                    <div class="mb-3"><span class="spanBold">Tên khoa: </span><span id="h4TenKhoa"></span></div>
+                                    <div class="border border-primary mb-3"><h4 style="font-weight: bold; font-style: italic;padding: 30px;text-align: center", tex id="h4TenTrangThai"></h4></div>
+                                    <div class="mb-3"><span class="spanBold">Mã trạng thái: </span><span id="spanMaTrangThai"></span></div>
                                     <div class="mb-3"><span class="spanBold">Thời gian tạo: </span><span id="spanCreateAt"></span></div>
                                     <div class="mb-3"><span class="spanBold">Lần cập nhật gần nhất: </span><span id="spanUpdateAt"></span></div>
                                 </div>
@@ -152,70 +152,82 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
-            $('#formEditKhoa').validate({
+            $('#errorMaTrangThai').hide();
+            $('#errortenTrangThai').hide();
+            $('#formEditTrangthai').validate({
                 rules:{
-                    maKhoa:{
-                        required: true,
-                        specialChars: true                       
+                    maTrangThai:{
+                        required: true
                     },
-                    tenKhoa:{
-                        required: true,
-                        specialChars: true
+                    tenTrangThai:{
+                        required: true
                     }
-                },
-                messages:{
-                    maKhoa: {
-                        required: "Vui lòng nhập mã khoa",
-                        specialChars: "Vui lòng không nhập ký tự đặc biệt"
+                }
+                ,messages:{
+                    maTrangThai: {
+                        required: "Vui lòng nhập mã trạng thái"
                     },
-                    tenKhoa: {
-                        required: "Vui lòng nhập tên khoa",
-                        specialChars: "Vui lòng không nhập ký tự đặc biệt"
+                    tenTrangThai: {
+                        required: "Vui lòng nhập tên trạng thái"
                     },
-                },
+                }
             });
 
-            // Thêm quy tắc kiểm tra ký tự đặc biệt
-            $.validator.addMethod("specialChars", function (value, element) {
-                return /^[a-zA-Z0-9À-ỹ]+$/.test(value);
-            });
-
-            $(document).on('keyup', '#maKhoa', function(){
+            $(document).on('keyup', '#maTrangThai', function(){
                 $.ajax({
-                    url: '{{ route("check_maKhoa_unique") }}',
+                    url: '{{ route("check_maTrangThai_unique") }}',
                     type: 'get',
                     data: {
-                        maKhoaF: function(){
-                            return $('#maKhoaF').val();
+                        maTrangThaiF: function(){
+                            return $('#maTrangThaiF').val();
                         },
                         '_token': $('meta[name="csrf-token"]').attr('content'),
-                        maKhoa: function(){
-                            return $('#maKhoa').val();
+                        maTrangThai: function(){
+                            return $('#maTrangThai').val();
                         }
                     },
                     success: function(response){
-                        if(response == 'false'){
-                            $('#errorMaKhoa').show();
+                        if(response == 'true'){
+                             $('#errorMaTrangThai').show();
                         }else{
-                            $('#errorMaKhoa').hide();
+                             $('#errorMaTrangThai').hide();
+                        }
+                    }
+                })
+            });
+
+            $(document).on('keyup', '#tenTrangThai', function(){
+                $.ajax({
+                    url: '{{ route("check_tenTrangThai_unique") }}',
+                    type: 'get',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        tenTrangThai: function(){
+                            return $('#tenTrangThai').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response == 'true'){
+                             $('#errortenTrangThai').show();
+                        }else{
+                             $('#errortenTrangThai').hide();
                         }
                     }
                 })
             });
 
             $(function() {
-                fetchAllKhoas();
+                fetchAllTrangThai();
                 toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
                 "positionClass": "toast-bottom-right",
             };
 
-            $(document).on('click', '#aEditKhoa', function(e) {
-                $('#errorMaKhoa').hide()
+            $(document).on('click', '#aEditTrangthai', function(e) {
                 let id = $(this).data('id_edit');
                 $.ajax({
-                    url: '{{ route("khoas.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("trangthais.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
@@ -223,25 +235,25 @@
                     },
                     success: function(response){
                         $('#id').val(response.id);
-                        $('#maKhoa').val(response.maKhoa);
-                        $('#tenKhoa').val(response.tenKhoa);
-                        $('#maKhoaF').val(response.maKhoa);
+                        $('#maTrangThai').val(response.maTrangThai);
+                        $('#tenTrangThai').val(response.tenTrangThai);
+                        $('#maTrangThaiF').val(response.maTrangThai);
                     }
                 })
             });
 
-            $(document).on('click', '#aShowKhoa', function(){
+            $(document).on('click', '#aShowTrangthai', function(){
                 let id = $(this).data('id_show');
                 $.ajax({
-                    url: '{{ route("khoas.show", ":id") }}'.replace(':id', id),
+                    url: '{{ route("trangthais.show", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data: {
                         id: id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        $('#h4TenKhoa').text(response.tenKhoa);
-                        $('#spanMaKhoa').text(response.maKhoa);
+                        $('#h4TenTrangThai').text(response.tenTrangThai);
+                        $('#spanMaTrangThai').text(response.maTrangThai);
                         var formattedCreate = moment(response.created_at).format('DD/MM/YYYY HH:mm:ss');
                         $('#spanCreateAt').text(formattedCreate);
                         var formattedUpdate = moment(response.updated_at).format('DD/MM/YYYY HH:mm:ss');
@@ -250,68 +262,68 @@
                 })
             });
 
-            $(document).on('click', '#aDeleteKhoa', function(e){
+            $(document).on('click', '#aDeleteTrangthai', function(e){
                 let id = $(this).data('id_xoa');
-
                 $.ajax({
-                    url: '{{ route("khoas.edit", ":id") }}'.replace(':id', id),
+                    url: '{{ route("trangthais.edit", ":id") }}'.replace(':id', id),
                     type: 'get',
                     data:{
                         id: id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        var tenKhoa = response.tenKhoa;
+                        var tenTrangThai = response.tenTrangThai;
                         $('#id').val(response.id);
-                        $('#tb').text("Bạn chắc chắn muốn xóa khoa: "+tenKhoa+"?");
+                        $('#tb').text("Bạn chắc chắn muốn xóa trạng thái: "+tenTrangThai+"?");
                     }
                 })
             });
 
-            $(document).on('submit', '#formEditKhoa', function(e){
+            $(document).on('submit', '#formEditTrangthai', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("khoas.update", ":id") }}'.replace(':id', id),
+                    url: '{{ route("trangthais.update", ":id") }}'.replace(':id', id),
                     type: 'post',
-                    data: $('#formEditKhoa').serialize(),
+                    data: $('#formEditTrangthai').serialize(),
                     success: function(response){
-                        toastr.success('Cập nhật thông tin khoa thành công', 'Thông báo');
-                        fetchAllKhoas();
-                        $('#formEditKhoa')[0].reset();
+                        toastr.success('Cập nhật thông tin trạng thái thành công', 'Thông báo');
+                        fetchAllTrangThai();
+                        $('#formEditTrangthai')[0].reset();
                         $('.fade').hide();
                     },
                     error: function(){
-                        toastr.error('Có lỗi xảy ra. Kiểm tra lại thông tin đã nhập', 'Thông báo');
+                        toastr.error('Có lỗi xảy ra', 'Thông báo');
                     }
                 })
             });
 
-            $(document).on('submit', '#formDeleteKhoa', function(e){
+            $(document).on('submit', '#formDeleteTrangthai', function(e){
                 e.preventDefault();
                 let id = $('#id').val();
                 $.ajax({
-                    url: '{{ route("khoas.destroy", ":id") }}'.replace(':id', id),
+                    url: '{{ route("trangthais.destroy", ":id") }}'.replace(':id', id),
                     type: 'delete',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response){
-                        toastr.success('Xóa khoa thành công', 'Thông báo');
-                        $('#formDeleteKhoa')[0].reset();
-                        fetchAllKhoas();
+                        toastr.success('Xóa trạng thái thành công', 'Thông báo');
+                        $('#formDeleteTrangthai')[0].reset();
+                        fetchAllTrangThai();
                         $('.fade').hide();
                     }
                 })
             });
 
-            function fetchAllKhoas(){
+            function fetchAllTrangThai(){
                     $.ajax({
-                        url: "{{ route('khoas.fetch') }}",
+                        url: "{{ route('trangthais.fetch') }}",
                         type: 'get',
                         success: function(response){
                             $('.table-data').html(response);
-                            $('#khoaTable').DataTable({
+                            $('#trangthaiTable').DataTable({
+                                select: true,
                                 language: {
                                     emptyTable:     "Không có dữ liệu nào được tìm thấy",
                                     zeroRecords:    "Không có kết quả nào phù hợp được tìm thấy",
@@ -365,15 +377,11 @@
                                         text: 'Các trường hiển thị'
                                     },
                                 ],
-                                select: true,
-                            });
-                            $('label[for="dt-length-1"]').remove();
-                            $('label[for="dt-length-3"]').remove();
-                            $('label[for="dt-length-5"]').remove();
-                            $('label[for="dt-length-7"]').remove();
-                            $('label[for="dt-length-9"]').remove();
 
-                            $('#dt-search-1').attr('placeholder', 'Tìm kiếm');
+                            });
+                            $('.dt-length label').remove();
+
+                            $('.dt-search input').attr('placeholder', 'Tìm kiếm');
                             $('#dt-length-1').prepend('<option value="5">5</option>');
                         }
                     })
