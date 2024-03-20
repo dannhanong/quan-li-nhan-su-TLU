@@ -19,6 +19,7 @@
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Tên khoa:</label>
                                 <input class="form-control pt90" name="tenKhoa" id="tenKhoa" value="{{ old('tenKhoa') }}" placeholder="(*)">
+                                <span id="errorTenKhoa" class="error" style="display: none">Tên khoa đã tồn tại</span>
                             </div>
 
                             <div class="form-group  float-end ">
@@ -57,7 +58,7 @@
             });
 
             $.validator.addMethod("specialChars", function (value, element) {
-                return /^[a-zA-Z0-9À-ỹ]+$/.test(value);
+                return /^[a-zA-Z0-9À-ỹ\s]+$/.test(value);
             });
 
             $(document).on('keyup', '#maKhoa', function(){
@@ -75,6 +76,26 @@
                             $("#errorMaKhoa").show();
                         }else{
                             $("#errorMaKhoa").hide();
+                        }
+                    }
+                })
+            });
+
+            $(document).on('blur', '#tenKhoa', function(){
+                $.ajax({
+                    url: '{{ route("check_tenKhoa_unique") }}',
+                    type: 'get',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        tenKhoa: function(){
+                            return $('#tenKhoa').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response == 'false'){
+                            $("#errorTenKhoa").show();
+                        }else{
+                            $("#errorTenKhoa").hide();
                         }
                     }
                 })
