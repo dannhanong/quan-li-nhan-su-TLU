@@ -80,6 +80,7 @@
                                         <div class="input-group mt-3 mb-3">
                                             <label class="input-group-text" for="">Tên khoa:</label>
                                             <input class="form-control" name="tenKhoa" id="tenKhoa" placeholder="(*)">
+                                            <span id="errorTenKhoa" class="error" style="display: none">Tên khoa đã tồn tại</span>
                                         </div>
 
                                         <div class="form-group float-end">
@@ -177,7 +178,7 @@
 
             // Thêm quy tắc kiểm tra ký tự đặc biệt
             $.validator.addMethod("specialChars", function (value, element) {
-                return /^[a-zA-Z0-9À-ỹ]+$/.test(value);
+                return /^[a-zA-Z0-9À-ỹ\s]+$/.test(value);
             });
 
             $(document).on('keyup', '#maKhoa', function(){
@@ -203,6 +204,26 @@
                 })
             });
 
+            $(document).on('blur', '#tenKhoa', function(){
+                $.ajax({
+                    url: '{{ route("check_tenKhoa_unique") }}',
+                    type: 'get',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        tenKhoa: function(){
+                            return $('#tenKhoa').val();
+                        }
+                    },
+                    success: function(response){
+                        if(response == 'false'){
+                            $("#errorTenKhoa").show();
+                        }else{
+                            $("#errorTenKhoa").hide();
+                        }
+                    }
+                })
+            });
+
             $(function() {
                 fetchAllKhoas();
                 toastr.options = {
@@ -212,7 +233,9 @@
             };
 
             $(document).on('click', '#aEditKhoa', function(e) {
-                $('#errorMaKhoa').hide()
+                $('#maKhoa-error, #tenKhoa-error').hide();
+                $('#errorMaKhoa').hide();
+                $('#errorTenKhoa').hide();
                 let id = $(this).data('id_edit');
                 $.ajax({
                     url: '{{ route("khoas.edit", ":id") }}'.replace(':id', id),

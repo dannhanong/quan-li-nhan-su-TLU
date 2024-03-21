@@ -54,6 +54,7 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::resource('khoas', KhoaController::class);
         Route::get('/fetch-khoas', [KhoaController::class, 'fetchKhoa'])->name('khoas.fetch');
         Route::get('/check_maKhoa_unique', [KhoaController::class, 'check_maKhoa_unique'])->name('check_maKhoa_unique');
+        Route::get('/check_tenKhoa_unique', [KhoaController::class, 'check_tenKhoa_unique'])->name('check_tenKhoa_unique');
         Route::post('/get-ten-khoa', [KhoaController::class, 'getTenKhoa'])->name('get-ten-khoa');
 
         Route::resource('chucvus', ChucvuController::class);
@@ -87,6 +88,7 @@ Route::group(['middleware'=>'disable_back_btn'], function(){
         Route::get('/fetch-khenthuongs', [KhenthuongController::class, 'fetchKhenthuong'])->name('khenthuongs.fetch');
         Route::get('/get_Manhansu_list', [KhenThuongController::class, 'getManhansuList'])->name('get_Manhansu_list');
         Route::get('/check_Manhansu_exists', [KhenThuongController::class, 'getManhansuExists'])->name('check_Manhansu_exists');
+        Route::get('/check_ngayKhenThuong', [KhenThuongController::class, 'checkngayKhenThuong'])->name('check_ngayKhenThuong');
 
         Route::resource('kiluats', KiluatController::class);
         Route::get('/fetch-kiluats', [KiluatController::class, 'fetchKiLuat'])->name('kiluats.fetch');

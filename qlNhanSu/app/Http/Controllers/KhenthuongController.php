@@ -82,14 +82,39 @@ class KhenthuongController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    
     public function store(Request $request)
     {
-        Khenthuong::create($request->all());
-        return response()->json([
-            'status' => true
-        ]);
+        $manhansu = $request->input('Manhansu');
+        $ngayKhenThuong = $request->input('ngayKhenThuong');
+        $lyDo = $request->input('lyDo');
+        $chiTietKhenThuong = $request->input('chiTietKhenThuong');
+        $existingRecord = Khenthuong::where([
+            ['ngayKhenThuong', $ngayKhenThuong],
+            ['lyDo', $lyDo],
+            ['chiTietKhenThuong', $chiTietKhenThuong],
+            ['Manhansu', $manhansu],
+        ])->first();
+        $Ngaybatdau = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaybatdau');
+        
+        if ($existingRecord) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Bản ghi đã tồn tại'
+            ], 400); 
+        } elseif ($Ngaybatdau > $ngayKhenThuong){
+            return response()->json([
+                'status' => false,
+                'message' => 'Ngày khen thưởng phải sau ngày bắt đầu làm'
+            ], 401); 
+        } else {
+            Khenthuong::create($request->all());
+            return response()->json([
+                'status' => true
+            ]);
+        }
     }
-
+     
     /**
      * Display the specified resource.
      */
@@ -117,11 +142,35 @@ class KhenthuongController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $khenthuong = Khenthuong::find($id);
-        $khenthuong->update($request->all());
-        return response()->json([
-            'status' => true
-        ]);
+        $manhansu = $request->input('Manhansu');
+        $ngayKhenThuong = $request->input('ngayKhenThuong');
+        $lyDo = $request->input('lyDo');
+        $chiTietKhenThuong = $request->input('chiTietKhenThuong');
+        $existingRecord = Khenthuong::where([
+            ['ngayKhenThuong', $ngayKhenThuong],
+            ['lyDo', $lyDo],
+            ['chiTietKhenThuong', $chiTietKhenThuong],
+            ['Manhansu', $manhansu],
+        ])->first();
+        $Ngaybatdau = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaybatdau');
+        
+        if ($existingRecord) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Bản ghi đã tồn tại'
+            ], 400); 
+        }elseif ($Ngaybatdau > $ngayKhenThuong){
+            return response()->json([
+                'status' => false,
+                'message' => 'Ngày khen thưởng phải sau ngày bắt đầu làm'
+            ], 401); 
+        } else {
+            $khenthuong = Khenthuong::find($id);
+            $khenthuong->update($request->all());
+            return response()->json([
+                'status' => true
+            ]);
+        }
     }
 
     /**
@@ -151,6 +200,21 @@ class KhenthuongController extends Controller
             echo 'true';
         }else{
             echo 'flase';
+        }
+    }
+
+    public function checkngayKhenThuong(Request $request){
+        $Ngaybatdau = Nhansu::where('Manhansu', $request->Manhansu)->value('Ngaybatdau');
+        if ($Ngaybatdau) {
+            $ngayKhenThuong = $request->ngayKhenThuong;
+            if ($ngayKhenThuong < $Ngaybatdau) {
+                echo "false";
+            }
+            else{
+                echo "true";
+            }
+        } else{
+            echo "true";
         }
     }
 }
