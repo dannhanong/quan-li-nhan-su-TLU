@@ -98,7 +98,7 @@
             $(document).on('submit', '.formTrangThai', function(e) {
                 e.preventDefault();
                 if (!($("#errorMaTrangThai").is(":hidden")) || !($("#errorTenTrangThai").is(":hidden"))) {
-                    toastr.warning('Kiểm tra lại dữ lại nhập', 'Thông báo');
+                    toastr.warning('Kiểm tra lại dữ liệu nhập', 'Thông báo');
                 } else {
                     $.ajax({
                     url: "{{ route('trangthais.store') }}",

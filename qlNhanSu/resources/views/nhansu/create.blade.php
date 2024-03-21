@@ -222,7 +222,7 @@
                 },
                 invalidHandler: function(event, validator) {
                     if (validator.numberOfInvalids() > 0) {
-                        toastr.info('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
                         event.preventDefault();
                     }
                 },
@@ -290,7 +290,7 @@
                         toastr.success('Thêm nhân sự mới thành công', 'Thông báo');
                     },
                     error: function (error) {
-                        toastr.info('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
                     }
                 })
             })

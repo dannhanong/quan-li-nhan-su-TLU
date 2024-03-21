@@ -449,7 +449,7 @@
                 },
                 invalidHandler: function(event, validator) {
                     if (validator.numberOfInvalids() > 0) {
-                        toastr.info('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
                         event.preventDefault();
                     }
                 }
@@ -746,7 +746,7 @@
                         fetchAllNhansus();
                     },
                     error: function(){
-                        toastr.info('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
                     }
                 })
             });
