@@ -12,17 +12,19 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Mã nhân sự:</label>
-                                <input class="form-control pt90" type="text" name="Manhansu" id="Manhansu" value="{{ old('Manhansu') }}">
+                                <input class="form-control pt90" type="text" name="Manhansu" id="Manhansu" value="{{ old('Manhansu') }}" placeholder="(*)">
                             </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Họ tên:</label>
-                                <input class="form-control pt90" type="text" name="Hoten" id="Hoten" value="{{ old('Hoten') }}">
+                                <input class="form-control pt90" type="text" name="Hoten" id="Hoten" value="{{ old('Hoten') }}" placeholder="(*)">
+                                <span class="error" id="error_Hoten">Họ tên không bao gồm các kí tự đặc biệt</span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Ngày sinh:</label>
                                 <input class="form-control pt90" type="date" name="Ngaysinh" id="Ngaysinh" value="{{ old('Ngaysinh') }}" placeholder="(*)">
+                                <span class="error spanErrorNgay" id="spanErrorNgay">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
@@ -40,17 +42,17 @@
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">CCCD:</label>
                                 <input class="form-control pt90" name="CCCD" id="CCCD" value="{{ old('CCCD') }}" placeholder="(*)">
-                            {{-- </div> --}}
+                            </div>
 
-                            {{-- <div class="input-group mt-3 mb-3"> --}}
-                                <label class="input-group-text" style="margin-left: 10%" for="">Ngày bắt đầu:</label>
+                            <div class="input-group mt-3 mb-3">
+                                <label class="input-group-text" for="">Ngày bắt đầu:</label>
                                 <input class="form-control pt90" type="date" name="Ngaybatdau" id="Ngaybatdau" value="{{ old('Ngaybatdau') }}" placeholder="(*)">
-                                <span class="error" id="spanErrorNgay">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
+                                <span class="error spanErrorNgay" id="spanErrorNgay">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
                             </div>
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Địa chỉ:</label>
-                                <input class="form-control pt90" type="text" name="Diachi" id="Diachi" value="{{ old('Diachi') }}" placeholder="(*)">
+                                <input class="form-control pt90" type="text" name="Diachi" id="Diachi" value="{{ old('Diachi') }}">
                             </div>
 
                             <div class="input-group mt-3 mb-3">
@@ -60,7 +62,7 @@
 
                             <div class="input-group mt-3 mb-3">
                                 <label class="input-group-text" for="">Quê quán:</label>
-                                <input class="form-control pt90" type="text" name="Quequan" id="Quequan" value="{{ old('Quequan') }}" placeholder="(*)">
+                                <input class="form-control pt90" type="text" name="Quequan" id="Quequan" value="{{ old('Quequan') }}">
                             </div>
 
                             <div class="mt-3 mb-3 d-flex justify-around">
@@ -139,8 +141,14 @@
         <script>window.baseUrl = "{{ URL::to('/') }}";</script>
         <script src="{{ asset('assets') }}/js/app.js"></script>
         <script>
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+            }
+            $('#error_Hoten').hide();
             $('#spanErrorAnhdaidien').hide();
-            $('#spanErrorNgay').hide();
+            $('.spanErrorNgay').hide();
             $('#formNhansu').validate({
                 rules:{
                     Manhansu:{
@@ -154,10 +162,13 @@
                         email: true
                     },
                     CCCD: {
-                        required: true
+                        required: true,
+                        digits: true,
+                        minlength: 12,
+                        maxlength: 12
                     },
                     Hoten: {
-                        required: true
+                        required: true,
                     },
                     SDT: {
                         required: true,
@@ -186,15 +197,18 @@
                         email: "Vui lòng nhập đúng định dạng email"
                     },
                     CCCD: {
-                        required: "Trường CCCD không được để trống"
+                        required: "Trường CCCD không được để trống",
+                        digits: "CCCD chỉ bao gồm các số",
+                        minlength: "CCCD phải có 12 chữ số",
+                        maxlength: "CCCD phải có 12 chữ số"
                     },
                     Hoten: {
-                        required: "Trường họ tên không được để trống"
+                        required: "Trường họ tên không được để trống",
                     },
                     SDT: {
                         required: "Trường số điện thoại không được để trống",
-                        minlength: "Số điện thoại phải chứa ít nhất 10 chữ số",
-                        maxlength: "Số điện thoại chỉ được chứa tối đa 10 chữ số",
+                        minlength: "Số điện thoại phải có 10 chữ số",
+                        maxlength: "Số điện thoại phải có 10 chữ số",
                         digits: "Vui lòng chỉ nhập số"
                     },
                     Ngaysinh: {
@@ -204,6 +218,12 @@
                     Ngaybatdau: {
                         required: "Hãy chọn ngày bắt đầu",
                         date: "Vui lòng nhập đúng định dạng ngày"
+                    }
+                },
+                invalidHandler: function(event, validator) {
+                    if (validator.numberOfInvalids() > 0) {
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+                        event.preventDefault();
                     }
                 },
             });
@@ -218,29 +238,34 @@
                 }
             });
 
-            $('#Ngaybatdau').on('change', function() {
-                var ngaybatdau = $(this).val();
+            $(document).on('change', function() {
+                var ngaybatdau = $('#Ngaybatdau').val();
+                var ngaysinh = $('#Ngaysinh').val();
+                var hoten = $('#Hoten').val();
 
-                if($('#Ngaysinh').val() !== null)
-                    var ngaysinh = $('#Ngaysinh').val();
+                if (hoten.length > 0){
+                    var kTraHoten = /^[a-zA-Z\s]+$/;
+                    if(kTraHoten.test(hoten) == false){
+                        $('#error_Hoten').show();
+                    }else{
+                        $('#error_Hoten').hide();
+                    }
+                }
+
+                if(ngaybatdau != '' && ngaysinh != ''){
                     if (ngaybatdau < ngaysinh) {
-                        $('#spanErrorNgay').show();
+                        $('.spanErrorNgay').show();
                         $(this).val('');
                     }else{
-                        $('#spanErrorNgay').hide();
+                        $('.spanErrorNgay').hide();
                     }
+                }
             });
 
             $(document).on('submit', '.formNhansu', function(e) {
                 e.preventDefault();
                 var ngaybatdau = $('#Ngaybatdau').val();
                 var ngaysinh = $('#Ngaysinh').val();
-                if (ngaybatdau < ngaysinh) {
-                        $('#spanErrorNgay').show();
-                        $(this).val('');
-                    }else{
-                        $('#spanErrorNgay').hide();
-                }
                 const formCreateNhansu = new FormData(this);
                 $.ajax({
                     url: "{{ route('nhansus.store') }}",
@@ -262,15 +287,10 @@
                         $('#Quequan').val('');
                         $('#Anhdaidien').val('');
                         $('#email').val('');
-                        toastr.options = {
-                        "closeButton": true,
-                            "progressBar": true,
-                            "positionClass": "toast-bottom-right",
-                        }
                         toastr.success('Thêm nhân sự mới thành công', 'Thông báo');
                     },
                     error: function (error) {
-                        toastr.error('Thêm nhân sự mới thất bại', 'Lỗi');
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
                     }
                 })
             })

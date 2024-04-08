@@ -48,4 +48,16 @@ $('.formUser').validate({
             remote: "Email đã tồn tại",
         },
     },
+
+    invalidHandler: function(event, validator) {
+        if (validator.numberOfInvalids() > 0) {
+            toastr.options = {
+                "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                }
+            toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+            event.preventDefault();
+        }
+    }
 });

@@ -134,6 +134,14 @@ class KhoaController extends Controller
         }
     }
 
+    public function check_tenKhoa_unique(Request $request){
+        if(Khoa::where('tenKhoa', $request->tenKhoa)->first()){
+            echo 'false';
+        }else{
+            echo 'true';
+        }
+    }
+
     public function getTenKhoa(Request $request){
         $khoa = Khoa::find($request->id);
         return response()->json($khoa);

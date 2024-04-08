@@ -116,11 +116,6 @@
                         toastr.success('Thêm tài khoản mới thành công', 'Thông báo');
                     },
                     error: function (response) {
-                        toastr.options = {
-                        "closeButton": true,
-                            "progressBar": true,
-                            "positionClass": "toast-bottom-right",
-                        }
                         toastr.error('Thêm tài khoản mới thất bại', 'Thông báo');
                     }
                 })

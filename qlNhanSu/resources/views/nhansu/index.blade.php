@@ -1,8 +1,5 @@
 <x-app-layout>
     @extends('header')
-        @section('tit')
-            Quản lý nhân sự
-        @endsection
         {{-- css tb --}}
         @push('css')
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css"
@@ -81,7 +78,7 @@
 
                                 <div class="d-flex" style="max-height: 40px;">
                                     <label class="input-group-text" for="">Chức vụ:</label>
-                                    <select name="MaChucVuF" id="MaChucVuF">
+                                    <select name="MaChucvu_Cu" id="MaChucvu_Cu">
                                         <option value="">Chọn chức vụ...</option>
                                         @foreach ($chucvus as $chucvu)
                                             <option value="{{ $chucvu->id }}">
@@ -129,6 +126,7 @@
                                             @method('PUT')
                                             <input type="hidden" name="id" id="id">
                                             <input type="hidden" name="u_Anhdaidien" id="u_Anhdaidien">
+                                            <input type="hidden" name="Chucvu_Cu" id="Chucvu_Cu">
 
                                             <div class="d-flex">
                                                 <div class="mt-2" style="margin-right: 10%" id="Anhdaidien"></div>
@@ -142,6 +140,7 @@
                                                     <div class="input-group mt-3 mb-3">
                                                         <label class="input-group-text" for="">Họ tên:</label>
                                                         <input class="form-control pt90" type="text" name="Hoten" id="Hoten" value="{{ old('Hoten') }}">
+                                                        <span class="error" id="error_Hoten">Họ tên không bao gồm các kí tự đặc biệt</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -149,6 +148,7 @@
                                             <div class="input-group mt-3 mb-3">
                                                 <label class="input-group-text" for="">Ngày sinh:</label>
                                                 <input class="form-control pt90" type="date" name="Ngaysinh" id="Ngaysinh" value="{{ old('Ngaysinh') }}" placeholder="(*)">
+                                                <span class="error spanErrorNgay" id="spanErrorNgay">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
                                             </div>
 
                                             <div class="input-group mt-3 mb-3">
@@ -166,12 +166,12 @@
                                             <div class="input-group mt-3 mb-3">
                                                 <label class="input-group-text" for="">CCCD:</label>
                                                 <input class="form-control pt90" name="CCCD" id="CCCD" value="{{ old('CCCD') }}" placeholder="(*)">
-                                            {{-- </div> --}}
+                                            </div>
 
-                                            {{-- <div class="input-group mt-3 mb-3"> --}}
-                                                <label class="input-group-text" style="margin-left: 10%" for="">Ngày bắt đầu:</label>
+                                            <div class="input-group mt-3 mb-3">
+                                                <label class="input-group-text" for="">Ngày bắt đầu:</label>
                                                 <input class="form-control pt90" type="date" name="Ngaybatdau" id="Ngaybatdau" value="{{ old('Ngaybatdau') }}" placeholder="(*)">
-                                                <span class="error" id="spanErrorNgay" style="margin-left: 54%">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
+                                                <span class="error spanErrorNgay" id="spanErrorNgay">Ngày bắt đầu không được nhỏ hơn ngày sinh</span>
                                             </div>
 
                                             <div class="input-group mt-3 mb-3">
@@ -347,6 +347,7 @@
                                         <div class="mb-3"><span class="spanBold">Quê quán: </span><span id="spanQuequan"></span></div>
                                         <div class="mb-3"><span class="spanBold">Phòng ban: </span><span id="spanPhongban"></span></div>
                                         <div class="mb-3"><span class="spanBold">Chức vụ: </span><span id="spanChucvu"></span></div>
+                                        <div class="mb-3"><span class="spanBold">Chức vụ cũ: </span><span id="spanChucvuCu"></span></div>
                                         <div class="mb-3"><span class="spanBold">Khoa: </span><span id="spanKhoa"></span></div>
                                         <div class="mb-3"><span class="spanBold">Trạng thái: </span><span id="spanTrangthai"></span></div>
                                         <div class="mb-3"><span class="spanBold">Bậc lương: </span><span id="spanBacluong"></span></div>
@@ -372,8 +373,9 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
         <script>
+            $('#error_Hoten').hide();
             $('#spanErrorAnhdaidien').hide();
-            $('#spanErrorNgay').hide();
+            $('.spanErrorNgay').hide();
             $('#formEditNhansu').validate({
                 rules:{
                     Manhansu:{
@@ -387,10 +389,13 @@
                         email: true
                     },
                     CCCD: {
-                        required: true
+                        required: true,
+                        digits: true,
+                        minlength: 12,
+                        maxlength: 12
                     },
                     Hoten: {
-                        required: true
+                        required: true,
                     },
                     SDT: {
                         required: true,
@@ -419,15 +424,18 @@
                         email: "Vui lòng nhập đúng định dạng email"
                     },
                     CCCD: {
-                        required: "Trường CCCD không được để trống"
+                        required: "Trường CCCD không được để trống",
+                        digits: "CCCD chỉ bao gồm các số",
+                        minlength: "CCCD phải có 12 chữ số",
+                        maxlength: "CCCD phải có 12 chữ số"
                     },
                     Hoten: {
-                        required: "Trường họ tên không được để trống"
+                        required: "Trường họ tên không được để trống",
                     },
                     SDT: {
                         required: "Trường số điện thoại không được để trống",
-                        minlength: "Số điện thoại phải chứa ít nhất 10 chữ số",
-                        maxlength: "Số điện thoại chỉ được chứa tối đa 10 chữ số",
+                        minlength: "Số điện thoại phải có 10 chữ số",
+                        maxlength: "Số điện thoại phải có 10 chữ số",
                         digits: "Vui lòng chỉ nhập số"
                     },
                     Ngaysinh: {
@@ -439,6 +447,12 @@
                         date: "Vui lòng nhập đúng định dạng ngày"
                     }
                 },
+                invalidHandler: function(event, validator) {
+                    if (validator.numberOfInvalids() > 0) {
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+                        event.preventDefault();
+                    }
+                }
             });
 
             $('#Anhdaidien').change(function() {
@@ -452,17 +466,28 @@
                 }
             });
 
-            $('#Ngaybatdau').on('change', function() {
-                var ngaybatdau = $(this).val();
+            $(document).on('change', function() {
+                var ngaybatdau = $('#Ngaybatdau').val();
+                var ngaysinh = $('#Ngaysinh').val();
+                var hoten = $('#Hoten').val();
 
-                if($('#Ngaysinh').val() !== null)
-                    var ngaysinh = $('#Ngaysinh').val();
+                if (hoten.length > 0){
+                    var kTraHoten = /^[a-zA-Z\s]+$/;
+                    if(kTraHoten.test(hoten) == false){
+                        $('#error_Hoten').show();
+                    }else{
+                        $('#error_Hoten').hide();
+                    }
+                }
+
+                if(ngaybatdau != '' && ngaysinh != ''){
                     if (ngaybatdau < ngaysinh) {
-                        $('#spanErrorNgay').show();
+                        $('.spanErrorNgay').show();
                         $(this).val('');
                     }else{
-                        $('#spanErrorNgay').hide();
+                        $('.spanErrorNgay').hide();
                     }
+                }
             });
 
             $(document).on('keyup', '#email', function(){
@@ -524,6 +549,7 @@
                         $('#MaChucVu').val(response.Machucvu);
                         $('#Makhoa').val(response.Makhoa);
                         $('#Bacluong').val(response.Bacluong);
+                        $('#Chucvu_Cu').val(response.Machucvu);
 
                         let curentDate = new Date();
                         let bacluongDate = new Date(response.Ngaybatdau);
@@ -594,6 +620,19 @@
                                 $('#spanChucvu').text(response.tenChucVu);
                             }
                         });
+
+                        $.ajax({
+                            url: '/get-ten-chucvu',
+                            method: 'POST',
+                            data: {
+                                id: response.Chucvu_Cu,
+                                '_token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('#spanChucvuCu').text(response.tenChucVu);
+                            }
+                        });
+
                         $.ajax({
                             url: '/get-ten-khoa',
                             method: 'POST',
@@ -682,6 +721,7 @@
                 e.preventDefault();
                 var ngaybatdau = $('#Ngaybatdau').val();
                 var ngaysinh = $('#Ngaysinh').val();
+                var chucvu = $('#MaChucVu').val();
                 if (ngaybatdau < ngaysinh) {
                         $('#spanErrorNgay').show();
                         $(this).val('');
@@ -706,7 +746,7 @@
                         fetchAllNhansus();
                     },
                     error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
                     }
                 })
             });
@@ -755,7 +795,7 @@
 
             $('#filter-button').click(function() {
                 var Maphongban = $('#MaphongbanF').val();
-                var MaChucVu = $('#MaChucVuF').val();
+                var MaChucVu = $('#MaChucvu_Cu').val();
                 var Makhoa = $('#MakhoaF').val();
                 $('#nhansuTable').DataTable().destroy();
                 fetchFilterNhansus(Maphongban, MaChucVu, Makhoa);

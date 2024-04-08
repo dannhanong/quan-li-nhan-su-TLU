@@ -153,27 +153,27 @@
                         <!-- Modal delete -->
                         <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">
-                                    <span id="tb"></span>
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span id="tb"></span>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
-                                <form id="formDeleteUser" class="formDeleteUser" action="" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
-                                </form>
-                                </div>
+                                    <form id="formDeleteUser" class="formDeleteUser" action="" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
+                                    </form>
+                                    </div>
 
-                            </div>
+                                </div>
                             </div>
                         </div>
 
@@ -232,6 +232,12 @@
                         email: "Vui lòng nhập đúng định dạng email"
                     },
                 },
+                invalidHandler: function(event, validator) {
+                    if (validator.numberOfInvalids() > 0) {
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
+                        event.preventDefault();
+                    }
+                }
             });
 
             $(document).on('keyup', '#email', function(){
@@ -380,7 +386,7 @@
                         fetchAllUsers();
                     },
                     error: function(){
-                        toastr.error('Có lỗi xảy ra', 'Thông báo');
+                        toastr.warning('Vui lòng kiểm tra lại thông tin vừa nhập', 'Thông báo');
                     }
                 })
             });
